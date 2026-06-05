@@ -1,0 +1,105 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Blockstream Help Center — Full Mockup (App + Jade)</title>
+<link rel="stylesheet" href="https://use.typekit.net/ejl7etf.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#00BCFF;--ink:#1a1a1a;--body:#33373b;--chip:#d6ecfb;--chipink:#0a5c80;--active:#eaf6ff;}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,-apple-system,sans-serif;color:var(--body);background:#fff;font-weight:300}
+a{color:var(--blue);text-decoration:none}a:hover{color:#fff}
+.content a{color:var(--blue)}.content a:hover{color:var(--ink)}
+header{background:#0b0d0f;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:84px;position:sticky;top:0;z-index:10}
+header .logo{height:30px}
+nav.top{display:flex;gap:34px;align-items:center}
+nav.top a{font-family:"rigid-square",Inter,sans-serif;color:#fff;font-weight:500;font-size:15px;letter-spacing:.02em}
+nav.top a:hover{color:var(--blue)}
+.acct{width:46px;height:38px;border:1px solid #3a4047;border-radius:7px;display:flex;align-items:center;justify-content:center}
+.acct svg{width:18px;height:18px;stroke:#cfd6dd}
+.wrap{max-width:1480px;margin:0 auto;padding:34px 48px 120px}
+.catbar{display:flex;gap:10px;margin-bottom:26px}
+.catbar button{font-family:"rigid-square",Inter,sans-serif;font-size:15px;font-weight:500;letter-spacing:.02em;color:#5a636b;background:#f3f6f8;border:1px solid #e4e9ec;border-radius:9px;padding:11px 20px;cursor:pointer}
+.catbar button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.crumb{font-size:14px;color:#9aa3ab;margin-bottom:34px}
+.crumb a{color:var(--blue)}.crumb span.sep{margin:0 10px;color:#c4ccd3}
+.layout{display:grid;grid-template-columns:300px 1fr;gap:90px}
+.side .secname{font-family:"rigid-square",Inter,sans-serif;font-weight:500;color:var(--ink);font-size:15px;line-height:1.3;margin:26px 0 10px;letter-spacing:.01em}
+.side .secname:first-child{margin-top:0}
+.side a{display:block;padding:10px 16px;border-radius:8px;color:#3c444b;font-size:15px;margin-bottom:2px;cursor:pointer}
+.side a:hover{background:#f3f6f8;color:var(--ink)}
+.side a.active{background:var(--active);color:var(--blue);font-weight:500}
+.side .stub{color:#aab2b9;font-size:12.5px;font-style:italic;padding:3px 16px 8px}
+.content h1{font-family:"rigid-square",Inter,sans-serif;font-weight:500;color:var(--ink);font-size:44px;margin:0 0 22px}
+.content h2{font-family:"rigid-square",Inter,sans-serif;font-weight:500;color:var(--ink);font-size:30px;margin:46px 0 18px}
+.tags{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:30px}
+.tags span{background:var(--chip);color:var(--chipink);font-size:12px;font-weight:600;letter-spacing:.04em;padding:7px 13px;border-radius:6px}
+.content p{font-size:17px;line-height:1.75;margin:0 0 20px;font-weight:300}
+.content strong{font-weight:600;color:var(--ink)}
+.warn{background:#fdecea;border-radius:10px;padding:18px 22px;font-size:16px;line-height:1.7;margin:0 0 26px}
+.warn strong{color:#c0392b}
+.grpimg{width:100%;max-width:940px;display:block;margin:30px 0 18px}
+.singlephone{width:100%;max-width:300px;display:block;margin:26px auto}
+ol.steps{list-style:none;counter-reset:s;padding:0;margin:6px 0 30px}
+ol.steps li{counter-increment:s;position:relative;padding:0 0 22px 44px;font-size:17px;line-height:1.7;font-weight:300}
+ol.steps li::before{content:counter(s);position:absolute;left:0;top:-2px;width:30px;height:30px;background:#eef2f5;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:15px;color:var(--ink)}
+ul.b{margin:0 0 22px;padding-left:22px}ul.b li{font-size:17px;line-height:1.7;margin-bottom:10px;font-weight:300}
+.linklist{margin:6px 0 22px;padding-left:22px}.linklist li{margin-bottom:10px;font-size:17px}
+.note{background:#f6f8fa;border-radius:8px;padding:13px 18px;font-size:14px;color:#7a838b;font-style:italic;margin:8px 0 26px}
+.emptymsg{color:#9aa3ab;font-size:16px;font-style:italic;padding:30px 0}
+@media(max-width:900px){.layout{grid-template-columns:1fr;gap:36px}nav.top{display:none}}
+</style></head><body>
+<header><img class="logo" src="https://raw.githubusercontent.com/btin-dev/dobby-assets/main/hc-import/blockstream-logo-dark.png" alt="Blockstream">
+<nav class="top"><a>Products</a><a>Newsroom</a><a>Developers</a><a>Company</a><a>Store</a><a>Support</a></nav>
+<div class="acct"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div></header>
+<div class="wrap">
+<div class="catbar" id="catbar"></div>
+<div class="crumb" id="crumb"></div>
+<div class="layout"><aside class="side" id="side"></aside>
+<main class="content" id="content"></main></div></div>
+<script>
+
+const HC={"Blockstream App": {"crumb": "Blockstream App", "sections": [{"name": "Set Up, Transact, & Recover Your Wallet", "slugs": ["set-up-a-new-wallet", "back-up-wallet", "restore-wallet", "buy-bitcoin", "receive-bitcoin", "send-bitcoin", "change-mobile-wallet-security-settings", "rename-wallet", "remove-wallet"], "status": "ready"}, {"name": "Use Liquid Bitcoin", "slugs": [], "status": "stub"}, {"name": "Use Lightning Bitcoin", "slugs": [], "status": "stub"}, {"name": "Perform Advanced Wallet Operations", "slugs": [], "status": "stub"}, {"name": "Manage 2FA Accounts", "slugs": [], "status": "stub"}, {"name": "Troubleshooting", "slugs": [], "status": "stub"}, {"name": "FAQs", "slugs": [], "status": "stub"}]}, "Blockstream Jade": {"crumb": "Blockstream Jade", "sections": [{"name": "Set Up, Transact, & Recover Your Wallet", "slugs": [], "status": "stub"}, {"name": "Add More Security & Functionality", "slugs": [], "status": "stub"}, {"name": "Use Jade Air-Gapped", "slugs": [], "status": "stub"}, {"name": "Use Jade with Third-Party Apps", "slugs": [], "status": "stub"}, {"name": "Troubleshooting", "slugs": [], "status": "stub"}, {"name": "FAQs", "slugs": [], "status": "stub"}]}};
+const ART={"set-up-a-new-wallet": {"title": "Set up a new wallet", "tags": ["WALLET", "SETUP", "GET STARTED"], "blocks": [{"t": "p", "html": "The Blockstream app allows you to set up a bitcoin wallet with just a few taps. Following the standard setup flow, you will create a mobile wallet with private keys stored on your mobile device. This is ideal for beginners with smaller amounts of bitcoin and for those looking for easy, convenient spending."}, {"t": "img", "src": "https://raw.githubusercontent.com/btin-dev/dobby-assets/main/hc-import/_setup-section/set-up-a-new-wallet_group-1.png"}, {"t": "steps", "start": 1, "items": ["Open the Blockstream app and select <strong>Get Started</strong> to create a new mobile (software) wallet.", "Tap <strong>Setup Mobile Wallet</strong> to create a new Bitcoin wallet. By default, the Blockstream app will secure your wallet with your device biometrics and prompt a biometrics scan at this time (i.e. FaceID). If biometrics are not enabled or the app does not have permission, you can set up a PIN instead.", "The Blockstream app will then generate your private keys. Tap <strong>Continue</strong> to proceed.", "Your wallet is now ready for use! You can begin purchasing, receiving, and sending bitcoin."]}]}, "back-up-wallet": {"title": "Back up wallet", "tags": ["WALLET", "SETUP", "BACKUP", "12-WORDS", "24-WORDS"], "blocks": [{"t": "p", "html": "After setting up your wallet, the keys to your bitcoin are stored solely on your mobile device. This means if you lose or break your phone, you will lose access to your funds unless you have backed up your recovery phrase."}, {"t": "p", "html": "Backing up simply means <strong>writing down your recovery phrase</strong> and storing it somewhere safe and offline. Your recovery phrase is the only way to restore your wallet and access your bitcoin if something happens to your device."}, {"t": "warn", "html": "<strong>Warning: Your recovery phrase is your wallet</strong>. Anyone who has it can spend your funds. Never share it and keep it protected from theft, damage, and loss."}, {"t": "img", "src": "https://raw.githubusercontent.com/btin-dev/dobby-assets/main/hc-import/back-up-wallet/back-up-wallet_group-1_steps-1-3_v2.png"}, {"t": "steps", "start": 1, "items": ["Log in to the Blockstream app and tap <strong>Security</strong>.", "If you have not yet performed a manual backup, you will see a warning to backup your wallet and write down your recovery phrase. Tap <strong>Backup Now</strong> on the notice to proceed. <strong>Backing up your recovery phrase is critical for your funds' security</strong>. You will also see this notice on other screens, such as Buy and Receive, until completing the backup process.", "After tapping Backup Now, the app will display your recovery phrase. Write it down carefully and store it somewhere safe. Remember, your recovery phrase is your wallet. <strong>Keep it offline and protected, and never give your recovery phrase to anyone.</strong>"]}, {"t": "img", "src": "https://raw.githubusercontent.com/btin-dev/dobby-assets/main/hc-import/back-up-wallet/back-up-wallet_group-2_steps-4-5_v2.png"}, {"t": "steps", "start": 4, "items": ["After writing down your recovery phrase, the app will perform a verification check to ensure that you wrote your recovery phrase down correctly and in the right order. Afterwards, you will be asked to create a PIN that you can use as an alternative to unlock your wallet.", "After the process is complete, store your recovery phrase somewhere safe. If you ever need to restore your wallet, you can simple enter your recovery phrase to regain access."]}, {"t": "note", "html": "Already published to the CMS."}]}, "restore-wallet": {"title": "Restore wallet", "tags": ["WALLET", "RESTORE", "RECOVERY"], "blocks": [{"t": "p", "html": "If you\u2019ve lost access to your wallet, you can restore it using your <strong>recovery phrase</strong>, so you can continue sending, receiving, and managing your funds as normal."}, {"t": "img", "src": "https://raw.githubusercontent.com/btin-dev/dobby-assets/main/hc-import/_setup-section/restore-wallet_group-1.png"}, {"t": "steps", "start": 1, "items": ["Open the Blockstream app and select <strong>Get Started</strong>.", "Tap <strong>Restore from backup</strong> and retrieve your written recovery phrase."]}, {"t": "img", "src": "https://raw.githubusercontent.com/btin-dev/dobby-assets/main/hc-import/_setup-section/restore-wallet_group-2.png"}, {"t": "steps", "start": 3, "items": ["Enter your recovery phrase in the correct order. If any word is not accepted, make sure to check for typos, or <a href=\"https://help.blockstream.com/hc/en-us/articles/900001388566-Fix-issues-with-recovery-phrase-entry\" target=\"_blank\" rel=\"noopener noreferrer\">refer to our troubleshooting guide</a>. When you are finished, tap <strong>Continue</strong>.", "If you entered the correct recovery phrase, you should see your full wallet balance after the restoration process is complete."]}]}, "buy-bitcoin": {"title": "Buy bitcoin", "tags": ["WALLET", "BUY", "EXCHANGE"], "blocks": [{"t": "p", "html": "The Blockstream app allows you to conveniently purchase bitcoin directly to self-custody, supported in both mobile and Jade wallets. A wide range of exchanges are supported to help users find the best price or a platform they are already registered with."}, {"t": "img", "src": "https://raw.githubusercontent.com/btin-dev/dobby-assets/main/hc-import/_setup-section/buy-bitcoin_group-1.png"}, {"t": "steps", "start": 1, "items": ["Log in to the Blockstream app and tap <strong>Buy Now</strong>.", "Enter the amount of bitcoin you would like to purchase or tap one of the quick selection values. The default exchange displayed will be the best price currently available, however you can tap the <strong>Exchange</strong> field to change platforms to one that you may already be registered with. Once you are ready to continue, tap <strong>Buy Bitcoin</strong>.", "The app will direct you to the third-party exchange to complete your purchase. After filling out the necessary fields and submitting payment, your bitcoin will be sent directly to your wallet."]}]}, "receive-bitcoin": {"title": "Receive bitcoin", "tags": ["WALLET", "RECEIVE", "ADDRESS"], "blocks": [{"t": "p", "html": "To receive bitcoin in the Blockstream app, you'll need to generate an <a href=\"https://glossary.blockstream.com/address-bitcoin/\" target=\"_blank\" rel=\"noopener noreferrer\">address</a> and share it with the sender. To send, you'll need the recipient's address and enough funds in your wallet to cover the amount plus the network fee."}, {"t": "img", "src": "https://raw.githubusercontent.com/btin-dev/dobby-assets/main/hc-import/_setup-section/receive-bitcoin_group-1.png"}, {"t": "steps", "start": 1, "items": ["Log in to the Blockstream app and tap <strong>Transact</strong>.", "Select <strong>Receive</strong> from the available actions.", "Share the address with the sender and wait for them to broadcast the transaction. You will see your new balance appear on the home screen once they have successfully done so."]}]}, "send-bitcoin": {"title": "Send bitcoin", "tags": ["WALLET", "SEND", "TRANSACTION"], "blocks": [{"t": "p", "html": "To send bitcoin, you will need the recipient's address and enough funds in your wallet to cover the amount plus the network fee."}, {"t": "img", "src": "https://raw.githubusercontent.com/btin-dev/dobby-assets/main/hc-import/_setup-section/send-bitcoin_group-1.png"}, {"t": "steps", "start": 1, "items": ["Log in to the Blockstream app and tap <strong>Transact</strong>.", "Select <strong>Send</strong> from the available actions.", "<strong>Paste</strong> the address of the recipient or tap <strong>Scan QR Code</strong>, then select <strong>Next</strong>."]}, {"t": "img", "src": "https://raw.githubusercontent.com/btin-dev/dobby-assets/main/hc-import/_setup-section/send-bitcoin_group-2.png"}, {"t": "steps", "start": 4, "items": ["Enter the amount of bitcoin you would like to send, then choose <strong>Next</strong>. Select <strong>Change speed</strong> to adjust the fee you will pay depending on the transaction's urgency. Please note that this fee is paid to bitcoin miners, not Blockstream.", "Confirm that the recipient address, amount, and network fee are as you intended, then <strong>Slide to Send</strong> to broadcast your transaction to the network."]}]}, "change-mobile-wallet-security-settings": {"title": "Change mobile wallet security settings", "tags": ["WALLET", "SECURITY", "SETTINGS"], "blocks": [{"t": "p", "html": "The Blockstream app's <strong>Security</strong> tab allows you to change how you unlock your wallet, back up your recovery phrase, and more."}, {"t": "p", "html": "On the Security screen, you can access your recovery phrase and alter your preferred unlock method:\u00a0"}, {"t": "singleimg", "src": "https://raw.githubusercontent.com/btin-dev/dobby-assets/main/hc-import/_setup-section/change-mobile-wallet-security-settings_phone.png"}]}, "rename-wallet": {"title": "Rename wallet", "tags": ["WALLET", "RENAME", "MANAGE"], "blocks": [{"t": "p", "html": "You can manage multiple separate wallets within the Blockstream app. It is useful to give each wallet its own unique name so you can differentiate one from another."}, {"t": "img", "src": "https://raw.githubusercontent.com/btin-dev/dobby-assets/main/hc-import/_setup-section/rename-wallet_group-1.png"}, {"t": "steps", "start": 1, "items": ["From the <strong>My Wallets</strong> screen, swipe right on the wallet you would like to rename. Tap <strong>Rename</strong>.", "A pop-up window will appear where you can change your wallet name. Type your new wallet name in the provided text box and tap <strong>Submit</strong> to complete the process."]}]}, "remove-wallet": {"title": "Remove wallet", "tags": ["WALLET", "SETUP", "DELETE", "ERASE", "WIPE", "REMOVE"], "blocks": [{"t": "p", "html": "The <strong>Blockstream app</strong> is <strong>self-custodial</strong>, which means that you have full control over your funds, private keys, and recovery data. Because of this, deleting or removing a wallet from your device can be permanent if you do not have your recovery phrase."}, {"t": "h2", "text": "Before You Begin"}, {"t": "p", "html": "<strong>Your recovery phrase is critical</strong>. Before deleting or removing a wallet, make sure you have your recovery phrase written down and stored safely."}, {"t": "bullets", "items": ["Your recovery phrase is typically a 12- or 24-word phrase shown when you first create the wallet.", "This phrase is the <strong>only way</strong> to restore your wallet and regain access to your funds.", "If you remove a wallet and do not have the recovery phrase, the wallet will <strong>never be accessible again</strong>."]}, {"t": "p", "html": "Blockstream cannot recover your recovery phrase or access your funds for you."}, {"t": "links", "items": ["Remove Wallet on iOS", "Remove Wallet on Android", "Remove Wallet on Desktop"]}, {"t": "h2", "text": "On iOS"}, {"t": "img", "src": "https://raw.githubusercontent.com/btin-dev/dobby-assets/main/hc-import/_setup-section/remove-wallet_group-1.png"}, {"t": "steps", "start": 1, "items": ["From the <strong>My Wallets</strong> list, swipe <strong>left</strong> on the wallet you want to remove.", "Tap <strong>Remove</strong>, then confirm to permanently delete the wallet from this device."]}, {"t": "h2", "text": "On Android"}, {"t": "note", "html": "Android section unchanged this pass (no staged image yet)."}, {"t": "h2", "text": "On Desktop"}, {"t": "note", "html": "Desktop section unchanged this pass (no staged image yet)."}]}};
+const LABELS={"set-up-a-new-wallet": "Set up a new wallet", "back-up-wallet": "Back up wallet", "restore-wallet": "Restore wallet", "buy-bitcoin": "Buy bitcoin", "receive-bitcoin": "Receive bitcoin", "send-bitcoin": "Send bitcoin", "change-mobile-wallet-security-settings": "Change mobile wallet security settings", "rename-wallet": "Rename wallet", "remove-wallet": "Remove wallet"};
+let CAT="Blockstream App";
+
+function render(b){
+ if(b.t==='p')return '<p>'+b.html+'</p>';
+ if(b.t==='warn')return '<div class="warn">'+b.html+'</div>';
+ if(b.t==='singleimg')return '<img class="singlephone" src="'+b.src+'" alt="">';
+ if(b.t==='img')return '<img class="grpimg" src="'+b.src+'" alt="">';
+ if(b.t==='h2')return '<h2>'+b.text+'</h2>';
+ if(b.t==='note')return '<div class="note">'+b.html+'</div>';
+ if(b.t==='bullets')return '<ul class="b">'+b.items.map(i=>'<li>'+i+'</li>').join('')+'</ul>';
+ if(b.t==='links')return '<ul class="linklist">'+b.items.map(i=>'<li><a>'+i+'</a></li>').join('')+'</ul>';
+ if(b.t==='steps'){let s='<ol class="steps" style="counter-reset:s '+(b.start-1)+'">';s+=b.items.map(i=>'<li>'+i+'</li>').join('');return s+'</ol>';}
+ return '';}
+
+function crumb(parts){return parts.map((p,i)=> (i<parts.length-1?'<a>'+p+'</a><span class="sep">&rsaquo;</span>':'<span style="color:#5a636b">'+p+'</span>')).join('');}
+
+function buildCatbar(){
+ const cb=document.getElementById('catbar');cb.innerHTML='';
+ Object.keys(HC).forEach(c=>{const b=document.createElement('button');b.textContent=c;b.className=(c===CAT?'on':'');b.onclick=()=>{CAT=c;buildCatbar();buildSide();showFirst();};cb.appendChild(b);});
+}
+function buildSide(){
+ const side=document.getElementById('side');side.innerHTML='';
+ HC[CAT].sections.forEach(sec=>{
+  const h=document.createElement('div');h.className='secname';h.textContent=sec.name;side.appendChild(h);
+  if(sec.status!=='ready'||!sec.slugs.length){const s=document.createElement('div');s.className='stub';s.textContent='(building next pass)';side.appendChild(s);return;}
+  sec.slugs.forEach(slug=>{const a=document.createElement('a');a.textContent=(ART[slug]?ART[slug].title:slug);a.dataset.slug=slug;a.onclick=()=>show(slug);side.appendChild(a);});
+ });
+}
+function findSection(slug){return HC[CAT].sections.find(s=>s.slugs.includes(slug));}
+function show(slug){const a=ART[slug];if(!a)return;
+ const sec=findSection(slug);
+ document.getElementById('crumb').innerHTML=crumb(['Blockstream Help Center',HC[CAT].crumb,(sec?sec.name:''),a.title]);
+ let h='<h1>'+a.title+'</h1><div class="tags">'+a.tags.map(t=>'<span>'+t+'</span>').join('')+'</div>'+a.blocks.map(render).join('');
+ document.getElementById('content').innerHTML=h;
+ document.querySelectorAll('.side a').forEach(el=>el.classList.toggle('active',el.dataset.slug===slug));window.scrollTo(0,0);}
+function showFirst(){
+ const sec=HC[CAT].sections.find(s=>s.status==='ready'&&s.slugs.length);
+ if(sec){show(sec.slugs[0]);}
+ else{document.getElementById('crumb').innerHTML=crumb(['Blockstream Help Center',HC[CAT].crumb]);
+  document.getElementById('content').innerHTML='<div class="emptymsg">This category\'s articles are being built in the next pass.</div>';}
+}
+buildCatbar();buildSide();showFirst();
+</script></body></html>
