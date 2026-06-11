@@ -1,0 +1,177 @@
+[
+  {
+    "id": "55337210713241",
+    "title": "Perform an on-chain swap",
+    "old_url": "hc/en-us/articles/55337210713241",
+    "new_url": "blockstream-app/use-liquid-bitcoin/perform-an-on-chain-swap",
+    "form": "noslug"
+  },
+  {
+    "id": "57885583353625",
+    "title": "Log in to a passphrase-protected software wallet",
+    "old_url": "hc/en-us/articles/57885583353625",
+    "new_url": "blockstream-app/perform-advanced-wallet-operations/log-in-to-a-passphrase-protected-software-wallet",
+    "form": "noslug"
+  },
+  {
+    "id": "900000630846",
+    "title": "Get Liquid Bitcoin (LBTC)",
+    "old_url": "hc/en-us/articles/900000630846",
+    "new_url": "liquid-network/acquire-lbtc/get-liquid-bitcoin-lbtc",
+    "form": "noslug"
+  },
+  {
+    "id": "4407567899801",
+    "title": "Why do I have to pay transaction fees and why are they sometimes high?",
+    "old_url": "hc/en-us/articles/4407567899801",
+    "new_url": "blockstream-app/faqs/why-do-i-have-to-pay-transaction-fees-and-why-are-they-sometimes-high",
+    "form": "noslug"
+  },
+  {
+    "id": "52415086089369",
+    "title": "Make a REST API request with your API keys",
+    "old_url": "hc/en-us/articles/52415086089369",
+    "new_url": "blockstream-explorer-api/use-explorer-api/make-a-rest-api-request-with-your-api-keys",
+    "form": "noslug"
+  },
+  {
+    "id": "900002241863",
+    "title": "Speed up transaction confirmation",
+    "old_url": "hc/en-us/articles/900002241863",
+    "new_url": "blockstream-app/perform-advanced-wallet-operations/speed-up-transaction-confirmation",
+    "form": "noslug"
+  },
+  {
+    "id": "46829684716569",
+    "title": "Restore wallet",
+    "old_url": "hc/en-us/articles/46829684716569",
+    "new_url": "blockstream-app/set-up-transact-recover-your-wallet/restore-wallet",
+    "form": "noslug"
+  },
+  {
+    "id": "52967603674265",
+    "title": "Receive LBTC via Lightning and pay Lightning invoice with LBTC",
+    "old_url": "hc/en-us/articles/52967603674265",
+    "new_url": "blockstream-app/use-lightning-bitcoin/receive-lbtc-via-lightning-and-pay-lightning-invoice-with-lbtc",
+    "form": "noslug"
+  },
+  {
+    "id": "47010043375129",
+    "title": "Receive and send Liquid assets",
+    "old_url": "hc/en-us/articles/47010043375129-Receive-and-send-Liquid-assets",
+    "new_url": "blockstream-app/use-liquid-bitcoin/receive-and-send-liquid-assets",
+    "form": "slug"
+  },
+  {
+    "id": "47010043375129",
+    "title": "Receive and send Liquid assets",
+    "old_url": "hc/en-us/articles/47010043375129",
+    "new_url": "blockstream-app/use-liquid-bitcoin/receive-and-send-liquid-assets",
+    "form": "noslug"
+  },
+  {
+    "id": "19340800530713",
+    "title": "Set up watch-only wallet",
+    "old_url": "hc/en-us/articles/19340800530713",
+    "new_url": "blockstream-app/perform-advanced-wallet-operations/set-up-watch-only-wallet",
+    "form": "noslug"
+  },
+  {
+    "id": "41013744529689",
+    "title": "Access Jade Plus air-gapped with SeedQR",
+    "old_url": "hc/en-us/articles/41013744529689",
+    "new_url": "blockstream-jade/use-jade-air-gapped/access-jade-plus-air-gapped-with-seedqr",
+    "form": "noslug"
+  },
+  {
+    "id": "47283949099545",
+    "title": "Lost recovery phrase",
+    "old_url": "hc/en-us/articles/47283949099545",
+    "new_url": "blockstream-app/troubleshooting/lost-recovery-phrase",
+    "form": "noslug"
+  },
+  {
+    "id": "46687226665497",
+    "title": "Enable Lightning",
+    "old_url": "hc/en-us/articles/46687226665497",
+    "new_url": "blockstream-app/use-lightning-bitcoin/enable-lightning",
+    "form": "noslug"
+  },
+  {
+    "id": "52384240998169",
+    "title": "Create an Explorer API account",
+    "old_url": "hc/en-us/articles/52384240998169",
+    "new_url": "blockstream-explorer-api/set-up-explorer-api/create-an-explorer-api-account",
+    "form": "noslug"
+  },
+  {
+    "id": "20427378059417",
+    "title": "Fix issues scanning QR codes",
+    "old_url": "hc/en-us/articles/20427378059417",
+    "new_url": "blockstream-jade/troubleshooting/fix-issues-scanning-qr-codes",
+    "form": "noslug"
+  },
+  {
+    "id": "47242018755993",
+    "title": "How does the Blockstream app generate my recovery phrase?",
+    "old_url": "hc/en-us/articles/47242018755993",
+    "new_url": "blockstream-app/faqs/how-does-the-blockstream-app-generate-my-recovery-phrase",
+    "form": "noslug"
+  },
+  {
+    "id": "40872121581977",
+    "title": "Access Jade air-gapped with QR PIN Unlock",
+    "old_url": "hc/en-us/articles/40872121581977",
+    "new_url": "blockstream-jade/use-jade-air-gapped/access-jade-air-gapped-with-qr-pin-unlock",
+    "form": "noslug"
+  },
+  {
+    "id": "900004249546",
+    "title": "The upgrade from nLockTime to CheckSequenceVerify",
+    "old_url": "hc/en-us/articles/900004249546",
+    "new_url": "blockstream-app/manage-2fa-accounts/the-upgrade-from-nlocktime-to-checksequenceverify",
+    "form": "noslug"
+  },
+  {
+    "id": "10426338118169",
+    "title": "What is a SeedQR?",
+    "old_url": "hc/en-us/articles/10426338118169",
+    "new_url": "blockstream-jade/faqs/what-is-a-seedqr",
+    "form": "noslug"
+  },
+  {
+    "id": "900001388566",
+    "title": "Fix issues with recovery phrase entry",
+    "old_url": "hc/en-us/articles/900001388566",
+    "new_url": "blockstream-app/troubleshooting/fix-issues-with-recovery-phrase-entry",
+    "form": "noslug"
+  },
+  {
+    "id": "4408499482009",
+    "title": "Set up testnet wallet",
+    "old_url": "hc/en-us/articles/4408499482009",
+    "new_url": "blockstream-app/perform-advanced-wallet-operations/set-up-testnet-wallet",
+    "form": "noslug"
+  },
+  {
+    "id": "12800132096793",
+    "title": "Set up a personal blind oracle",
+    "old_url": "hc/en-us/articles/12800132096793",
+    "new_url": "blockstream-jade/add-more-security-functionality/set-up-a-personal-blind-oracle",
+    "form": "noslug"
+  },
+  {
+    "id": "57229393237401",
+    "title": "What is exporting a child key from Jade?",
+    "old_url": "hc/en-us/articles/57229393237401",
+    "new_url": "blockstream-jade/faqs/what-is-exporting-a-child-key-from-jade",
+    "form": "noslug"
+  },
+  {
+    "id": "17478506300825",
+    "title": "Blockstream Jade Quickstart Guide for Desktop",
+    "old_url": "hc/en-us/articles/17478506300825",
+    "new_url": "blockstream-jade/faqs/blockstream-jade-quickstart-guide-for-desktop",
+    "form": "noslug"
+  }
+]
