@@ -1,0 +1,2265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script>try{localStorage.setItem("fig-onboarded","1")}catch(e){}</script><style>.fig-toolbar{display:none!important}</style>
+<base href="https://edits-btin-devs-projects.vercel.app/blockstream-home-v12/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1440">
+<title>Blockstream | The future of finance runs on Bitcoin</title>
+<meta name="description" content="Blockstream builds the systems that move Bitcoin. Engineered infrastructure for the way the world moves money.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg fill='none' stroke='%23466C85' stroke-linecap='round'%3E%3Ccircle cx='50' cy='50' r='30' stroke-width='10' stroke-dasharray='40 10'/%3E%3Ccircle cx='50' cy='50' r='44' stroke-width='6' stroke-dasharray='14 12'/%3E%3C/g%3E%3C/svg%3E">
+<style>
+  :root{
+    --cream:#F5EAE6;  --white:#FFFFFF;
+    --slate:#466C85;  --slate-deep:#2D4A60;  --steel:#77A4B7;  --steel-mid:#6A8DA8;  --pale:#AEC1D0;
+    --navy:#1B2D3C;   --navy-2:#16242F;      --near-black:#0E1822;  --ink:#1D1D1B;
+    --blue:#00BCFF;   --blue-2:#7EE0FF;   --bsblue:#0043FF;
+    --orange:#FF8800; --peach:#FFD5A7;       --teal:#009E8A;   --mint:#CCEBDF;
+    --bg:var(--cream); --text:#2c3a44; --text-strong:var(--navy);
+    --line:#e0d6cf; --line-navy:rgba(174,193,208,.16);
+    --sans:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    --maxw:1280px; --gutter:clamp(20px,6vw,90px);
+    --ease:cubic-bezier(.22,.61,.36,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:17px;line-height:1.6;font-weight:400;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;font-feature-settings:"tnum" 1;font-variant-numeric:tabular-nums;overflow-x:hidden}
+  ::selection{background:var(--navy);color:var(--cream)}
+  img{max-width:100%;display:block}
+  a{color:var(--slate);text-decoration:none;transition:color .18s var(--ease)}
+  a:hover{color:var(--navy)}
+  .wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:var(--gutter);position:relative;z-index:2}
+  section{position:relative}
+
+  /* type — all Manrope */
+  .display{font-family:var(--sans);font-weight:800;line-height:1.03;letter-spacing:-.022em;color:var(--text-strong)}
+  h1.display{font-size:clamp(2.5rem,5vw,4.4rem)}
+  h2.display{font-size:clamp(1.9rem,4vw,3.2rem);line-height:1.04}
+  p.lead{font-size:clamp(1.02rem,1.4vw,1.2rem);line-height:1.55;color:#42525d;font-weight:400;max-width:42ch}
+  .uppercase{text-transform:uppercase;letter-spacing:-.005em}
+
+  /* buttons — sharp */
+  .btn{display:inline-flex;align-items:center;gap:.6em;font-family:var(--sans);font-weight:600;font-size:.96rem;
+    padding:.92em 1.7em;border-radius:0;cursor:pointer;border:1.5px solid transparent;
+    transition:background .2s var(--ease),color .2s var(--ease),border-color .2s var(--ease),transform .2s var(--ease)}
+  /* all buttons hover to the deck's Blockstream blue; dark/filled buttons hover to white; no float (#3) */
+  .btn-primary{background:var(--slate);color:#fff;border-color:var(--slate)}
+  .btn-primary:hover{background:#fff;color:var(--navy);border-color:#fff}
+  .btn-cream{background:var(--cream);color:var(--navy);border-color:var(--cream)}
+  .btn-cream:hover{background:var(--slate);color:#fff;border-color:var(--slate)}
+  .btn-outline-l{background:transparent;color:var(--cream);border-color:rgba(245,234,230,.4)}
+  .btn-outline-l:hover{background:var(--slate);color:#fff;border-color:var(--slate)}
+  .btn-lg{padding:1.05em 2.1em;font-size:1.02rem}
+  .arrow{width:1em;height:1em;flex:none}
+
+  /* utility */
+  .utility{background:var(--slate);color:var(--cream);position:relative;z-index:60}
+  .utility .wrap{display:flex;align-items:center;justify-content:center;min-height:36px;font-size:.72rem;font-weight:600;letter-spacing:.13em;text-transform:uppercase;text-align:center}
+  .utility a{color:#fff;font-weight:700;margin-left:1.1ch;border:1.5px solid rgba(245,234,230,.5);padding:.3em .95em;line-height:1;
+    transition:background .2s var(--ease),border-color .2s var(--ease),color .2s var(--ease)}
+  .utility a:hover{background:var(--slate);border-color:var(--slate);color:#fff}
+
+  /* header */
+  header.site{position:fixed;top:36px;left:0;right:0;z-index:50;transition:background .3s var(--ease),top .3s var(--ease),border-color .3s var(--ease)}
+  .nav{display:flex;align-items:center;justify-content:space-between;min-height:72px;gap:2rem}
+  .brand{display:flex;align-items:center;flex:none}
+  .brand img{height:28px;width:auto;display:block}
+  .brand .logo-dark{display:none}
+  nav.primary{display:flex;align-items:center;gap:2rem;margin-left:auto}
+  nav.primary a{font-size:.95rem;font-weight:500;color:rgba(245,234,230,.82)}
+  nav.primary a:hover{color:#fff}
+  .nav-cta{display:flex;align-items:center;gap:.9rem}
+  .nav-cta .btn{padding:.6em 1.25em;font-size:.9rem}
+  header.site.scrolled{background:rgba(245,234,230,.92);backdrop-filter:saturate(140%) blur(12px);border-bottom:1px solid var(--line);top:0}
+  header.site.scrolled .brand .logo-light{display:none}
+  header.site.scrolled .brand .logo-dark{display:block}
+  header.site.scrolled nav.primary a{color:#3a4954}
+  header.site.scrolled nav.primary a:hover{color:var(--navy)}
+  .menu-toggle{display:none;background:none;border:0;cursor:pointer;padding:8px;flex:none}
+  .menu-toggle span{display:block;width:24px;height:2px;background:var(--cream);margin:5px 0;transition:.25s}
+  header.site.scrolled .menu-toggle span{background:var(--navy)}
+
+  /* HERO — real Blockstream mark, large, only left half shows, turns on scroll (#1) */
+  .hero{background:var(--near-black);color:var(--cream);min-height:100vh;display:flex;align-items:center;padding:160px 0 90px;overflow:hidden}
+  .hero-portal{position:absolute;top:50%;width:min(104vw,1180px);right:calc(min(104vw,1180px) / -2);aspect-ratio:1;transform:translateY(-50%);z-index:1;pointer-events:none;opacity:.5}
+  .hero-portal svg{width:100%;height:100%;transform-origin:50% 50%;will-change:transform}
+  .hero-inner{max-width:min(820px,94%)}
+  .hero h1{color:#fff}
+  h1 .accent{color:var(--orange)}
+  .hero p.lead{color:var(--pale);margin:1.8rem 0 2.4rem;max-width:32ch}
+  .hero-cta{display:flex;flex-wrap:wrap;gap:.9rem}
+
+  .sec{padding:clamp(80px,11vw,150px) 0;position:relative}
+  .sec-head{max-width:60ch}
+
+  /* THESIS — statement left, engineered blueprint visual right (#2) */
+  .thesis{background:var(--cream)}
+  .thesis-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(2rem,5vw,4.5rem);align-items:center}
+  .thesis .big{font-family:var(--sans);font-weight:700;font-size:clamp(1.9rem,4.2vw,3.4rem);line-height:1.08;letter-spacing:-.02em;color:var(--navy);max-width:16ch}
+  .thesis .big em{font-style:normal;font-weight:800;color:var(--slate)}
+  .thesis .foot{margin-top:1.6rem;font-size:1.05rem;color:#54636d;max-width:42ch}
+  .thesis-visual{position:relative;display:flex;align-items:center;justify-content:center}
+  .thesis-visual img{width:min(100%,520px)}
+
+  /* APP — transparent phone springing up from the bottom of the section + particles (#4) */
+  .appsec{background:radial-gradient(120% 130% at 25% 100%, #1d3040 0%, #0c1620 62%);color:var(--cream);overflow:hidden;min-height:clamp(600px,80vh,820px);display:flex;align-items:center}
+  .app-stage{position:absolute;left:0;top:0;bottom:0;width:52%;z-index:1;pointer-events:none}
+  .app-phone{position:absolute;left:50%;bottom:-4%;transform:translateX(-50%);width:min(44vw,440px);z-index:2;
+    filter:drop-shadow(0 28px 56px rgba(0,0,0,.5))}
+  .app-particles{position:absolute;inset:0;z-index:1}
+  .app-particles i{position:absolute;display:block;background:var(--steel);border-radius:50%;will-change:transform}
+  .app-particles i.o{background:none;border:1.5px solid var(--steel)}
+  .app-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;width:100%}
+  .app-copy{grid-column:2;position:relative;z-index:3}
+  .app-copy .kicker{font-size:.95rem;font-weight:700;color:var(--steel);margin-bottom:.8rem}
+  .app-copy h2{color:#fff}
+  .app-copy p{color:var(--pale);font-size:1.08rem;margin:1.1rem 0 1.8rem;max-width:42ch;text-wrap:pretty}
+
+  /* JADE — real product render, contained (no clipping) (#4) */
+  .spotlight{background:var(--cream);overflow:hidden}
+  .spot-grid{display:grid;grid-template-columns:.92fr 1.08fr;gap:2.5rem;align-items:center}
+  .spot-copy .kicker{font-size:.95rem;font-weight:700;color:var(--slate);margin-bottom:.8rem}
+  .spot-copy h2{color:var(--navy)}
+  .spot-copy p.lead{margin:1.2rem 0 1.8rem;text-wrap:pretty}
+  .spot-specs{display:flex;gap:2.4rem;margin-bottom:2rem;flex-wrap:wrap}
+  .spot-specs .k{font-weight:800;font-size:1.35rem;color:var(--navy);line-height:1}
+  .spot-specs .v{font-size:.8rem;color:#6d7c86;font-weight:500;margin-top:.25rem}
+  .spot-visual{position:relative;min-height:clamp(380px,44vw,560px);display:flex;align-items:center;justify-content:center}
+  .spot-blocks{position:absolute;inset:0;z-index:1;color:var(--steel);opacity:.5}
+  .spot-blocks svg{width:100%;height:100%}
+  /* each framing square drifts independently toward the Jade on scroll (#5); transform set per-frame in JS */
+  .spot-blocks .sq{will-change:transform}
+  .spot-visual .dev{position:relative;z-index:2;width:auto;max-height:clamp(380px,46vw,560px);max-width:90%;height:auto;
+    filter:drop-shadow(0 30px 52px rgba(27,45,60,.28))}
+
+  /* ENTERPRISE — the ONLY hex section; interactive honeycomb + real mark (#1/#5) */
+  .enterprise{background:var(--navy-2);color:var(--cream);overflow:hidden;min-height:clamp(560px,70vh,720px);display:flex;align-items:center}
+  .ent-honeycomb{position:absolute;inset:0;z-index:1;width:100%;height:100%}
+  .ent-honeycomb svg{width:100%;height:100%;display:block}
+  .ent-honeycomb .hx{fill:transparent;stroke:var(--steel);stroke-width:1.3;opacity:.16;
+    transition:opacity .25s var(--ease),stroke .25s var(--ease),fill .25s var(--ease);pointer-events:auto}
+  .ent-honeycomb .hx:hover{opacity:.9;stroke:var(--pale);fill:rgba(119,164,183,.07)}
+  .ent-honeycomb .hx.primary{stroke:var(--pale);stroke-width:2;opacity:.5}
+  .ent-honeycomb .hx.primary:hover{opacity:.95;fill:rgba(0,188,255,.06)}
+  .ent-honeycomb .hxdot{fill:var(--pale);opacity:.85;pointer-events:none}
+  .ent-honeycomb .hxmark{pointer-events:none}
+  .ent-grid{display:grid;grid-template-columns:1.04fr .96fr;gap:3rem;align-items:center;width:100%;position:relative;z-index:2}
+  /* whole wrap is transparent to the cursor so EVERY hex (incl. the middle ones
+     behind the copy/right column) highlights on hover; only links stay clickable (#4) */
+  .enterprise .wrap{pointer-events:none}
+  .enterprise .wrap a,.enterprise .wrap .btn{pointer-events:auto}
+  .enterprise h2{color:#fff}
+  .enterprise p.lead{color:var(--pale);margin:1.3rem 0 2.2rem;max-width:38ch}
+
+  /* WHY NOW — chart with labels in a clear bottom row (#6) */
+  .whynow{background:var(--cream);overflow:hidden}
+  .whynow .sec-head p.lead{margin-top:.8rem}
+  /* huge chart that breaks out of the wrap into the side margins (#6) */
+  .statchart{margin-top:.5rem;position:relative;left:50%;margin-left:calc(min(96vw,1560px) / -2);width:min(96vw,1560px)}
+  .statchart svg{width:100%;height:auto;display:block}
+  /* draw-on reveal (#6): the line sweeps in, then each point appears as the line reaches it */
+  .statchart .chart-line{stroke-dasharray:var(--len,1600);stroke-dashoffset:var(--len,1600);transition:stroke-dashoffset 1.7s cubic-bezier(.4,0,.2,1)}
+  .statchart .chart-area{opacity:0;transition:opacity .7s var(--ease) 1s}
+  .statchart .chart-pt{opacity:0;transition:opacity .55s var(--ease)}
+  .statchart.in .chart-line{stroke-dashoffset:0}
+  .statchart.in .chart-area{opacity:1}
+  .statchart.in .chart-pt{opacity:1}
+  .statchart.in .d1{transition-delay:.4s}
+  .statchart.in .d2{transition-delay:.95s}
+  .statchart.in .d3{transition-delay:1.5s}
+  .src-note{font-size:.76rem;color:#8a98a0;margin-top:1.4rem;text-align:center}
+
+  /* CORE TECH — cream; deck sub-brand lockup (big Blockstream + mark + technology name), per image #2 / slide 59 (#7) */
+  .coretech{background:var(--cream);border-top:1px solid var(--line)}
+  .coretech .wrap{padding-block:clamp(76px,10vw,130px);text-align:center}
+  .coretech .ct-lab{display:block;font-family:var(--sans);font-weight:800;font-size:clamp(1.5rem,3vw,2.3rem);line-height:1.05;letter-spacing:-.02em;color:var(--navy);margin-bottom:clamp(2.8rem,5vw,4.2rem)}
+  /* four cards in a row: lockup + one-liner + filled slate-blue button (v12 #7) */
+  .ct-logos{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(1rem,1.8vw,1.5rem);max-width:1180px;margin-inline:auto}
+  .ct-card{display:flex;flex-direction:column;align-items:flex-start;text-align:left;background:var(--white);border:1px solid var(--line);padding:clamp(1.4rem,2.1vw,1.9rem)}
+  .ct-card .bs{font-family:var(--sans);font-weight:800;font-size:clamp(1.15rem,1.5vw,1.42rem);line-height:1;letter-spacing:-.03em;color:var(--near-black)}
+  .ct-card .sub{display:flex;align-items:center;gap:.42em;margin-top:.45rem}
+  .ct-card .sub .dash{width:26px;height:auto;display:block}
+  .ct-card .sub .nm{font-family:var(--sans);font-weight:700;font-size:clamp(.86rem,1.1vw,1rem);line-height:1;letter-spacing:-.01em;color:var(--slate)}
+  .ct-desc{font-size:.86rem;line-height:1.5;color:#54636d;margin:.85rem 0 1.3rem}
+  /* filled slate-blue button (v12 #7) */
+  .ct-cta{margin-top:auto;display:inline-flex;align-items:center;gap:.42em;font-family:var(--sans);font-weight:600;font-size:.8rem;
+    background:var(--slate);color:#fff;border:1.5px solid var(--slate);padding:.6em 1.25em;
+    transition:background .2s var(--ease),border-color .2s var(--ease),transform .2s var(--ease)}
+  .ct-cta svg{width:.85em;height:.85em}
+  .ct-cta:hover{background:var(--slate-deep);border-color:var(--slate-deep)}
+  @media(max-width:900px){.ct-logos{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:520px){.ct-logos{grid-template-columns:1fr}}
+
+  /* FINAL CTA — big static Blockstream logo, slide-1 style: mark arcs bleed off the left (#11) */
+  .finalcta{background:var(--near-black);color:var(--cream);text-align:center;overflow:hidden}
+  .finalcta .wrap{padding-block:clamp(96px,13vw,170px)}
+  .finalcta .portal{position:absolute;top:50%;width:min(78vw,900px);left:calc(min(78vw,900px) / -2);transform:translateY(-50%);z-index:1;opacity:.32;pointer-events:none}
+  .finalcta .portal svg{width:100%;height:100%;transform-origin:50% 50%;will-change:transform}
+  .finalcta .biglogo{height:clamp(42px,6.5vw,68px);margin:0 auto 2.2rem;width:auto;position:relative;z-index:2}
+  .finalcta h2{color:#fff;max-width:16ch;margin-inline:auto;position:relative;z-index:2}
+  .finalcta h2 .accent{color:var(--orange)}
+  .finalcta .hero-cta{justify-content:center;margin-top:2.4rem;position:relative;z-index:2}
+
+  /* FOOTER */
+  footer.site{background:var(--navy);color:#b6c4cd;padding:clamp(56px,7vw,86px) 0 2.4rem}
+  .foot-top{display:grid;grid-template-columns:1.5fr repeat(4,1fr);gap:2.4rem 1.5rem;padding-bottom:2.8rem;border-bottom:1px solid var(--line-navy)}
+  .foot-brand img{height:26px;margin-bottom:1.1rem}
+  .foot-brand p{font-size:.9rem;color:#b6c4cd;max-width:30ch;line-height:1.55}
+  /* newsletter signup (#11) */
+  .foot-news{margin-top:1.7rem;max-width:32ch}
+  .foot-news h5{font-size:.95rem;font-weight:700;letter-spacing:.01em;color:#d2dce3;margin-bottom:.8rem}
+  .foot-news-row{display:flex;gap:.5rem}
+  .foot-news input{flex:1;min-width:0;background:rgba(255,255,255,.06);border:1px solid var(--line-navy);color:#fff;
+    padding:.72em .9em;font-family:var(--sans);font-size:.9rem;border-radius:0;transition:border-color .2s var(--ease),background .2s var(--ease)}
+  .foot-news input::placeholder{color:#8ba0ad}
+  .foot-news input:focus{outline:none;border-color:var(--steel);background:rgba(255,255,255,.1)}
+  .foot-news .btn{padding:.72em 1.15em;font-size:.88rem;white-space:nowrap}
+  .foot-news .note{font-size:.72rem;color:#8ba0ad;margin-top:.7rem}
+  .foot-news .note.ok{color:var(--mint)}
+  .foot-col h5{font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#b0bfc9;margin-bottom:1rem}
+  .foot-col a{display:block;font-size:.92rem;color:#c2cfd8;margin-bottom:.6rem}
+  .foot-col a:hover{color:#fff}
+  .foot-bottom{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;padding-top:1.7rem;font-size:.82rem;color:#aebcc6}
+  .foot-bottom .legal{display:flex;gap:1.4rem;flex-wrap:wrap}
+  .foot-bottom a{color:#aebcc6}.foot-bottom a:hover{color:#fff}
+
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes floaty{0%,100%{transform:translate(0,0)}50%{transform:translate(4px,-17px)}}
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+  .reveal.in{opacity:1;transform:none}
+
+  @media(max-width:1000px){
+    .app-grid,.spot-grid,.ent-grid,.thesis-grid{grid-template-columns:1fr}
+    .thesis-visual{order:-1;max-width:420px;margin-inline:auto}
+    .app-copy{grid-column:1}
+    .app-stage{position:relative;width:100%;height:auto;margin-bottom:1rem}
+    .app-phone{position:relative;left:auto;top:auto;transform:none;width:min(62vw,300px);margin:0 auto}
+    .app-particles{display:none}
+    .appsec{padding:80px 0;min-height:0;display:block}
+    .spot-visual{order:-1}
+    .hero-portal{right:-30%;width:min(96vw,620px)}
+    .ent-grid{min-height:420px}
+    .foot-top{grid-template-columns:1fr 1fr}.foot-brand{grid-column:1/-1}
+  }
+  @media(max-width:760px){
+    nav.primary{position:fixed;inset:0 0 auto;top:0;background:var(--cream);flex-direction:column;align-items:flex-start;gap:.2rem;padding:96px var(--gutter) 32px;transform:translateY(-103%);transition:transform .35s var(--ease);margin-left:0;z-index:40}
+    nav.primary.open{transform:none}
+    nav.primary a{color:#3a4954!important;font-size:1.15rem;padding:.55rem 0;width:100%;border-bottom:1px solid var(--line)}
+    .menu-toggle{display:block;z-index:60}
+    .nav-cta .btn-cream{display:none}
+    .foot-top{grid-template-columns:1fr}
+    body{font-size:16px}
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none!important}
+    .reveal{opacity:1!important;transform:none!important;transition:none!important}
+    .hero-portal{transform:translateY(-50%)!important}
+    .statchart .chart-line{stroke-dashoffset:0!important;transition:none!important}
+    .statchart .chart-area,.statchart .chart-pt{opacity:1!important;transition:none!important}
+    .spot-blocks .sq{transform:none!important}
+  }
+
+
+/* ============ FIG OVERLAY SYSTEM (overlay-only) ============ */
+/* ══════════════════════════════════════════════
+   Fig Overlay Stabilizer — full-page replica mode only
+   ══════════════════════════════════════════════
+
+   MUST be injected on top of any page that has scroll-triggered
+   reveal animations (IntersectionObserver-driven fade-in classes).
+
+   WHY: comment pins are stored as % of body.scrollHeight. If the body
+   grows taller after load (because reveal animations fire during scroll),
+   pins drift from where they were placed.
+
+   FIX: force all reveal classes visible immediately so body height is
+   final at page load, before any pin can be placed.
+*/
+
+body { position: relative !important; }
+
+.reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+.reveal-delay-1, .reveal-delay-2, .reveal-delay-3, .reveal-delay-4 { transition: none !important; }
+
+
+/* ══════════════════════════════════════════════
+   Comment System
+   ══════════════════════════════════════════════ */
+
+.fig-toolbar {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fig-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, transform 0.15s;
+}
+.fig-btn:hover { transform: scale(1.08); }
+
+.comment-toggle { background: #FF1493; }
+.comment-toggle.active { background: #e06060; }
+body.comment-mode { cursor: crosshair !important; }
+body.comment-mode * { cursor: crosshair !important; }
+
+.draw-toggle { background: #FF1493; }
+.draw-toggle.active { background: #e06060; }
+body.draw-mode { cursor: crosshair !important; }
+body.draw-mode .fig-toolbar,
+body.draw-mode .fig-toolbar * { cursor: pointer !important; }
+
+.clear-all-btn { background: #2a2d32; }
+.clear-all-btn:hover { background: #e06060; }
+
+/* ── Draw color picker ── */
+.draw-colors {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  background: #1a1d22;
+  border: 1px solid #333;
+  border-radius: 24px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+.draw-colors.visible { display: flex; }
+.draw-color-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.1s, border-color 0.1s;
+  flex-shrink: 0;
+}
+.draw-color-btn:hover { transform: scale(1.15); }
+.draw-color-btn.active { border-color: #fff; transform: scale(1.15); }
+.draw-clear-btn {
+  background: none;
+  border: 1px solid #555;
+  color: #e06060;
+  font-size: 10px;
+  font-weight: 600;
+  font-family: Inter, sans-serif;
+  padding: 4px 10px;
+  border-radius: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s;
+}
+.draw-clear-btn:hover { background: rgba(224,96,96,0.1); border-color: #e06060; }
+.draw-size-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  background: #333;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.1s, border-color 0.1s;
+  flex-shrink: 0;
+}
+.draw-size-btn:hover { transform: scale(1.15); }
+.draw-size-btn.active { border-color: #fff; }
+.draw-size-dot {
+  border-radius: 50%;
+  background: #fff;
+}
+
+/* ── Draw canvas ── */
+.fig-draw-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 8999;
+  pointer-events: none;
+}
+body.draw-mode .fig-draw-canvas {
+  pointer-events: auto;
+  cursor: crosshair;
+}
+
+.comment-pin {
+  position: absolute;
+  z-index: 9000;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #FF1493;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  transform: translate(-50%, -50%);
+  transition: transform 0.12s;
+  user-select: none;
+}
+.comment-pin:hover { transform: translate(-50%, -50%) scale(1.15); }
+.comment-pin.dragging {
+  opacity: 0.8;
+  transform: translate(-50%, -50%) scale(1.2);
+  cursor: grabbing !important;
+  z-index: 9500;
+}
+
+.comment-popover {
+  position: absolute;
+  z-index: 9001;
+  background: #1a1d22;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 12px;
+  width: 280px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  transform: translate(-50%, 8px);
+  font-family: Inter, sans-serif;
+}
+.comment-popover-input {
+  width: 100%;
+  background: #111316;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 4px;
+  padding: 8px 10px;
+  font-size: 13px;
+  font-family: Inter, sans-serif;
+  resize: none;
+  outline: none;
+}
+.comment-popover-input:focus { border-color: #00BCFF; }
+.comment-popover-input::placeholder { color: #666; }
+.comment-popover-hint {
+  font-size: 11px;
+  color: #666;
+  margin-top: 6px;
+}
+
+.comment-detail {
+  position: absolute;
+  z-index: 9002;
+  background: #1a1d22;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 14px;
+  width: 280px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  transform: translate(-50%, 8px);
+  font-family: Inter, sans-serif;
+}
+.comment-detail-text {
+  color: #e0e0e0;
+  font-size: 13px;
+  line-height: 1.5;
+  margin-bottom: 8px;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+.comment-detail-meta {
+  font-size: 11px;
+  color: #888;
+}
+.comment-detail-meta strong { color: #bbb; font-weight: 600; }
+.comment-detail-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+.comment-detail-edit {
+  background: none;
+  border: 1px solid #555;
+  color: #bbb;
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.comment-detail-edit:hover { background: rgba(255,255,255,0.05); border-color: #888; }
+.comment-detail-delete {
+  background: none;
+  border: 1px solid #555;
+  color: #e06060;
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.comment-detail-delete:hover { background: rgba(224,96,96,0.1); border-color: #e06060; }
+.comment-edit-input {
+  width: 100%;
+  background: #111316;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 4px;
+  padding: 8px 10px;
+  font-size: 13px;
+  font-family: Inter, sans-serif;
+  resize: none;
+  outline: none;
+}
+.comment-edit-input:focus { border-color: #00BCFF; }
+.comment-edit-save {
+  background: #00BCFF;
+  border: none;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.comment-edit-save:hover { background: #00a8e6; }
+.comment-edit-cancel {
+  background: none;
+  border: 1px solid #555;
+  color: #888;
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.comment-edit-cancel:hover { background: rgba(255,255,255,0.05); border-color: #888; }
+
+.author-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.author-dialog {
+  background: #1a1d22;
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 24px;
+  width: 320px;
+  text-align: center;
+}
+.author-dialog h3 {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.author-dialog input {
+  width: 100%;
+  background: #111316;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 4px;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-family: Inter, sans-serif;
+  outline: none;
+  margin-bottom: 12px;
+}
+.author-dialog input:focus { border-color: #00BCFF; }
+.author-dialog button {
+  background: #00BCFF;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.author-dialog button:hover { background: #00a8e6; }
+
+/* ─────────────────────────────────────────────────────────────
+   Suggest mode — text-anchored accuracy feedback (standard /fig)
+   ───────────────────────────────────────────────────────────── */
+.suggest-toggle { background: #C9971B; }
+.suggest-toggle.active { background: #e06060; }
+body.suggest-mode main, body.suggest-mode main * { cursor: text; }
+
+mark.fig-suggest {
+  background: rgba(245, 200, 66, 0.40);
+  border-bottom: 2px solid #E0A800; /* visual-scan:ignore */
+  color: inherit; cursor: pointer; border-radius: 2px; padding: 0 1px;
+  transition: background 0.12s;
+}
+mark.fig-suggest:hover { background: rgba(245, 200, 66, 0.66); }
+mark.fig-suggest[data-status="diagnosed"]{ background: rgba(31,111,214,0.26); border-bottom-color:#1F6FD6; }
+mark.fig-suggest[data-status="approved"] { background: rgba(46,160,67,0.30); border-bottom-color:#2EA043; }
+mark.fig-suggest[data-status="applied"]  { background: rgba(46,160,67,0.16); border-bottom-color:#2EA043; }
+mark.fig-suggest[data-status="rejected"] { background: rgba(150,150,150,0.20); border-bottom-color:#999; }
+
+.suggest-popover .suggest-quote, .suggest-detail-quote {
+  font-size: 12px; line-height: 1.4; color: #b9a05a;
+  border-left: 2px solid #E0A800; padding-left: 8px; margin-bottom: 8px; /* visual-scan:ignore */
+  max-height: 64px; overflow: auto;
+}
+.suggest-detail-quote { color: #9a8a55; }
+.suggest-status-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.suggest-status-badge {
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em;
+  padding: 2px 8px; border-radius: 999px; color: #fff;
+}
+.st-open { background: #8a8f98; } .st-diagnosed { background: #1F6FD6; }
+.st-approved { background: #2EA043; } .st-applied { background: #176f37; } .st-rejected { background: #6b7280; }
+.suggest-orphan { font-size: 10px; color: #e0a800; }
+.suggest-diagnosis {
+  background: #16181d; border: 1px solid #2a2d34; border-radius: 6px; padding: 8px 10px; margin-bottom: 8px;
+  font-size: 12px; line-height: 1.5; color: #d4d7dd; white-space: pre-wrap;
+}
+.suggest-diagnosis-label { font-size: 9px; text-transform: uppercase; letter-spacing: .06em; color: #7d828c; margin-bottom: 3px; }
+.suggest-approve-row { display: flex; gap: 8px; margin-bottom: 6px; }
+.suggest-approve, .suggest-reject { flex: 1; border: none; border-radius: 6px; padding: 6px 8px; font-size: 12px; font-weight: 600; cursor: pointer; color: #fff; }
+.suggest-approve { background: #2EA043; } .suggest-approve:hover { background: #278a39; }
+.suggest-reject { background: #3a3d44; } .suggest-reject:hover { background: #4a4e57; }
+
+/* ─────────────────────────────────────────────────────────────
+   Loqumen-styled toolbar + first-visit onboarding (standard /fig)
+   Warm neutrals, consistent buttons, standardized line icons.
+   ───────────────────────────────────────────────────────────── */
+.fig-toolbar {
+  position: fixed; bottom: 24px; right: 24px; z-index: 9999;
+  display: flex; align-items: center; gap: 2px;
+  background: #fafaf8; border: 1px solid #e8e6e1; border-radius: 14px;
+  padding: 6px; box-shadow: 0 6px 24px rgba(26,26,26,0.12);
+  font-family: 'DM Sans', -apple-system, system-ui, sans-serif;
+}
+.fig-btn {
+  width: 40px; height: 40px; border-radius: 9px; border: none; background: transparent;
+  color: #4a4a46; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; box-shadow: none; transition: background .15s, color .15s;
+}
+.fig-btn svg { width: 20px; height: 20px; display: block; }
+.fig-btn:hover { background: #f0eee9; color: #1a1a1a; transform: none; }
+.comment-toggle, .suggest-toggle, .draw-toggle, .clear-all-btn, .help-btn { background: transparent; }
+.clear-all-btn:hover { background: #f3e7e4; color: #8a3b2e; }
+.help-btn:hover { background: #f0eee9; color: #1a1a1a; }
+.fig-btn.active,
+.comment-toggle.active, .suggest-toggle.active, .draw-toggle.active { background: #1a1a1a; color: #fafaf8; }
+.fig-toolbar .fig-divider { width: 1px; height: 22px; background: #e8e6e1; margin: 0 5px; flex: 0 0 auto; }
+
+.draw-colors {
+  display: none; align-items: center; gap: 6px; margin-right: 4px;
+  background: #fafaf8; border: 1px solid #e8e6e1; border-radius: 10px;
+  padding: 5px 9px; box-shadow: 0 6px 24px rgba(26,26,26,0.12);
+}
+.draw-colors.visible { display: flex; }
+
+/* First-visit onboarding card */
+.fig-onboard {
+  position: fixed; right: 24px; bottom: 84px; z-index: 10000;
+  width: 320px; max-width: calc(100vw - 48px);
+  background: #fafaf8; border: 1px solid #e8e6e1; border-radius: 16px;
+  padding: 22px 22px 18px; box-shadow: 0 12px 40px rgba(26,26,26,0.18);
+  font-family: 'DM Sans', -apple-system, system-ui, sans-serif; color: #4a4a46;
+  opacity: 0; transform: translateY(8px); pointer-events: none;
+  transition: opacity .25s ease, transform .25s ease;
+}
+.fig-onboard.visible { opacity: 1; transform: none; pointer-events: auto; }
+.fig-onboard-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+.fig-onboard-head h3 { margin: 0; font-size: 16px; font-weight: 500; color: #1a1a1a; letter-spacing: -.01em; }
+.fig-onboard-x { background: none; border: none; font-size: 22px; line-height: 1; color: #9a9790; cursor: pointer; padding: 0 2px; }
+.fig-onboard-x:hover { color: #1a1a1a; }
+.fig-onboard-sub { margin: 0 0 16px; font-size: 13px; font-weight: 300; line-height: 1.6; color: #9a9790; }
+.fig-onboard-rows { display: flex; flex-direction: column; gap: 13px; margin-bottom: 18px; }
+.fig-onboard-row { display: flex; gap: 12px; align-items: flex-start; }
+.fig-onboard-icon { flex: 0 0 auto; width: 34px; height: 34px; border-radius: 9px; background: #f0eee9; display: flex; align-items: center; justify-content: center; color: #1a1a1a; }
+.fig-onboard-icon svg { width: 18px; height: 18px; }
+.fig-onboard-text { display: flex; flex-direction: column; gap: 1px; padding-top: 2px; }
+.fig-onboard-name { font-size: 13px; font-weight: 500; color: #1a1a1a; }
+.fig-onboard-desc { font-size: 12.5px; font-weight: 300; line-height: 1.5; color: #9a9790; }
+.fig-onboard-done { width: 100%; background: #1a1a1a; color: #fafaf8; border: none; border-radius: 10px; padding: 10px; font-family: inherit; font-size: 13px; font-weight: 400; letter-spacing: .02em; cursor: pointer; transition: background .15s; }
+.fig-onboard-done:hover { background: #000; }
+
+</style>
+</head>
+<body id="top" data-fig-version="blockstream-home-v12">
+
+<div class="utility"><div class="wrap"><span>Jade Plus is here: machined aluminium, air-gapped security.<a href="https://store.blockstream.com/products/jade-plus">Shop now</a></span></div></div>
+
+<header class="site" id="hdr">
+  <div class="wrap nav">
+    <a class="brand" href="#top" aria-label="Blockstream home">
+      <img class="logo-light" src="assets/blockstream-logo-white.png" alt="Blockstream">
+      <img class="logo-dark" src="assets/blockstream-logo.png" alt="Blockstream">
+    </a>
+    <nav class="primary" id="nav">
+      <a href="#appsec">Products</a><a href="#whynow">Newsroom</a><a href="#coretech">Developers</a>
+      <a href="#thesis">Company</a><a href="https://store.blockstream.com">Store</a><a href="https://help.blockstream.com">Support</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="#enterprise" class="btn btn-cream">Contact sales</a>
+      <button class="menu-toggle" id="menuBtn" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-portal" id="heroPortal" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="hero-inner">
+      <h1 class="display">The future of finance runs on <span class="accent">bitcoin</span>.</h1>
+      <p class="lead">We make sure that future belongs to you.</p>
+      <div class="hero-cta">
+        <a href="#appsec" class="btn btn-cream btn-lg">Explore products
+          <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a href="#thesis" class="btn btn-outline-l btn-lg">Read the thesis</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THESIS -->
+<section class="sec thesis" id="thesis">
+  <div class="wrap">
+    <div class="thesis-grid">
+      <div>
+        <p class="big reveal">Where financial certainty is <em>engineered,</em> not promised.</p>
+        <p class="foot reveal">Systems that work regardless of belief, authority, or intention. Built on cryptography, transparency, and math.</p>
+      </div>
+      <div class="thesis-visual reveal">
+        <img src="assets/thesis-mark.svg" alt="The Blockstream mark rendered as a precise engineering construction" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APP -->
+<section class="appsec" id="appsec">
+  <div class="app-stage" aria-hidden="true">
+    <div class="app-particles" id="appParticles"></div>
+    <img class="app-phone" src="assets/app-phone-cut.png" alt="The Blockstream app showing a Bitcoin, Lightning and Liquid balance">
+  </div>
+  <div class="wrap">
+    <div class="app-grid">
+      <div class="app-copy">
+        <div class="kicker">Blockstream App</div>
+        <h2 class="display">The all-in-one bitcoin experience.</h2>
+        <p>One app across Bitcoin, Lightning, and Liquid. Self-custodial by default, on iOS, Android, and desktop.</p>
+        <a href="https://blockstream.com/app" class="btn btn-cream btn-lg">Get the app
+          <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JADE -->
+<section class="sec spotlight" id="jade">
+  <div class="wrap">
+    <div class="spot-grid">
+      <div class="spot-copy">
+        <div class="kicker reveal">Blockstream Jade</div>
+        <h2 class="display reveal">Next-generation bitcoin hardware.</h2>
+        <p class="lead reveal">Machined aluminium casing, a larger display, and air-gapped security. Fully open-source hardware and&nbsp;firmware.</p>
+        <div class="spot-specs reveal">
+          <div><div class="k">Air-gapped</div><div class="v">Camera-based signing</div></div>
+          <div><div class="k">Open-source</div><div class="v">Hardware &amp; firmware</div></div>
+          <div><div class="k">Bitcoin-only</div><div class="v">No altcoins</div></div>
+        </div>
+        <a href="https://store.blockstream.com" class="btn btn-primary btn-lg reveal">Shop Jade Plus</a>
+      </div>
+      <div class="spot-visual">
+        <div class="spot-blocks" id="jadeBlocks" aria-hidden="true"></div>
+        <img class="dev reveal" src="assets/jade-green.png" alt="Blockstream Jade Plus hardware wallet in sovereign green: machined aluminium body with camera for air-gapped signing">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ENTERPRISE -->
+<section class="sec enterprise" id="enterprise">
+  <div class="ent-honeycomb" id="entHoneycomb" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="ent-grid">
+      <div class="ent-copy">
+        <h2 class="display uppercase reveal">Bitcoin custody, treasury &amp; tokenization</h2>
+        <p class="lead reveal">Hardened security, seamless integrations, and policy-based workflows. Compliance, transparency, and control, by design.</p>
+        <a href="https://enterprise.blockstream.com" class="btn btn-cream btn-lg reveal">View Enterprise</a>
+      </div>
+      <div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY NOW -->
+<section class="sec whynow" id="whynow">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="display reveal">The financial system is moving onto bitcoin.</h2>
+      <p class="lead reveal">Blockstream builds the infrastructure behind it.</p>
+    </div>
+    <div class="statchart reveal">
+      <svg viewBox="0 44 1000 426" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Bitcoin market growth: $1.9T market cap, $19T settled on the Bitcoin network in 2024, $30T tokenized assets projected by 2034">
+        <defs><linearGradient id="fg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#77A4B7" stop-opacity="0.20"/><stop offset="1" stop-color="#77A4B7" stop-opacity="0"/></linearGradient></defs>
+        <!-- baseline (always present) -->
+        <line x1="120" y1="400" x2="880" y2="400" stroke="#cdbfb6" stroke-width="1.5"/>
+        <!-- area fades in after the line draws; line draws on with a dash sweep (#6) -->
+        <path class="chart-area" d="M150 352 Q325 330 500 238 Q675 165 850 120 L850 400 L150 400 Z" fill="url(#fg)"/>
+        <path class="chart-line" d="M150 352 Q325 330 500 238 Q675 165 850 120" fill="none" stroke="#466C85" stroke-width="4" stroke-linecap="round"/>
+        <!-- each point's number/dot/guide/label appears as the line reaches it -->
+        <g class="chart-pt d1">
+          <line x1="150" y1="352" x2="150" y2="400" stroke="#cdbfb6" stroke-width="1" stroke-dasharray="3 6"/>
+          <circle cx="150" cy="352" r="13" fill="#466C85"/>
+          <text x="150" y="326" text-anchor="middle" font-family="Manrope,sans-serif" font-weight="800" font-size="52" fill="#1B2D3C" letter-spacing="-2">$1.9T</text>
+          <text x="150" y="438" text-anchor="middle" font-family="Manrope,sans-serif" font-weight="600" font-size="16" fill="#2D4A60">Bitcoin market cap</text>
+        </g>
+        <g class="chart-pt d2">
+          <line x1="500" y1="238" x2="500" y2="400" stroke="#cdbfb6" stroke-width="1" stroke-dasharray="3 6"/>
+          <circle cx="500" cy="238" r="13" fill="#77A4B7"/>
+          <text x="500" y="212" text-anchor="middle" font-family="Manrope,sans-serif" font-weight="800" font-size="52" fill="#1B2D3C" letter-spacing="-2">$19T</text>
+          <text x="500" y="438" text-anchor="middle" font-family="Manrope,sans-serif" font-weight="600" font-size="16" fill="#2D4A60">Settled on Bitcoin, 2024</text>
+        </g>
+        <g class="chart-pt d3">
+          <line x1="850" y1="120" x2="850" y2="400" stroke="#cdbfb6" stroke-width="1" stroke-dasharray="3 6"/>
+          <circle cx="850" cy="120" r="13" fill="#FF8800"/>
+          <text x="850" y="94" text-anchor="middle" font-family="Manrope,sans-serif" font-weight="800" font-size="52" fill="#FF8800" letter-spacing="-2">$30T</text>
+          <text x="850" y="438" text-anchor="middle" font-family="Manrope,sans-serif" font-weight="600" font-size="16" fill="#2D4A60">Tokenized assets by 2034</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- CORE TECH -->
+<section class="coretech" id="coretech">
+  <div class="wrap">
+    <span class="ct-lab reveal">Built in the open</span>
+    <div class="ct-logos reveal">
+      <div class="ct-card">
+        <span class="bs">Blockstream</span>
+        <span class="sub"><img class="dash" src="assets/mark-dashes.png" alt=""><span class="nm">Greenlight</span></span>
+        <p class="ct-desc">Cloud-hosted Lightning nodes with self-custodial keys.</p>
+        <a class="ct-cta" href="https://github.com/Blockstream/greenlight">Learn more
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <div class="ct-card">
+        <span class="bs">Blockstream</span>
+        <span class="sub"><img class="dash" src="assets/mark-dashes.png" alt=""><span class="nm">Core Lightning</span></span>
+        <p class="ct-desc">A modular, spec-compliant Lightning implementation.</p>
+        <a class="ct-cta" href="https://corelightning.org">Learn more
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <div class="ct-card">
+        <span class="bs">Blockstream</span>
+        <span class="sub"><img class="dash" src="assets/mark-dashes.png" alt=""><span class="nm">Elements</span></span>
+        <p class="ct-desc">The open-source sidechain platform behind Liquid.</p>
+        <a class="ct-cta" href="https://elementsproject.org">Learn more
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <div class="ct-card">
+        <span class="bs">Blockstream</span>
+        <span class="sub"><img class="dash" src="assets/mark-dashes.png" alt=""><span class="nm">Liquid Network</span></span>
+        <p class="ct-desc">A Bitcoin sidechain for fast settlement and asset issuance.</p>
+        <a class="ct-cta" href="https://liquid.net">Learn more
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="finalcta">
+  <div class="portal" id="ctaPortal" aria-hidden="true"></div>
+  <div class="wrap">
+    <img class="biglogo" src="assets/blockstream-logo-new.png" alt="Blockstream">
+    <h2 class="display">The future of finance runs on <span class="accent">bitcoin</span>.</h2>
+    <div class="hero-cta">
+      <a href="#appsec" class="btn btn-cream btn-lg">Explore products</a>
+      <a href="https://enterprise.blockstream.com" class="btn btn-outline-l btn-lg">Talk to our team</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site" id="support">
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <img src="assets/blockstream-logo-white.png" alt="Blockstream">
+        <p>The future of finance runs on bitcoin.</p>
+        <form class="foot-news" id="footNews">
+          <h5>Stay in the loop</h5>
+          <div class="foot-news-row">
+            <input id="footEmail" type="email" placeholder="you@email.com" autocomplete="email" required>
+            <button type="submit" class="btn btn-primary">Subscribe</button>
+          </div>
+          <p class="note" id="footNewsNote">Product news and releases. No spam.</p>
+        </form>
+      </div>
+      <div class="foot-col"><h5>Products</h5>
+        <a href="https://blockstream.com/app">Blockstream App</a><a href="https://store.blockstream.com">Blockstream Jade</a>
+        <a href="https://enterprise.blockstream.com">Custody Solution</a><a href="https://enterprise.blockstream.com">Tokenization</a><a href="https://liquid.net">Liquid as a Service</a></div>
+      <div class="foot-col"><h5>Developers</h5>
+        <a href="https://corelightning.org">Core Lightning</a><a href="https://github.com/Blockstream/greenlight">Greenlight</a>
+        <a href="https://elementsproject.org">Elements</a><a href="https://liquid.net">Liquid Network</a><a href="https://docs.corelightning.org">Documentation</a></div>
+      <div class="foot-col"><h5>Company</h5>
+        <a href="https://blockstream.com/about">About</a><a href="https://blockstream.com/press">Newsroom</a>
+        <a href="https://blockstream.com/research">Research</a><a href="https://blockstream.com/about">Careers</a><a href="https://blockstream.com/about">Contact</a></div>
+      <div class="foot-col"><h5>Resources</h5>
+        <a href="https://store.blockstream.com">Store</a><a href="https://help.blockstream.com">Support</a>
+        <a href="https://blockstream.com">Status</a><a href="https://blockstream.com">Brand</a><a href="https://blockstream.com/terms">Legal</a></div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Blockstream Corporation Inc.</span>
+      <div class="legal"><a href="https://blockstream.com/privacy-policy">Privacy</a><a href="https://blockstream.com/terms">Terms</a><a href="https://blockstream.com/privacy-policy">Cookies</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* REAL Blockstream mark — traced from official Corporate_Brand vector (st1 outer #00C3FF, st2 inner #7EE0FF) */
+function bsMark(opt){
+  opt=opt||{};
+  var c1=opt.c1||'#00C3FF', c2=opt.c2||'#7EE0FF';
+  var outer="<path d=\"M659.7,392.3c10.2,14.3,18.4,29.9,24.5,46.4l21.8-7.1c-6.9-18.9-16.4-36.8-28.1-53.1L659.7,392.3z\"/>"+"<path d=\"M510.6,289.2c-5.8-0.2-11.7-0.2-17.5,0l1.6,22.8c8.8-0.3,17.6-0.1,26.3,0.7c8.7,0.8,17.4,2.2,26,4.2l5.8-22.1 c-9.8-2.3-19.7-3.9-29.7-4.8C519,289.6,514.7,289.3,510.6,289.2z\"/>"+"<path d=\"M297.1,605.5c-9.1-18.6-15.7-38.3-19.5-58.6l-23.9,3.8c4.2,23,11.6,45.3,22,66.2L297.1,605.5z\"/>"+"<path d=\"M284.8,375.6l21.2,11.8c10.6-17.8,23.5-34,38.5-48.3l-16.2-18C311.3,337.2,296.7,355.5,284.8,375.6z\"/>"+"<path d=\"M254.8,453.5l23.8,4.2c4.2-20.3,11.2-39.9,20.7-58.3l-21.2-11.7C267.3,408.5,259.5,430.6,254.8,453.5z\"/>"+"<path d=\"M409.9,268.8l9.5,22.2c19.3-7.6,39.5-12.5,60.1-14.5l-1.7-24.1C454.5,254.6,431.7,260.1,409.9,268.8z\"/>"+"<path d=\"M338.5,311.8l16.2,18c15.8-13.4,33.3-24.6,52.1-33.4l-9.5-22.2C376,283.9,356.2,296.6,338.5,311.8z\"/>"+"<path d=\"M697.1,667.6l-18.9-15.1c-13.4,15.8-28.9,29.7-46,41.4l13,20.5C664.6,701.3,682.1,685.6,697.1,667.6z\"/>"+"<path d=\"M402.5,710.7c-18.6-9.1-35.9-20.7-51.4-34.5l-16.5,17.7c17.4,15.6,37,28.6,58,38.8L402.5,710.7z\"/>"+"<path d=\"M755.4,528.2c3.1-32.6-0.2-65.5-9.7-96.8l-23,7.6c13.2,44.4,12.7,91.7-1.3,135.8l22.8,8.1 C749.9,565.2,753.7,546.8,755.4,528.2z\"/>"+"<path d=\"M614.2,689.2L602,670c-15.1,9-31.3,16-48.3,20.7l5.4,22.2C578.5,707.5,597,699.6,614.2,689.2z\"/>"+"<path d=\"M314.5,528.8c-1.7-14.2-1.9-28.6-0.5-42.9c0.3-3.5,0.7-6.5,1.2-9.6l-22.5-4c-0.5,3.8-1,7.6-1.4,11.5 c-1.5,16.1-1.3,32.4,0.7,48.5L314.5,528.8z\"/>"+"<path d=\"M568.2,284.7c19.9,5.8,38.9,14.4,56.4,25.4l13.5-20.2c-19.8-12.5-41.2-22.1-63.7-28.7L568.2,284.7z\"/>"+"<path d=\"M469.8,755.8l2.3-24.1c-19.5-2.6-38.6-7.8-56.8-15.3l-10.1,22.2C425.8,747.1,447.6,752.9,469.8,755.8z\"/>"+"<path d=\"M351.3,657.7l15.7-16.6c-12.4-12.5-23.1-26.5-31.8-41.8L314.9,610C324.8,627.4,337.1,643.5,351.3,657.7z\"/>"+"<path d=\"M649.5,297.7l-13.6,20.2c16.9,12,32,26.3,45.1,42.4l19.4-14.8C685.7,327.2,668.6,311.2,649.5,297.7z\"/>"+"<path d=\"M672.7,633.2c12-16.1,21.8-33.7,29.1-52.5l-21.5-7.7c-6.4,16.4-15,31.9-25.5,46L672.7,633.2z\"/>"+"<path d=\"M490.3,757.5c21.5,0.7,43-1.1,64.2-5.2l-5-23.3c-18.3,3.8-37,5.3-55.8,4.6c-3,0-5.2-0.4-8.2-0.6l-2.1,24.4 C485.7,757.5,488,757.5,490.3,757.5L490.3,757.5z\"/>";
+  var inner="<path d=\"M690.6,449.6l-21.6,7.2c6,20.7,8,42.4,6,63.8c-1.1,11.9-3.4,23.7-6.9,35.2l21.5,7.6 c4.1-13.2,6.9-26.9,8.2-40.7C700.1,498.1,697.6,473.3,690.6,449.6z\"/>"+"<path d=\"M475.2,698l2.1-22.7c-13.3-2-26.4-5.5-38.9-10.5l-9.4,20.7C443.8,691.5,459.3,695.7,475.2,698z\"/>"+"<path d=\"M631.8,456.2l20.4-6.9c-4.9-12.9-11.4-25.2-19.4-36.6l-17.1,13C622.3,435.2,627.7,445.4,631.8,456.2z\"/>"+"<path d=\"M508.4,345.7h-11.2l1.5,21.4c11.5-0.3,22.9,0.7,34.2,3.2l5.5-20.7c-6.8-1.5-13.6-2.6-20.5-3.2 C514.8,346.1,511.6,345.9,508.4,345.7z\"/>"+"<path d=\"M335.5,403.8l20,11.1c7.5-12.4,16.5-23.7,26.9-33.8l-15.4-17C354.8,375.9,344.2,389.2,335.5,403.8z\"/>"+"<path d=\"M553.8,339.5c13.8,4.2,27.1,10.2,39.4,17.7l12.7-19c-14.4-8.9-30-15.8-46.2-20.7L553.8,339.5z\"/>"+"<path d=\"M635.9,394.5l18.1-13.8c-10.7-13.2-23.2-24.9-36.9-34.8l-12.7,19C616.2,373.4,626.7,383.3,635.9,394.5z\"/>"+"<path d=\"M611.5,584.6l16.8,13.4c8.2-11.2,14.9-23.3,20.1-36.2l-20.2-7.2C623.8,565.2,618.2,575.3,611.5,584.6z\"/>"+"<path d=\"M389.9,635.1l-15.6,16.6c12.8,11.2,26.9,20.7,42.2,28.2l9.4-20.7C412.9,652.8,400.8,644.6,389.9,635.1z\"/>"+"<path d=\"M369.2,520.2c-1-9.7-1.1-19.5-0.2-29.2c0.2-1.7,0.4-3.5,0.6-5.1l-21.1-3.8c-0.3,2.3-0.6,4.6-0.8,6.9 c-1.1,11.5-0.9,23,0.3,34.5L369.2,520.2z\"/>"+"<path d=\"M333.6,538l-22.6,3.5c3.2,16.7,8.6,33,16,48.3l20.2-10.7C340.9,566,336.4,552.2,333.6,538z\"/>"+"<path d=\"M601.7,646.3l12.3,19.2c14-9.6,26.7-21,37.7-33.8l-17.9-14.2C624.4,628.4,613.6,638.1,601.7,646.3z\"/>"+"<path d=\"M348.8,426.9l-19.9-11c-7.8,15.1-13.5,31.2-17,47.8l22.5,4C337.4,453.5,342.2,439.8,348.8,426.9z\"/>"+"<path d=\"M540.6,636.9l5,20.7c13.3-3.8,26.1-9.2,38.1-16.2l-11.6-18.1C562.2,629,551.6,633.6,540.6,636.9z\"/>"+"<path d=\"M384,573.5l-19,9.9c6.9,12,15.4,23,25.1,32.9l14.8-15.7C396.9,592.4,389.9,583.3,384,573.5z\"/>"+"<path d=\"M496.7,677.1c-1.9,0-3.8-0.2-5.7-0.4l-2.1,22.7c17.9,1.3,35.9,0.1,53.4-3.5l-5.3-22.2 C523.8,676.5,510.2,677.6,496.7,677.1z\"/>"+"<path d=\"M377.3,354.9l15.3,16.9c11.1-9.3,23.3-17.1,36.4-23.3l-9-21C404.6,334.7,390.3,343.9,377.3,354.9z\"/>"+"<path d=\"M432.7,322.1l9,21c13.5-5.2,27.6-8.7,42-10.3L482,310C465.1,311.9,448.5,315.9,432.7,322.1z\"/>";
+  return '<svg viewBox="253 252 504 506" fill="none" preserveAspectRatio="xMidYMid meet">'    +'<g fill="'+c1+'">'+outer+'</g>'    +'<g fill="'+c2+'">'+inner+'</g>'    +'</svg>';
+}
+
+function entHoneycomb(){return '<svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1280 660" preserveAspectRatio="xMidYMid slice" fill="none" aria-hidden="true"><defs><clipPath id="hexCity"><polygon points="959.2,150.0 829.3,225.0 829.3,375.0 959.2,450.0 1089.1,375.0 1089.1,225.0"/></clipPath></defs><polygon class="hx" points="-339.8,-300.0 -469.7,-225.0 -469.7,-75.0 -339.8,0.0 -209.9,-75.0 -209.9,-225.0"/><polygon class="hx" points="-80.0,-300.0 -209.9,-225.0 -209.9,-75.0 -80.0,0.0 49.9,-75.0 49.9,-225.0"/><polygon class="hx" points="179.8,-300.0 49.9,-225.0 49.9,-75.0 179.8,0.0 309.7,-75.0 309.7,-225.0"/><polygon class="hx" points="439.6,-300.0 309.7,-225.0 309.7,-75.0 439.6,0.0 569.5,-75.0 569.5,-225.0"/><polygon class="hx" points="699.4,-300.0 569.5,-225.0 569.5,-75.0 699.4,0.0 829.3,-75.0 829.3,-225.0"/><polygon class="hx" points="959.2,-300.0 829.3,-225.0 829.3,-75.0 959.2,0.0 1089.1,-75.0 1089.1,-225.0"/><polygon class="hx" points="1219.0,-300.0 1089.1,-225.0 1089.1,-75.0 1219.0,0.0 1348.9,-75.0 1348.9,-225.0"/><polygon class="hx" points="1478.8,-300.0 1348.9,-225.0 1348.9,-75.0 1478.8,0.0 1608.7,-75.0 1608.7,-225.0"/><polygon class="hx" points="-209.9,-75.0 -339.8,0.0 -339.8,150.0 -209.9,225.0 -80.0,150.0 -80.0,0.0"/><polygon class="hx" points="49.9,-75.0 -80.0,0.0 -80.0,150.0 49.9,225.0 179.8,150.0 179.8,0.0"/><polygon class="hx" points="309.7,-75.0 179.8,0.0 179.8,150.0 309.7,225.0 439.6,150.0 439.6,0.0"/><polygon class="hx" points="569.5,-75.0 439.6,0.0 439.6,150.0 569.5,225.0 699.4,150.0 699.4,0.0"/><polygon class="hx" points="829.3,-75.0 699.4,0.0 699.4,150.0 829.3,225.0 959.2,150.0 959.2,0.0"/><polygon class="hx" points="1089.1,-75.0 959.2,0.0 959.2,150.0 1089.1,225.0 1219.0,150.0 1219.0,0.0"/><polygon class="hx" points="1348.9,-75.0 1219.0,0.0 1219.0,150.0 1348.9,225.0 1478.8,150.0 1478.8,0.0"/><polygon class="hx" points="-339.8,150.0 -469.7,225.0 -469.7,375.0 -339.8,450.0 -209.9,375.0 -209.9,225.0"/><polygon class="hx" points="-80.0,150.0 -209.9,225.0 -209.9,375.0 -80.0,450.0 49.9,375.0 49.9,225.0"/><polygon class="hx" points="179.8,150.0 49.9,225.0 49.9,375.0 179.8,450.0 309.7,375.0 309.7,225.0"/><polygon class="hx" points="439.6,150.0 309.7,225.0 309.7,375.0 439.6,450.0 569.5,375.0 569.5,225.0"/><polygon class="hx" points="699.4,150.0 569.5,225.0 569.5,375.0 699.4,450.0 829.3,375.0 829.3,225.0"/><polygon class="hx primary" points="959.2,150.0 829.3,225.0 829.3,375.0 959.2,450.0 1089.1,375.0 1089.1,225.0"/><polygon class="hx" points="1219.0,150.0 1089.1,225.0 1089.1,375.0 1219.0,450.0 1348.9,375.0 1348.9,225.0"/><polygon class="hx" points="1478.8,150.0 1348.9,225.0 1348.9,375.0 1478.8,450.0 1608.7,375.0 1608.7,225.0"/><polygon class="hx" points="-209.9,375.0 -339.8,450.0 -339.8,600.0 -209.9,675.0 -80.0,600.0 -80.0,450.0"/><polygon class="hx" points="49.9,375.0 -80.0,450.0 -80.0,600.0 49.9,675.0 179.8,600.0 179.8,450.0"/><polygon class="hx" points="309.7,375.0 179.8,450.0 179.8,600.0 309.7,675.0 439.6,600.0 439.6,450.0"/><polygon class="hx" points="569.5,375.0 439.6,450.0 439.6,600.0 569.5,675.0 699.4,600.0 699.4,450.0"/><polygon class="hx" points="829.3,375.0 699.4,450.0 699.4,600.0 829.3,675.0 959.2,600.0 959.2,450.0"/><polygon class="hx" points="1089.1,375.0 959.2,450.0 959.2,600.0 1089.1,675.0 1219.0,600.0 1219.0,450.0"/><polygon class="hx" points="1348.9,375.0 1219.0,450.0 1219.0,600.0 1348.9,675.0 1478.8,600.0 1478.8,450.0"/><polygon class="hx" points="-339.8,600.0 -469.7,675.0 -469.7,825.0 -339.8,900.0 -209.9,825.0 -209.9,675.0"/><polygon class="hx" points="-80.0,600.0 -209.9,675.0 -209.9,825.0 -80.0,900.0 49.9,825.0 49.9,675.0"/><polygon class="hx" points="179.8,600.0 49.9,675.0 49.9,825.0 179.8,900.0 309.7,825.0 309.7,675.0"/><polygon class="hx" points="439.6,600.0 309.7,675.0 309.7,825.0 439.6,900.0 569.5,825.0 569.5,675.0"/><polygon class="hx" points="699.4,600.0 569.5,675.0 569.5,825.0 699.4,900.0 829.3,825.0 829.3,675.0"/><polygon class="hx" points="959.2,600.0 829.3,675.0 829.3,825.0 959.2,900.0 1089.1,825.0 1089.1,675.0"/><polygon class="hx" points="1219.0,600.0 1089.1,675.0 1089.1,825.0 1219.0,900.0 1348.9,825.0 1348.9,675.0"/><polygon class="hx" points="1478.8,600.0 1348.9,675.0 1348.9,825.0 1478.8,900.0 1608.7,825.0 1608.7,675.0"/><image href="assets/photo-city.png" xlink:href="assets/photo-city.png" x="829.3" y="150.0" width="259.8" height="300.0" preserveAspectRatio="xMidYMid slice" clip-path="url(#hexCity)" opacity="0.92"/><polygon class="hx primary" points="959.2,150.0 829.3,225.0 829.3,375.0 959.2,450.0 1089.1,375.0 1089.1,225.0" fill="none"/><circle class="hxdot" cx="959.2" cy="150.0" r="5"/><circle class="hxdot" cx="829.3" cy="225.0" r="5"/><circle class="hxdot" cx="829.3" cy="375.0" r="5"/><circle class="hxdot" cx="959.2" cy="450.0" r="5"/><circle class="hxdot" cx="1089.1" cy="375.0" r="5"/><circle class="hxdot" cx="1089.1" cy="225.0" r="5"/></svg>';}
+
+/* HERO + FINAL CTA — real Blockstream mark (traced from official vector) */
+document.getElementById('heroPortal').innerHTML = bsMark({c1:'#77A4B7', c2:'#AEC1D0'});
+/* Final CTA: slate-blue ring matching the NEW logo + the hero/header mark (v12 #3) */
+document.getElementById('ctaPortal').innerHTML  = bsMark({c1:'#77A4B7', c2:'#AEC1D0'});
+
+/* Both marks rotate ONLY as you scroll — same slow rate, hero + final CTA (#1/#5) */
+(function(){
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const marks=[document.querySelector('#heroPortal svg'), document.querySelector('#ctaPortal svg')].filter(Boolean);
+  if(!marks.length) return;
+  const RATE=0.04; // degrees per pixel scrolled — gentle; identical for both marks
+  let t=false;
+  const apply=()=>{ const tf='rotate('+(window.scrollY*RATE).toFixed(2)+'deg)'; marks.forEach(m=>m.style.transform=tf); t=false; };
+  apply();
+  window.addEventListener('scroll',()=>{if(!t){requestAnimationFrame(apply);t=true;}},{passive:true});
+})();
+
+/* ENTERPRISE — interactive honeycomb (each hex highlights independently on hover) */
+document.getElementById('entHoneycomb').innerHTML = entHoneycomb();
+
+/* APP — particles around the phone (fixed deterministic scatter) */
+(function(){
+  const specs=[
+    /* sizes vary, several notably larger (#3) */
+    [12,18,10,0,5.4],[24,72,4,1,6.8],[8,46,7,0,7.6],[34,30,3,1,5.0],[18,88,6,0,8.2],
+    [44,58,4,0,6.0],[6,64,3,1,7.0],[40,82,12,0,5.6],[30,10,5,1,8.6],[52,40,3,0,6.4],
+    [14,34,4,0,7.2],[48,20,9,1,5.2],[22,54,3,0,8.0],[38,68,5,0,6.6],[10,78,7,1,7.8],
+    [56,66,3,0,5.8],[28,42,13,0,6.2],[46,12,4,1,7.4],[16,60,3,0,8.4],[50,86,6,0,6.0],
+    [66,22,9,0,6.2],[78,40,4,1,7.4],[88,16,3,0,5.6],[72,64,12,0,8.0],[94,52,5,1,6.6],
+    [62,80,3,0,7.0],[84,74,8,0,5.4],[68,46,4,1,8.4],[90,86,5,0,6.0],[60,34,3,1,7.6],
+    [82,58,10,0,6.4],[96,30,3,0,8.2],[74,90,5,1,5.8],[64,12,6,0,7.2]
+  ]; // [left%, top%, size, outlineFlag, durationS]
+  const box=document.getElementById('appParticles');
+  if(!box) return;
+  let html='';
+  specs.forEach((s,i)=>{
+    const cls = '';  /* all particles filled circles, no outlines (#2) */
+    html += '<i class="'+cls+'" style="left:'+s[0]+'%;top:'+s[1]+'%;width:'+s[2]+'px;height:'+s[2]+'px;'
+         +  'opacity:'+(0.28+(i%4)*0.12).toFixed(2)+';'
+         +  'animation:floaty '+s[4]+'s var(--ease) infinite;animation-delay:'+((i%5)*0.5)+'s"></i>';
+  });
+  box.innerHTML=html;
+})();
+
+/* framing squares — each wrapped in its own <g class="sq"> so it can drift independently on scroll (#5) */
+document.getElementById('jadeBlocks').innerHTML=
+ '<svg viewBox="0 0 400 400" fill="none" preserveAspectRatio="xMidYMid meet">'
+ // top-right
+ +'<g class="sq" data-cx="326" data-cy="55" data-m="1.15"><rect x="300" y="44" width="52" height="22" fill="currentColor" transform="rotate(-26 326 55)"/></g>'
+ +'<g class="sq" data-cx="358" data-cy="101" data-m="0.9"><rect x="338" y="92" width="40" height="19" fill="none" stroke="currentColor" stroke-width="4" transform="rotate(-26 358 101)"/></g>'
+ +'<g class="sq" data-cx="301" data-cy="111" data-m="1.28"><rect x="286" y="104" width="30" height="15" fill="currentColor" opacity="0.6" transform="rotate(-26 301 111)"/></g>'
+ +'<g class="sq" data-cx="373" data-cy="158" data-m="1.0"><rect x="356" y="150" width="34" height="16" fill="currentColor" opacity="0.8" transform="rotate(-26 373 158)"/></g>'
+ // bottom-left
+ +'<g class="sq" data-cx="66" data-cy="307" data-m="1.1"><rect x="40" y="296" width="52" height="22" fill="currentColor" transform="rotate(-26 66 307)"/></g>'
+ +'<g class="sq" data-cx="41" data-cy="255" data-m="0.85"><rect x="22" y="246" width="38" height="18" fill="none" stroke="currentColor" stroke-width="4" transform="rotate(-26 41 255)"/></g>'
+ +'<g class="sq" data-cx="101" data-cy="337" data-m="1.22"><rect x="86" y="330" width="30" height="15" fill="currentColor" opacity="0.6" transform="rotate(-26 101 337)"/></g>'
+ +'<g class="sq" data-cx="31" data-cy="338" data-m="0.95"><rect x="14" y="330" width="34" height="16" fill="currentColor" opacity="0.8" transform="rotate(-26 31 338)"/></g>'
+ +'</svg>';
+
+/* header scroll state */
+const hdr=document.getElementById('hdr');
+const onScroll=()=>hdr.classList.toggle('scrolled',window.scrollY>60);
+onScroll();window.addEventListener('scroll',onScroll,{passive:true});
+
+/* mobile nav */
+const btn=document.getElementById('menuBtn'),nav=document.getElementById('nav');
+btn.addEventListener('click',()=>{const o=nav.classList.toggle('open');btn.setAttribute('aria-expanded',o);});
+nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{nav.classList.remove('open');btn.setAttribute('aria-expanded',false);}));
+
+/* reveal */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.15,rootMargin:'0px 0px -8% 0px'});
+document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=((i%3)*70)+'ms';io.observe(el);});
+
+/* chart draws on as it scrolls into view (#6) */
+(function(){
+  const chart=document.querySelector('.statchart'); if(!chart) return;
+  const line=chart.querySelector('.chart-line');
+  if(line){ try{ line.style.setProperty('--len', Math.ceil(line.getTotalLength())); }catch(e){} }
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){ chart.classList.add('in'); return; }
+  const co=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){chart.classList.add('in');co.disconnect();}}),{threshold:.3});
+  co.observe(chart);
+})();
+
+/* Jade framing squares — continuous, independent scroll parallax toward the device (#5).
+   At rest when the section is centered; as you scroll past, each square drifts toward the Jade.
+   Squares farther from the device travel more (faster) than closer ones; travel is small. */
+(function(){
+  const sec=document.querySelector('.spotlight'); if(!sec) return;
+  const squares=[...document.querySelectorAll('#jadeBlocks .sq')];
+  if(!squares.length || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const CX=200, CY=200, K=0.16;  // device center in the 400x400 viewBox; K = travel scale (small)
+  let t=false;
+  const f=()=>{
+    const r=sec.getBoundingClientRect(), vh=window.innerHeight||1;
+    let p=(vh/2-(r.top+r.height/2))/vh;       // 0 when section centered, grows as you scroll past
+    if(p>0.6)p=0.6; if(p<-0.6)p=-0.6;          // clamp so travel stays subtle
+    squares.forEach(g=>{
+      const cx=+g.dataset.cx, cy=+g.dataset.cy, m=+g.dataset.m||1;
+      const tx=(CX-cx)*p*K*m, ty=(CY-cy)*p*K*m; // vector toward device * distance * pace; farther = more
+      g.setAttribute('transform','translate('+tx.toFixed(1)+' '+ty.toFixed(1)+')');
+    });
+    t=false;
+  };
+  f();window.addEventListener('scroll',()=>{if(!t){requestAnimationFrame(f);t=true;}},{passive:true});
+  window.addEventListener('resize',()=>{if(!t){requestAnimationFrame(f);t=true;}},{passive:true});
+})();
+
+/* footer newsletter signup (mock submit) (#11) */
+(function(){
+  const f=document.getElementById('footNews'); if(!f) return;
+  f.addEventListener('submit',e=>{
+    e.preventDefault();
+    const email=document.getElementById('footEmail'), note=document.getElementById('footNewsNote');
+    if(email && email.value && email.checkValidity()){
+      note.textContent='Subscribed. Product news incoming.'; note.classList.add('ok');
+      email.value=''; email.disabled=true;
+    }else{
+      note.textContent='Please enter a valid email address.'; note.classList.remove('ok');
+    }
+  });
+})();
+
+/* marks rotate only on scroll now (see the scroll-spin IIFE after the mark injection) — no constant CSS spin (#1/#5) */
+</script>
+
+<!-- Fig toolbar -->
+<div class="fig-toolbar"><div class="draw-colors" id="drawColors"></div><button class="fig-btn draw-toggle" id="drawToggle" title="Draw — freehand annotation"><svg width="20" height="20" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M227.31,73.37,182.63,28.68a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.31,96a16,16,0,0,0,0-22.63ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.68,147.31,64l24-24L216,84.68Z"/></svg></button><button class="fig-btn comment-toggle" id="commentToggle" title="Comment — design & layout feedback"><svg width="20" height="20" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M128,24A104,104,0,0,0,36.18,176.88L24.83,210.93a16,16,0,0,0,20.24,20.24l34.05-11.35A104,104,0,1,0,128,24Zm0,192a87.87,87.87,0,0,1-44.06-11.81,8,8,0,0,0-6.54-.67L40,216,52.47,178.6a8,8,0,0,0-.66-6.54A88,88,0,1,1,128,216Z"/></svg></button><button class="fig-btn suggest-toggle" id="suggestToggle" title="Suggest — highlight text & flag inaccuracies"><svg width="20" height="20" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M253.66,106.34a8,8,0,0,0-11.32,0L192,156.69,107.31,72l50.35-50.34a8,8,0,1,0-11.32-11.32L96,60.69A16,16,0,0,0,93.18,79.5L72,100.69a16,16,0,0,0,0,22.62L76.69,128,18.34,186.34a8,8,0,0,0,3.13,13.25l72,24A7.88,7.88,0,0,0,96,224a8,8,0,0,0,5.66-2.34L136,187.31l4.69,4.69a16,16,0,0,0,22.62,0l21.19-21.18A16,16,0,0,0,203.31,168l50.35-50.34A8,8,0,0,0,253.66,106.34ZM93.84,206.85l-55-18.35L88,139.31,124.69,176ZM152,180.69,83.31,112,104,91.31,172.69,160Z"/></svg></button><span class="fig-divider"></span><button class="fig-btn clear-all-btn" id="clearAllComments" title="Delete all comments"><svg width="20" height="20" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"/></svg></button><button class="fig-btn help-btn" id="figHelp" title="How to use these tools"><svg width="20" height="20" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M140,180a12,12,0,1,1-12-12A12,12,0,0,1,140,180ZM128,72c-22.06,0-40,16.15-40,36v4a8,8,0,0,0,16,0v-4c0-11,10.77-20,24-20s24,9,24,20-10.77,20-24,20a8,8,0,0,0-8,8v8a8,8,0,0,0,16,0v-.72c18.24-3.35,32-17.9,32-35.28C168,88.15,150.06,72,128,72Zm104,56A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"/></svg></button></div>
+<script>
+function __initFig(){
+(function() {
+  // Ensure body is the positioning context for absolute pins/popovers
+  document.body.style.position = 'relative';
+
+  const API = '/api/comments';
+  const STROKES_API = '/api/strokes';
+  const VERSION = document.body.dataset.figVersion || 'default';
+  let commentMode = false;
+  let suggestMode = false;
+  let comments = [];
+  let openPopover = null;
+  let dragState = null;
+
+  const STATUS_LABELS = {
+    open: 'Open', diagnosed: 'Diagnosed', approved: 'Approved',
+    rejected: 'Rejected', applied: 'Applied'
+  };
+
+  // ══════════════════════════════════════════════
+  //  Sync layer — eventual consistency
+  //  Comments are saved locally first, then synced to API.
+  //  Failed syncs go to a retry queue and flush on every load + every 30s.
+  //  IDs are client-generated so POSTs are idempotent (no duplicates on retry).
+  // ══════════════════════════════════════════════
+  var LS_CACHE = 'fig-cache-' + VERSION;        // local snapshot of all comments
+  var LS_QUEUE_POST = 'fig-queue-post-' + VERSION;     // pending creates/replies
+  var LS_QUEUE_PATCH = 'fig-queue-patch-' + VERSION;   // pending edits/moves
+  var LS_QUEUE_DELETE = 'fig-queue-delete-' + VERSION; // pending deletes
+
+  function lsGet(key) {
+    try { return JSON.parse(localStorage.getItem(key) || '[]'); } catch { return []; }
+  }
+  function lsSet(key, val) {
+    try { localStorage.setItem(key, JSON.stringify(val)); } catch {}
+  }
+  function backupToLocal() { lsSet(LS_CACHE, comments); }
+  function restoreFromLocal() { return lsGet(LS_CACHE); }
+
+  function genId() {
+    return Date.now().toString(36) + Math.random().toString(36).slice(2, 9);
+  }
+
+  function queueAdd(key, item) {
+    var q = lsGet(key);
+    var existing = q.findIndex(function(x) { return x.id === item.id; });
+    if (existing >= 0) q[existing] = item;
+    else q.push(item);
+    lsSet(key, q);
+  }
+  function queueRemove(key, id) {
+    var q = lsGet(key).filter(function(x) { return x.id !== id; });
+    lsSet(key, q);
+  }
+
+  function mergeById(a, b) {
+    var map = new Map();
+    [a, b].forEach(function(list) {
+      list.forEach(function(item) {
+        var existing = map.get(item.id);
+        // Prefer the version with more replies, or newer timestamp
+        if (!existing) {
+          map.set(item.id, item);
+        } else {
+          var aReplies = (existing.replies || []).length;
+          var bReplies = (item.replies || []).length;
+          if (bReplies > aReplies) map.set(item.id, item);
+          else if (bReplies === aReplies && (item.timestamp || 0) > (existing.timestamp || 0)) {
+            map.set(item.id, item);
+          }
+        }
+      });
+    });
+    return Array.from(map.values()).sort(function(a, b) {
+      return (a.timestamp || 0) - (b.timestamp || 0);
+    });
+  }
+
+  // Sync individual operations (idempotent on the server)
+  async function syncPost(comment) {
+    try {
+      var res = await fetch(API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(Object.assign({}, comment, { version: VERSION }))
+      });
+      if (res.ok) {
+        queueRemove(LS_QUEUE_POST, comment.id);
+        return true;
+      }
+    } catch (err) { /* network failure — stays in queue */ }
+    return false;
+  }
+  async function syncPatch(patch) {
+    try {
+      var res = await fetch(API, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(Object.assign({}, patch, { version: VERSION }))
+      });
+      if (res.ok) {
+        queueRemove(LS_QUEUE_PATCH, patch.id);
+        return true;
+      }
+    } catch (err) {}
+    return false;
+  }
+  async function syncDelete(id) {
+    try {
+      var res = await fetch(apiDelete(id), { method: 'DELETE' });
+      if (res.ok || res.status === 404) {
+        queueRemove(LS_QUEUE_DELETE, id);
+        return true;
+      }
+    } catch (err) {}
+    return false;
+  }
+
+  async function flushQueues() {
+    var posts = lsGet(LS_QUEUE_POST);
+    for (var i = 0; i < posts.length; i++) await syncPost(posts[i]);
+    var patches = lsGet(LS_QUEUE_PATCH);
+    for (var j = 0; j < patches.length; j++) await syncPatch(patches[j]);
+    var deletes = lsGet(LS_QUEUE_DELETE);
+    for (var k = 0; k < deletes.length; k++) await syncDelete(deletes[k].id);
+  }
+
+  // Background flush every 30s
+  setInterval(flushQueues, 30000);
+  // Flush when network comes back
+  window.addEventListener('online', flushQueues);
+  // Flush before unload (best-effort)
+  window.addEventListener('beforeunload', function() { flushQueues(); });
+
+  // ══════════════════════════════════════════════
+  //  Draw state
+  // ══════════════════════════════════════════════
+  let drawMode = false;
+  let drawing = false;
+  let currentStroke = [];
+  let strokes = [];
+  let drawColor = '#FF1493';
+  let drawWidth = 3;
+  let canvas, ctx;
+
+  const DRAW_COLORS = [
+    { color: '#FF1493', label: 'Hot Pink' },
+    { color: '#FF4444', label: 'Red' },
+    { color: '#4488FF', label: 'Blue' },
+    { color: '#44DD66', label: 'Green' },
+    { color: '#FFD700', label: 'Yellow' },
+    { color: '#FFFFFF', label: 'White' },
+  ];
+
+  const DRAW_SIZES = [
+    { width: 2, dot: 4 },
+    { width: 4, dot: 8 },
+    { width: 8, dot: 12 },
+  ];
+
+  // ── API helpers ──
+  function apiGet() {
+    return API + '?v=' + encodeURIComponent(VERSION);
+  }
+  function apiDelete(id) {
+    return API + '?v=' + encodeURIComponent(VERSION) + '&id=' + encodeURIComponent(id);
+  }
+  function apiClearAll() {
+    return API + '?v=' + encodeURIComponent(VERSION) + '&all=true';
+  }
+  function strokesGet() {
+    return STROKES_API + '?v=' + encodeURIComponent(VERSION);
+  }
+  function strokesDelete(id) {
+    return STROKES_API + '?v=' + encodeURIComponent(VERSION) + '&id=' + encodeURIComponent(id);
+  }
+  function strokesClearAll() {
+    return STROKES_API + '?v=' + encodeURIComponent(VERSION) + '&all=true';
+  }
+
+  // ── Coordinate helpers ──
+  function pageToPercent(pageX, pageY) {
+    // Use clientWidth/Height (body's padding box) to match what CSS % renders against.
+    // scrollWidth/Height can be much larger than visible area on pages using
+    // `margin: 0 -9999px` tricks for full-bleed sections — that throws pins ~99% left.
+    return {
+      x: (pageX / document.body.clientWidth) * 100,
+      y: (pageY / document.body.clientHeight) * 100
+    };
+  }
+
+  // ── Context capture (what the comment is pointing at) ──
+  function captureContext(pageX, pageY) {
+    var clientX = pageX - window.scrollX;
+    var clientY = pageY - window.scrollY;
+    var el = document.elementFromPoint(clientX, clientY);
+    if (!el) return {};
+
+    var ctx = {};
+
+    // Before/after column detection
+    var card = el.closest('.before-card, .after-card');
+    if (card) {
+      ctx.column = card.classList.contains('before-card') ? 'before' : 'after';
+    }
+
+    // Fig section label
+    var section = el.closest('.article-section');
+    if (section) {
+      var label = section.querySelector('.article-section-label');
+      if (label) ctx.section = label.textContent.trim().slice(0, 200);
+    }
+
+    // Nearest heading — walk backwards through DOM
+    var heading = findNearestHeading(el);
+    if (heading) ctx.heading = heading.textContent.trim().slice(0, 150);
+
+    // Nearby text snippet from the element under the cursor
+    var text = el.innerText || el.textContent || '';
+    text = text.trim();
+    if (text.length > 200) {
+      // Try to find a more specific child
+      for (var i = 0; i < el.children.length; i++) {
+        var ct = (el.children[i].innerText || '').trim();
+        if (ct.length > 0 && ct.length <= 200) { text = ct; break; }
+      }
+    }
+    if (text) ctx.nearbyText = text.slice(0, 200);
+
+    return ctx;
+  }
+
+  function findNearestHeading(el) {
+    var hTags = { H1:1, H2:1, H3:1, H4:1, H5:1, H6:1 };
+    var current = el;
+    while (current && current !== document.body) {
+      if (hTags[current.tagName]) return current;
+      var prev = current.previousElementSibling;
+      while (prev) {
+        if (hTags[prev.tagName]) return prev;
+        var nested = prev.querySelectorAll('h1,h2,h3,h4,h5,h6');
+        if (nested.length) return nested[nested.length - 1];
+        prev = prev.previousElementSibling;
+      }
+      current = current.parentElement;
+    }
+    return null;
+  }
+
+  // ── Author management ──
+  function getAuthor() {
+    return localStorage.getItem('fig-comment-author') || '';
+  }
+  function setAuthor(name) {
+    localStorage.setItem('fig-comment-author', name);
+  }
+
+  function promptAuthor() {
+    return new Promise(resolve => {
+      const existing = getAuthor();
+      if (existing) return resolve(existing);
+
+      const overlay = document.createElement('div');
+      overlay.className = 'author-overlay';
+      overlay.innerHTML = `
+        <div class="author-dialog">
+          <h3>Your name for comments</h3>
+          <input type="text" id="authorInput" placeholder="e.g. Brady" maxlength="50" autofocus>
+          <button id="authorSubmit">Continue</button>
+        </div>`;
+      document.body.appendChild(overlay);
+
+      const input = document.getElementById('authorInput');
+      const submit = document.getElementById('authorSubmit');
+
+      function done() {
+        const name = input.value.trim() || 'Anonymous';
+        setAuthor(name);
+        overlay.remove();
+        resolve(name);
+      }
+      submit.addEventListener('click', done);
+      input.addEventListener('keydown', e => { if (e.key === 'Enter') done(); });
+      input.focus();
+    });
+  }
+
+  // ══════════════════════════════════════════════
+  //  Toggle modes (mutually exclusive)
+  // ══════════════════════════════════════════════
+  const commentToggle = document.getElementById('commentToggle');
+  const suggestToggle = document.getElementById('suggestToggle');
+  const drawToggle = document.getElementById('drawToggle');
+  const drawColors = document.getElementById('drawColors');
+  const clearAllBtn = document.getElementById('clearAllComments');
+
+  if (clearAllBtn) {
+    clearAllBtn.addEventListener('click', clearAllComments);
+  }
+
+  function deactivateComment() {
+    commentMode = false;
+    commentToggle.classList.remove('active');
+    document.body.classList.remove('comment-mode');
+  }
+  function deactivateSuggest() {
+    suggestMode = false;
+    if (suggestToggle) suggestToggle.classList.remove('active');
+    document.body.classList.remove('suggest-mode');
+  }
+
+  commentToggle.addEventListener('click', () => {
+    if (drawMode) deactivateDraw();
+    if (suggestMode) deactivateSuggest();
+
+    commentMode = !commentMode;
+    commentToggle.classList.toggle('active', commentMode);
+    document.body.classList.toggle('comment-mode', commentMode);
+    closeAllPopovers();
+  });
+
+  if (suggestToggle) suggestToggle.addEventListener('click', () => {
+    if (drawMode) deactivateDraw();
+    if (commentMode) { deactivateComment(); closeAllPopovers(); }
+
+    suggestMode = !suggestMode;
+    suggestToggle.classList.toggle('active', suggestMode);
+    document.body.classList.toggle('suggest-mode', suggestMode);
+    closeAllPopovers();
+  });
+
+  drawToggle.addEventListener('click', () => {
+    if (commentMode) { deactivateComment(); closeAllPopovers(); }
+    if (suggestMode) { deactivateSuggest(); closeAllPopovers(); }
+
+    drawMode = !drawMode;
+    drawToggle.classList.toggle('active', drawMode);
+    document.body.classList.toggle('draw-mode', drawMode);
+    drawColors.classList.toggle('visible', drawMode);
+  });
+
+  function deactivateDraw() {
+    drawMode = false;
+    drawToggle.classList.remove('active');
+    document.body.classList.remove('draw-mode');
+    drawColors.classList.remove('visible');
+  }
+
+  // ── Close helpers ──
+  function closeAllPopovers() {
+    document.querySelectorAll('.comment-popover, .comment-detail').forEach(el => el.remove());
+    openPopover = null;
+  }
+
+  // ══════════════════════════════════════════════
+  //  Comment system
+  // ══════════════════════════════════════════════
+
+  // ── Place comment on click ──
+  document.addEventListener('click', async (e) => {
+    if (!commentMode) return;
+    // A popover button (Edit / Approve / Reject) may have rebuilt the popover via
+    // innerHTML mid-dispatch, detaching e.target. A detached node's closest() returns
+    // null, which would wrongly pass the exclusion below and drop a STRAY new comment
+    // (reported 2026-06-17: clicking "Edit" opened a new comment box). Mirror the
+    // close-popover handler's guard and bail when the target is no longer in the DOM.
+    if (!e.target.isConnected) return;
+    if (e.target.closest('.fig-toolbar, .comment-popover, .comment-detail, .comment-pin, .author-overlay')) return;
+
+    closeAllPopovers();
+
+    const { x: xPct, y: yPct } = pageToPercent(e.pageX, e.pageY);
+    const commentContext = captureContext(e.pageX, e.pageY);
+    const author = await promptAuthor();
+
+    const popover = document.createElement('div');
+    popover.className = 'comment-popover';
+    popover.style.left = xPct + '%';
+    popover.style.top = yPct + '%';
+    popover.innerHTML = `
+      <textarea class="comment-popover-input" rows="3" placeholder="Leave a comment..." autofocus></textarea>
+      <div class="comment-popover-hint">Press Enter to save &middot; Esc to cancel</div>`;
+    document.body.appendChild(popover);
+
+    const textarea = popover.querySelector('textarea');
+    textarea.focus();
+
+    textarea.addEventListener('keydown', async (ev) => {
+      if (ev.key === 'Escape') {
+        popover.remove();
+        return;
+      }
+      if (ev.key === 'Enter' && !ev.shiftKey) {
+        ev.preventDefault();
+        const text = textarea.value.trim();
+        if (!text) { popover.remove(); return; }
+
+        // Client-generated ID — POST is idempotent so safe to retry
+        var comment = {
+          id: genId(),
+          x: xPct, y: yPct, text: text, author: author,
+          timestamp: Date.now(), context: commentContext
+        };
+
+        // 1. Show locally immediately (optimistic UI)
+        comments.push(comment);
+        backupToLocal();
+        renderPin(comment, comments.length);
+        popover.remove();
+
+        // 2. Add to retry queue (in case the POST fails)
+        queueAdd(LS_QUEUE_POST, comment);
+
+        // 3. Try to sync now (queue removes on success)
+        syncPost(comment);
+      }
+    });
+  });
+
+  // ══════════════════════════════════════════════
+  //  Suggest mode — text-anchored accuracy feedback
+  //  Reviewer drag-selects text → highlight + anchored note with a status
+  //  (open → diagnosed → approved → applied). Anchors use a text-quote
+  //  selector (quote + prefix/suffix) so they re-locate on reload.
+  // ══════════════════════════════════════════════
+  function getContentRoot() { return document.querySelector('main') || document.body; }
+
+  function buildTextIndex() {
+    var nodes = [], text = '';
+    var tw = document.createTreeWalker(getContentRoot(), NodeFilter.SHOW_TEXT, {
+      acceptNode: function(n) {
+        if (!n.nodeValue) return NodeFilter.FILTER_REJECT;
+        if (n.parentElement && n.parentElement.closest(
+          '.fig-toolbar,.comment-detail,.comment-popover,.comment-pin,.author-overlay,script,style'))
+          return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var n; while ((n = tw.nextNode())) { nodes.push({ node: n, start: text.length }); text += n.nodeValue; }
+    return { nodes: nodes, text: text };
+  }
+
+  function rangeFromOffsets(idx, start, end) {
+    var sNode, sOff, eNode, eOff;
+    for (var i = 0; i < idx.nodes.length; i++) {
+      var e = idx.nodes[i], nEnd = e.start + e.node.nodeValue.length;
+      if (sNode == null && start < nEnd) { sNode = e.node; sOff = start - e.start; }
+      if (sNode != null && end <= nEnd) { eNode = e.node; eOff = end - e.start; break; }
+    }
+    if (!sNode || !eNode) return null;
+    var r = document.createRange();
+    try { r.setStart(sNode, Math.max(0, sOff)); r.setEnd(eNode, Math.max(0, eOff)); } catch (e) { return null; }
+    return r;
+  }
+
+  function anchorFromRange(range) {
+    var idx = buildTextIndex();
+    function offsetOf(node, off) {
+      for (var i = 0; i < idx.nodes.length; i++) if (idx.nodes[i].node === node) return idx.nodes[i].start + off;
+      return -1;
+    }
+    var s = offsetOf(range.startContainer, range.startOffset);
+    var e = offsetOf(range.endContainer, range.endOffset);
+    if (s < 0 || e < 0 || e <= s) return { quote: range.toString().trim(), prefix: '', suffix: '' };
+    return { quote: idx.text.slice(s, e), prefix: idx.text.slice(Math.max(0, s - 40), s), suffix: idx.text.slice(e, e + 40) };
+  }
+
+  function locate(anchor) {
+    if (!anchor || !anchor.quote) return null;
+    var idx = buildTextIndex();
+    var needle = (anchor.prefix || '') + anchor.quote + (anchor.suffix || ''), qs;
+    var pos = idx.text.indexOf(needle);
+    if (pos >= 0) { qs = pos + (anchor.prefix || '').length; }
+    else { pos = idx.text.indexOf(anchor.quote); if (pos < 0) return null; qs = pos; }
+    return rangeFromOffsets(idx, qs, qs + anchor.quote.length);
+  }
+
+  function wrapRange(range, id, status) {
+    var marks = [], root = range.commonAncestorContainer;
+    if (root.nodeType === 3) root = root.parentNode;
+    var tw = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode: function(n) {
+        return (n.nodeValue && n.nodeValue.length && range.intersectsNode(n))
+          ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+      }
+    });
+    var list = [], n; while ((n = tw.nextNode())) list.push(n);
+    list.forEach(function(node) {
+      var s = node === range.startContainer ? range.startOffset : 0;
+      var e = node === range.endContainer ? range.endOffset : node.nodeValue.length;
+      if (s >= e) return;
+      var mid = s > 0 ? node.splitText(s) : node;
+      if (e - s < mid.nodeValue.length) mid.splitText(e - s);
+      var mark = document.createElement('mark');
+      mark.className = 'fig-suggest'; mark.dataset.commentId = id; mark.dataset.status = status || 'open';
+      mid.parentNode.insertBefore(mark, mid); mark.appendChild(mid);
+      marks.push(mark);
+    });
+    return marks;
+  }
+
+  function unwrapSuggestion(id) {
+    document.querySelectorAll('mark.fig-suggest[data-comment-id="' + id + '"]').forEach(function(m) {
+      var p = m.parentNode; while (m.firstChild) p.insertBefore(m.firstChild, m); p.removeChild(m); p.normalize();
+    });
+  }
+
+  function setStatus(comment, status) {
+    comment.status = status; backupToLocal();
+    var patch = { id: comment.id, status: status };
+    queueAdd(LS_QUEUE_PATCH, patch); syncPatch(patch);
+    document.querySelectorAll('mark.fig-suggest[data-comment-id="' + comment.id + '"]')
+      .forEach(function(m) { m.dataset.status = status; });
+  }
+
+  function renderSuggestion(comment) {
+    var range = comment.anchor ? locate(comment.anchor) : null;
+    if (range) {
+      var marks = wrapRange(range, comment.id, comment.status || 'open');
+      marks.forEach(function(m) {
+        m.addEventListener('click', function(ev) {
+          if (suggestMode || drawMode) return;
+          ev.stopPropagation(); showDetail(comment, m);
+        });
+      });
+      if (marks.length) { comment._anchored = true; return; }
+    }
+    // Orphaned (text changed / not found): keep it visible as a pin so feedback isn't lost.
+    comment._orphan = true;
+    renderPin(comment, comments.indexOf(comment) + 1);
+  }
+
+  // Capture a text selection in suggest mode and open the anchored composer.
+  document.addEventListener('mouseup', async function(e) {
+    if (!suggestMode) return;
+    if (e.target.closest && e.target.closest('.fig-toolbar,.comment-popover,.comment-detail,.author-overlay')) return;
+    var sel = window.getSelection();
+    if (!sel || sel.isCollapsed || !sel.rangeCount) return;
+    var range = sel.getRangeAt(0);
+    if (range.collapsed || !range.toString().trim()) return;
+    if (!getContentRoot().contains(range.commonAncestorContainer)) return;
+
+    var anchor = anchorFromRange(range);
+    var rect = range.getBoundingClientRect();
+    var pct = pageToPercent(rect.right + window.scrollX, rect.top + window.scrollY);
+    var author = await promptAuthor();
+
+    closeAllPopovers();
+    var pop = document.createElement('div');
+    pop.className = 'comment-popover suggest-popover';
+    pop.style.left = pct.x + '%'; pop.style.top = pct.y + '%';
+    pop.innerHTML =
+      '<div class="suggest-quote">“' + escapeHtml(anchor.quote.slice(0, 180)) + '”</div>' +
+      '<textarea class="comment-popover-input" rows="3" placeholder="What is inaccurate or needs changing?"></textarea>' +
+      '<div class="comment-popover-hint">Enter to save · Esc to cancel</div>';
+    document.body.appendChild(pop);
+    var ta = pop.querySelector('textarea'); ta.focus();
+    ta.addEventListener('keydown', function(ev) {
+      if (ev.key === 'Escape') { pop.remove(); return; }
+      if (ev.key === 'Enter' && !ev.shiftKey) {
+        ev.preventDefault();
+        var text = ta.value.trim(); if (!text) { pop.remove(); return; }
+        var comment = {
+          id: genId(), kind: 'suggest', status: 'open',
+          x: pct.x, y: pct.y, text: text, author: author,
+          anchor: anchor, timestamp: Date.now()
+        };
+        comments.push(comment); backupToLocal();
+        if (sel) sel.removeAllRanges();
+        renderSuggestion(comment);
+        pop.remove();
+        queueAdd(LS_QUEUE_POST, comment); syncPost(comment);
+      }
+    });
+  });
+
+  // ── Render pins ──
+  function renderPin(comment, index) {
+    const pin = document.createElement('div');
+    pin.className = 'comment-pin';
+    pin.dataset.commentId = comment.id;
+    pin.style.left = comment.x + '%';
+    pin.style.top = comment.y + '%';
+    pin.textContent = index;
+
+    // ── Drag handling ──
+    pin.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      closeAllPopovers();
+      dragState = {
+        pin,
+        comment,
+        startX: e.pageX,
+        startY: e.pageY,
+        moved: false
+      };
+      pin.classList.add('dragging');
+    });
+
+    pin.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+
+    document.body.appendChild(pin);
+  }
+
+  // ── Global drag listeners ──
+  document.addEventListener('mousemove', (e) => {
+    if (!dragState) return;
+    const dx = e.pageX - dragState.startX;
+    const dy = e.pageY - dragState.startY;
+    if (!dragState.moved && Math.abs(dx) + Math.abs(dy) > 4) {
+      dragState.moved = true;
+    }
+    if (dragState.moved) {
+      const { x, y } = pageToPercent(e.pageX, e.pageY);
+      dragState.pin.style.left = x + '%';
+      dragState.pin.style.top = y + '%';
+    }
+  });
+
+  document.addEventListener('mouseup', async (e) => {
+    if (!dragState) return;
+    const { pin, comment, moved } = dragState;
+    pin.classList.remove('dragging');
+
+    if (moved) {
+      const { x, y } = pageToPercent(e.pageX, e.pageY);
+      comment.x = x;
+      comment.y = y;
+      pin.style.left = x + '%';
+      pin.style.top = y + '%';
+
+      backupToLocal();
+      var patch = { id: comment.id, x: x, y: y };
+      queueAdd(LS_QUEUE_PATCH, patch);
+      syncPatch(patch);
+    } else {
+      showDetail(comment, pin);
+    }
+
+    dragState = null;
+  });
+
+  // ── Show comment detail popover ──
+  function showDetail(comment, pin) {
+    closeAllPopovers();
+
+    const detail = document.createElement('div');
+    detail.className = 'comment-detail';
+    // Anchor the popover to the clicked element (the suggestion highlight or the
+    // pin) so it opens next to the text, not at the stored fallback coords. Stored
+    // x/y are only the orphan fallback (seeded suggestions, or text that moved).
+    if (pin && typeof pin.getBoundingClientRect === 'function' && pin.isConnected) {
+      var pr = pin.getBoundingClientRect();
+      var pp = pageToPercent(pr.left + window.scrollX, pr.bottom + window.scrollY);
+      detail.style.left = pp.x + '%';
+      detail.style.top = pp.y + '%';
+    } else {
+      detail.style.left = comment.x + '%';
+      detail.style.top = comment.y + '%';
+    }
+
+    const date = new Date(comment.timestamp);
+    const timeStr = date.toLocaleDateString('en-US', {
+      month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit'
+    });
+
+    // Build replies HTML
+    let repliesHtml = '';
+    if (comment.replies && comment.replies.length) {
+      repliesHtml = '<div style="margin-top:10px;border-top:1px solid #333;padding-top:8px;">';
+      comment.replies.forEach(r => {
+        const rd = new Date(r.timestamp);
+        const rt = rd.toLocaleDateString('en-US', { month:'short', day:'numeric', hour:'numeric', minute:'2-digit' });
+        repliesHtml += `<div style="margin-bottom:8px;display:flex;justify-content:space-between;align-items:start;gap:8px;"><div><div style="color:#e0e0e0;font-size:13px;line-height:1.4;">${escapeHtml(r.text)}</div><div style="font-size:10px;color:#666;margin-top:2px;"><strong style="color:#999;">${escapeHtml(r.author)}</strong> · ${rt}</div></div><button class="reply-delete-btn" data-reply-id="${r.id}" style="background:none;border:none;color:#555;font-size:14px;cursor:pointer;padding:0 2px;line-height:1;flex-shrink:0;" title="Delete reply">&times;</button></div>`;
+      });
+      repliesHtml += '</div>';
+    }
+
+    let suggestHtml = '';
+    if (comment.kind === 'suggest') {
+      const st = comment.status || 'open';
+      suggestHtml = `
+        <div class="suggest-detail-quote">&ldquo;${escapeHtml(((comment.anchor && comment.anchor.quote) || '').slice(0, 180))}&rdquo;</div>
+        <div class="suggest-status-row">
+          <span class="suggest-status-badge st-${st}">${STATUS_LABELS[st] || st}</span>
+          ${comment._orphan ? '<span class="suggest-orphan" title="The underlying text changed; this feedback could not be re-anchored.">&#9888; text moved</span>' : ''}
+        </div>
+        ${comment.diagnosis ? `<div class="suggest-diagnosis"><div class="suggest-diagnosis-label">Proposed change</div>${escapeHtml(comment.diagnosis)}</div>` : ''}
+        ${st === 'diagnosed' ? `<div class="suggest-approve-row"><button class="suggest-approve" data-id="${comment.id}">&#10003; Approve</button><button class="suggest-reject" data-id="${comment.id}">&#10005; Reject</button></div>` : ''}`;
+    }
+
+    detail.innerHTML = `
+      ${suggestHtml}
+      <div class="comment-detail-text">${escapeHtml(comment.text)}</div>
+      <div class="comment-detail-meta"><strong>${escapeHtml(comment.author)}</strong> &middot; ${timeStr}</div>
+      ${repliesHtml}
+      <div style="margin-top:8px;">
+        <textarea class="comment-popover-input" rows="1" placeholder="Reply..." style="font-size:12px;padding:6px 8px;"></textarea>
+      </div>
+      <div class="comment-detail-actions">
+        <button class="comment-detail-edit" data-id="${comment.id}">Edit</button>
+        <button class="comment-detail-delete" data-id="${comment.id}">Delete</button>
+      </div>`;
+    document.body.appendChild(detail);
+    openPopover = detail;
+
+    // ── Suggest status: Approve / Reject ──
+    const apprBtn = detail.querySelector('.suggest-approve');
+    if (apprBtn) apprBtn.addEventListener('click', () => {
+      setStatus(comment, 'approved'); detail.remove(); openPopover = null; showDetail(comment, pin);
+    });
+    const rejBtn = detail.querySelector('.suggest-reject');
+    if (rejBtn) rejBtn.addEventListener('click', () => {
+      setStatus(comment, 'rejected'); detail.remove(); openPopover = null; showDetail(comment, pin);
+    });
+
+    // ── Reply handler ──
+    const replyInput = detail.querySelector('.comment-popover-input');
+    replyInput.addEventListener('click', (e) => e.stopPropagation());
+    replyInput.addEventListener('keydown', async (ev) => {
+      if (ev.key === 'Enter' && !ev.shiftKey) {
+        ev.preventDefault();
+        const replyText = replyInput.value.trim();
+        if (!replyText) return;
+        const author = getAuthor() || 'Anonymous';
+        try {
+          const res = await fetch(API, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text: replyText, author, parentId: comment.id, version: VERSION })
+          });
+          if (!res.ok) throw new Error('Reply failed');
+          const reply = await res.json();
+          if (!comment.replies) comment.replies = [];
+          comment.replies.push(reply);
+          detail.remove();
+          openPopover = null;
+          showDetail(comment, pin);
+        } catch (err) {
+          replyInput.style.borderColor = '#e06060';
+          console.error('Failed to save reply:', err);
+        }
+      }
+    });
+
+    // ── Reply delete handlers ──
+    detail.querySelectorAll('.reply-delete-btn').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const replyId = btn.dataset.replyId;
+        try {
+          await fetch(apiDelete(replyId), { method: 'DELETE' });
+          if (comment.replies) comment.replies = comment.replies.filter(r => r.id !== replyId);
+          detail.remove();
+          openPopover = null;
+          showDetail(comment, pin);
+        } catch (err) {
+          console.error('Failed to delete reply:', err);
+        }
+      });
+    });
+
+    // ── Edit handler ──
+    detail.querySelector('.comment-detail-edit').addEventListener('click', () => {
+      const textEl = detail.querySelector('.comment-detail-text');
+      const actionsEl = detail.querySelector('.comment-detail-actions');
+      const metaEl = detail.querySelector('.comment-detail-meta');
+
+      const textarea = document.createElement('textarea');
+      textarea.className = 'comment-edit-input';
+      textarea.rows = 3;
+      textarea.value = comment.text;
+      textEl.replaceWith(textarea);
+      textarea.focus();
+      textarea.setSelectionRange(textarea.value.length, textarea.value.length);
+
+      actionsEl.innerHTML = `
+        <button class="comment-edit-save">Save</button>
+        <button class="comment-edit-cancel">Cancel</button>`;
+      metaEl.style.display = 'none';
+
+      async function saveEdit() {
+        const newText = textarea.value.trim();
+        if (!newText) return;
+        comment.text = newText;
+        backupToLocal();
+        var patch = { id: comment.id, text: newText };
+        queueAdd(LS_QUEUE_PATCH, patch);
+        syncPatch(patch);
+        detail.remove();
+        openPopover = null;
+        showDetail(comment, pin);
+      }
+
+      function cancelEdit() {
+        detail.remove();
+        openPopover = null;
+        showDetail(comment, pin);
+      }
+
+      actionsEl.querySelector('.comment-edit-save').addEventListener('click', saveEdit);
+      actionsEl.querySelector('.comment-edit-cancel').addEventListener('click', cancelEdit);
+      textarea.addEventListener('keydown', (ev) => {
+        if (ev.key === 'Enter' && !ev.shiftKey) { ev.preventDefault(); saveEdit(); }
+        if (ev.key === 'Escape') { ev.preventDefault(); cancelEdit(); }
+      });
+    });
+
+    // ── Delete handler ──
+    detail.querySelector('.comment-detail-delete').addEventListener('click', async () => {
+      // Optimistic delete + queue
+      queueAdd(LS_QUEUE_DELETE, { id: comment.id });
+      // Also remove from POST queue if it was never synced
+      queueRemove(LS_QUEUE_POST, comment.id);
+      queueRemove(LS_QUEUE_PATCH, comment.id);
+      syncDelete(comment.id);
+      comments = comments.filter(c => c.id !== comment.id);
+      backupToLocal();
+      if (comment.kind === 'suggest') { unwrapSuggestion(comment.id); if (pin && pin.classList && pin.classList.contains('comment-pin')) pin.remove(); }
+      else if (pin) pin.remove();
+      detail.remove();
+      renumberPins();
+    });
+  }
+
+  function renumberPins() {
+    const pins = document.querySelectorAll('.comment-pin');
+    pins.forEach((pin, i) => { pin.textContent = i + 1; });
+  }
+
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  // ── Close popover on outside click ──
+  document.addEventListener('click', (e) => {
+    if (!openPopover) return;
+    // If the clicked element was detached mid-handler (Edit/Approve/Reply rebuild
+    // the popover's buttons via innerHTML, removing e.target), closest() returns
+    // null and would falsely read as an outside click. Skip detached targets so
+    // the popover doesn't vanish when its own buttons are used.
+    if (!e.target.isConnected) return;
+    if (!e.target.closest('.comment-detail, .comment-pin, mark.fig-suggest, .comment-popover')) {
+      closeAllPopovers();
+    }
+  });
+
+  // ── Close on Escape ──
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeAllPopovers();
+      if (drawMode) deactivateDraw();
+      if (commentMode) deactivateComment();
+      if (suggestMode) deactivateSuggest();
+    }
+  });
+
+  // ══════════════════════════════════════════════
+  //  Draw system
+  // ══════════════════════════════════════════════
+
+  function initCanvas() {
+    canvas = document.createElement('canvas');
+    canvas.className = 'fig-draw-canvas';
+    canvas.width = document.body.scrollWidth;
+    canvas.height = document.body.scrollHeight;
+    canvas.style.width = document.body.scrollWidth + 'px';
+    canvas.style.height = document.body.scrollHeight + 'px';
+    document.body.appendChild(canvas);
+    ctx = canvas.getContext('2d');
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+
+    // Resize canvas when page dimensions change
+    const ro = new ResizeObserver(() => {
+      const w = document.body.scrollWidth;
+      const h = document.body.scrollHeight;
+      if (canvas.width !== w || canvas.height !== h) {
+        canvas.width = w;
+        canvas.height = h;
+        canvas.style.width = w + 'px';
+        canvas.style.height = h + 'px';
+        redrawAll();
+      }
+    });
+    ro.observe(document.body);
+  }
+
+  function percentToPixel(xPct, yPct) {
+    return {
+      x: (xPct / 100) * canvas.width,
+      y: (yPct / 100) * canvas.height
+    };
+  }
+
+  function pixelToPercent(px, py) {
+    return {
+      x: (px / canvas.width) * 100,
+      y: (py / canvas.height) * 100
+    };
+  }
+
+  function drawStrokePath(points, color, width) {
+    if (points.length < 2) return;
+    ctx.beginPath();
+    ctx.strokeStyle = color;
+    ctx.lineWidth = width;
+    const start = percentToPixel(points[0].x, points[0].y);
+    ctx.moveTo(start.x, start.y);
+    for (let i = 1; i < points.length; i++) {
+      const pt = percentToPixel(points[i].x, points[i].y);
+      ctx.lineTo(pt.x, pt.y);
+    }
+    ctx.stroke();
+  }
+
+  function redrawAll() {
+    if (!ctx) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    strokes.forEach(s => drawStrokePath(s.points, s.color, s.width));
+  }
+
+  // ── Canvas mouse events ──
+  function onCanvasDown(e) {
+    if (!drawMode) return;
+    if (e.target !== canvas) return;
+    e.preventDefault();
+    drawing = true;
+    const rect = canvas.getBoundingClientRect();
+    const px = e.clientX - rect.left + window.scrollX * 0;
+    const py = e.clientY - rect.top + window.scrollY * 0;
+    // Use pageX/pageY relative to canvas position (which is at 0,0 of body)
+    const pt = pixelToPercent(e.pageX, e.pageY);
+    currentStroke = [pt];
+    ctx.beginPath();
+    ctx.strokeStyle = drawColor;
+    ctx.lineWidth = drawWidth;
+    const pixel = percentToPixel(pt.x, pt.y);
+    ctx.moveTo(pixel.x, pixel.y);
+  }
+
+  function onCanvasMove(e) {
+    if (!drawing) return;
+    e.preventDefault();
+    const pt = pixelToPercent(e.pageX, e.pageY);
+    currentStroke.push(pt);
+    const pixel = percentToPixel(pt.x, pt.y);
+    ctx.lineTo(pixel.x, pixel.y);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(pixel.x, pixel.y);
+  }
+
+  async function onCanvasUp(e) {
+    if (!drawing) return;
+    drawing = false;
+    if (currentStroke.length < 2) return;
+
+    const author = getAuthor() || 'Anonymous';
+    const stroke = {
+      points: currentStroke,
+      color: drawColor,
+      width: drawWidth,
+      author
+    };
+
+    // Save to server
+    try {
+      const res = await fetch(STROKES_API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...stroke, version: VERSION })
+      });
+      if (res.ok) {
+        const saved = await res.json();
+        strokes.push(saved);
+      }
+    } catch (err) {
+      console.error('Failed to save stroke:', err);
+    }
+
+    currentStroke = [];
+  }
+
+  // ── Color picker ──
+  function initColorPicker() {
+    const picker = document.getElementById('drawColors');
+
+    DRAW_COLORS.forEach(({ color, label }) => {
+      const btn = document.createElement('button');
+      btn.className = 'draw-color-btn' + (color === drawColor ? ' active' : '');
+      btn.style.background = color;
+      btn.title = label;
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        drawColor = color;
+        picker.querySelectorAll('.draw-color-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+      picker.appendChild(btn);
+    });
+
+    // Size buttons separator
+    const sep = document.createElement('div');
+    sep.style.cssText = 'width:1px;height:20px;background:#444;flex-shrink:0;';
+    picker.appendChild(sep);
+
+    // Size buttons
+    DRAW_SIZES.forEach(({ width, dot }, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'draw-size-btn' + (i === 0 ? ' active' : '');
+      btn.title = width + 'px';
+      const dotEl = document.createElement('div');
+      dotEl.className = 'draw-size-dot';
+      dotEl.style.width = dot + 'px';
+      dotEl.style.height = dot + 'px';
+      btn.appendChild(dotEl);
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        drawWidth = width;
+        picker.querySelectorAll('.draw-size-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+      picker.appendChild(btn);
+    });
+
+    // Separator before clear
+    const sep2 = document.createElement('div');
+    sep2.style.cssText = 'width:1px;height:20px;background:#444;flex-shrink:0;';
+    picker.appendChild(sep2);
+
+    // Clear all button
+    const clearBtn = document.createElement('button');
+    clearBtn.className = 'draw-clear-btn';
+    clearBtn.textContent = 'Clear';
+    clearBtn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      try {
+        await fetch(strokesClearAll(), { method: 'DELETE' });
+        strokes = [];
+        redrawAll();
+      } catch (err) {
+        console.error('Failed to clear strokes:', err);
+      }
+    });
+    picker.appendChild(clearBtn);
+  }
+
+  // ── Load strokes on page load ──
+  async function loadStrokes() {
+    try {
+      const res = await fetch(strokesGet());
+      if (!res.ok) return;
+      strokes = await res.json();
+      redrawAll();
+    } catch (err) {
+      console.error('Failed to load strokes:', err);
+    }
+  }
+
+  // ── Load comments on page load ──
+  // Strategy: GET from API, MERGE with local cache + pending queue.
+  // Never destructively replace — comments only get added to the union.
+  async function loadComments() {
+    var apiComments = [];
+    try {
+      var res = await fetch(apiGet());
+      if (res.ok) apiComments = await res.json();
+    } catch (err) {
+      console.error('Failed to load comments from API:', err);
+    }
+
+    var localCache = restoreFromLocal();
+    var pendingPosts = lsGet(LS_QUEUE_POST);
+    var pendingDeletes = lsGet(LS_QUEUE_DELETE);
+
+    // Merge API + local cache + pending posts (by id, idempotent)
+    var merged = mergeById(apiComments, localCache);
+    merged = mergeById(merged, pendingPosts);
+
+    // Filter out anything in the delete queue
+    var deleteSet = new Set(pendingDeletes.map(function(d) { return d.id; }));
+    merged = merged.filter(function(c) { return !deleteSet.has(c.id); });
+
+    comments = merged;
+    backupToLocal();
+    comments.forEach(function(c, i) {
+      if (c.kind === 'suggest') renderSuggestion(c);
+      else renderPin(c, i + 1);
+    });
+
+    // Flush any pending operations to the API now that we're loaded
+    flushQueues();
+  }
+
+  // ── Delete all comments (with confirmation) ──
+  async function clearAllComments() {
+    var count = comments.length;
+    if (count === 0) {
+      alert('No comments to delete.');
+      return;
+    }
+    var confirmed = confirm('Delete all ' + count + ' comment' + (count === 1 ? '' : 's') + '?\n\nThis cannot be undone.');
+    if (!confirmed) return;
+
+    // Clear locally first
+    document.querySelectorAll('.comment-pin').forEach(function(p) { p.remove(); });
+    document.querySelectorAll('mark.fig-suggest').forEach(function(m) {
+      var par = m.parentNode; while (m.firstChild) par.insertBefore(m.firstChild, m); par.removeChild(m); par.normalize();
+    });
+    closeAllPopovers();
+    comments = [];
+    backupToLocal();
+    lsSet(LS_QUEUE_POST, []);
+    lsSet(LS_QUEUE_PATCH, []);
+    lsSet(LS_QUEUE_DELETE, []);
+
+    // Then sync to server
+    try {
+      await fetch(apiClearAll(), { method: 'DELETE' });
+    } catch (err) {
+      console.warn('Server clear-all failed:', err);
+    }
+  }
+
+  // ══════════════════════════════════════════════
+  //  First-visit onboarding (Loqumen-styled card)
+  // ══════════════════════════════════════════════
+  function initOnboarding() {
+    if (!document.getElementById('fig-font')) {
+      var l = document.createElement('link');
+      l.id = 'fig-font'; l.rel = 'stylesheet';
+      l.href = 'https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap';
+      document.head.appendChild(l);
+    }
+    var pop = document.createElement('div');
+    pop.className = 'fig-onboard'; pop.id = 'figOnboard';
+    pop.innerHTML =
+      '<div class="fig-onboard-head"><h3>How to leave feedback</h3>' +
+      '<button class="fig-onboard-x" id="figOnboardX" aria-label="Close">&times;</button></div>' +
+      '<p class="fig-onboard-sub">Use the tools in the bottom-right corner of the page.</p>' +
+      '<div class="fig-onboard-rows"></div>' +
+      '<button class="fig-onboard-done" id="figOnboardDone">Got it</button>';
+    document.body.appendChild(pop);
+
+    var rows = pop.querySelector('.fig-onboard-rows');
+    function addRow(btnId, name, desc) {
+      var btn = document.getElementById(btnId);
+      var svg = btn ? btn.querySelector('svg') : null;
+      var row = document.createElement('div'); row.className = 'fig-onboard-row';
+      var ico = document.createElement('span'); ico.className = 'fig-onboard-icon';
+      if (svg) ico.appendChild(svg.cloneNode(true));
+      var txt = document.createElement('div'); txt.className = 'fig-onboard-text';
+      txt.innerHTML = '<span class="fig-onboard-name">' + name + '</span>' +
+                      '<span class="fig-onboard-desc">' + desc + '</span>';
+      row.appendChild(ico); row.appendChild(txt); rows.appendChild(row);
+    }
+    addRow('drawToggle',       'Draw',    'Sketch freehand anywhere on the page.');
+    addRow('commentToggle',    'Comment', 'Pin design or layout feedback to a spot.');
+    addRow('suggestToggle',    'Suggest', 'Select text to flag an inaccuracy or propose a change.');
+    addRow('clearAllComments', 'Clear',   'Remove every comment on this page.');
+
+    function hide() { pop.classList.remove('visible'); localStorage.setItem('fig-onboarded', '1'); }
+    pop.querySelector('#figOnboardX').addEventListener('click', hide);
+    pop.querySelector('#figOnboardDone').addEventListener('click', hide);
+    var help = document.getElementById('figHelp');
+    if (help) help.addEventListener('click', function() { pop.classList.add('visible'); });
+    if (localStorage.getItem('fig-onboarded') !== '1') {
+      setTimeout(function() { pop.classList.add('visible'); }, 450);
+    }
+  }
+
+  // ── Init ──
+  initCanvas();
+  initColorPicker();
+  initOnboarding();
+
+  document.addEventListener('mousedown', onCanvasDown);
+  document.addEventListener('mousemove', onCanvasMove);
+  document.addEventListener('mouseup', onCanvasUp);
+
+  loadComments();
+  loadStrokes();
+})();
+
+}
+if (document.readyState === "complete") __initFig();
+else window.addEventListener("load", __initFig);
+</script>
+<script>addEventListener("click",function(e){var a=e.target.closest&&e.target.closest('a[href^="#"]');if(a){var id=a.getAttribute("href");if(id.length>1){var t=document.querySelector(id);if(t){e.preventDefault();t.scrollIntoView({behavior:"smooth"});}}}},true);</script></body>
+</html>
