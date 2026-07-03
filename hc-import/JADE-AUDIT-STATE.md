@@ -35,6 +35,15 @@ Per-article JUDGMENT, not blind live-mirroring:
 ## DONE (committed)
 - connect-jade (df81f2b + earlier) — 6 app iPhone + 1 Jade, matches live. [Pages build was hanging]
 - Cat A (5c1687d): receive-bitcoin, send-bitcoin, perform-a-genuine-check — app screenshots framed, per-step, verified.
+- Cat B (ff56567): use-jade-as-a-stateless-signing-device — 8 transparent Jade screens, 2 sub-procedures.
+- Cat B (fabb450): access-jade-plus-air-gapped-with-seedqr — 5 transparent Jade screens.
+- Polish small (374ec93): migrate, supported-air-gapped-functionality-via-qr, -via-jadelink, dice — inline GCS -> transparent framed.
+- TOTAL DONE: 10 articles. DEFAULTS in use (Brady "continue"): polish transparent; keep top-right fingerprint (don't use outdated bottom-right live imgs); desktop screenshots kept RAW on white (don't transparent-ize); keep-better on already-good polished composites; 3rd-party mobile -> iPhone bezel.
+- REMAINING notable: air-gapped-setup(11 imgs incl SeedQR-grid composite), qr-pin-unlock(4 jade+3 QR-scan photos), fingerprint articles (verify-recovery, bip39 — need current top-right source from Main User Flows, and change text lower/bottom->top right), desktop-screenshot articles (electrum, sparrow, quickstart-desktop, add-jade-plus, send-airgap-qr — keep desktop raw), third-party (nunchuk/specter/bluewallet/honey-badger/sparrow-qr — big), SeedQR-grid articles (create-seedqr, seedqr-vs-qrpin, calculate, wallet-erase-pin — grids don't transparent-ize well, keep on white or handle). Already-good/keep: bip85(my fixed 429-7547), duress, factory-reset, wallet-id, send-airgap-qr(471-27/28).
+
+## NEXT (resume here)
+Continue Cat B clean pure-Jade-landscape articles (polished transparent imgs already in /tmp/polished/): bip39(5), bip85(4), access-seedqr(5), add-jade-plus-airgap(4+1), verify-receive-addr(3+1), send-airgap-qr(done? 5), duress(3), calculate(4 SeedQR-grid), wallet-erase-pin(6 SeedQR-grid), air-gapped-setup(11), qr-pin-unlock(4jade+3 photos). For each: verify polished imgs (spot-check non-1400x500 for transparent-ize damage per PITFALL), copy to _staging, restructure HTML to live section/step order, verify, commit. verify-recovery: use CURRENT top-right-fingerprint Jade screen (live img outdated) — may need Main User Flows source. Then Cat D third-party (frame portraits iPhone), then Cat F judge keep/remove.
+NOTE: /tmp/polished landscape imgs are transparent-ized; RE-VERIFY any that were full-bg screenshots (desktop app etc.) were not damaged before using.
 
 ## REMAINING (apply the principle)
 - **enable-swaps** — live has pre-composed app+Jade PAIR images (3000x2416) + 2 app portraits. Special handling.
