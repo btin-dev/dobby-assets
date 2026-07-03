@@ -38,7 +38,23 @@ Per-article JUDGMENT, not blind live-mirroring:
 - Cat B (ff56567): use-jade-as-a-stateless-signing-device — 8 transparent Jade screens, 2 sub-procedures.
 - Cat B (fabb450): access-jade-plus-air-gapped-with-seedqr — 5 transparent Jade screens.
 - Polish small (374ec93): migrate, supported-air-gapped-functionality-via-qr, -via-jadelink, dice — inline GCS -> transparent framed.
-- TOTAL DONE: 10 articles. DEFAULTS in use (Brady "continue"): polish transparent; keep top-right fingerprint (don't use outdated bottom-right live imgs); desktop screenshots kept RAW on white (don't transparent-ize); keep-better on already-good polished composites; 3rd-party mobile -> iPhone bezel.
+- (9f8549c) air-gapped-jade-plus-setup — 11 Jade screens, render-verified.
+- (8dcb151) verify-receive-addresses — 3 Jade transparent + 1 Sparrow desktop RAW (desktop-as-rectangle default applied).
+- (8e0039d) access-jade-air-gapped-with-qr-pin-unlock — 7 screens.
+- (b5a5704) jade-overview — added Uninitialized + Active status screens.
+- TOTAL BUILT: 14 articles.
+
+## RESOLUTION MAP (as of 14 built)
+KEEP-AS-IS verdicts (no build; already correct/good or type-exception):
+- Cat F (mockup adds Jade-screen value over TEXT-ONLY live -> KEEP): restore-recovery-phrase, use-jade-as-a-2fa, disable-bluetooth, fix-issues-pairing-bluetooth, which-xpub-export.
+- Already-good polished composites (keep-better): bip85 (my Options-header fix 429-7547 is BETTER than live's outdated Wallet header), enable-a-duress-pin, perform-a-factory-reset, what-is-the-wallet-id, add-jade-plus-to-an-air-gap-supported-app, send-air-gapped-bitcoin-transactions-via-qr (471-27/28 good).
+- Type-exception (already show correct images inline matching live; grids/desktop/diagrams/icons can't/shouldn't be bezel-framed -> KEEP raw): create-a-seedqr (SeedQR grids), calculate-the-final-word (grids), how-do-i-set-up-a-wallet-erase-pin (grids), use-jade-with-electrum (desktop), use-jade-with-sparrow (desktop), blockstream-jade-quickstart-guide-for-desktop (desktop), how-does-jade-protect...blind-oracle (diagram), what-is-a-seedqr (diagram), blockstream-jade-vs-blockstream-app (diagrams), best-platforms (icons), use-jade-as-a-bitcoin-miner (grid+desktop).
+
+## GENUINE REMAINING BUILDS (mixed: polish Jade parts transparent, keep desktop/photo raw; or fingerprint/3rd-party)
+- perform-an-air-gapped-firmware-upgrade (Jade parts + photo), send-air-gapped-bitcoin-transactions-via-jadelink (JadeLink+Jade), back-up-a-multisig-configuration-on-jade (Jade + diagram), set-up-a-personal-blind-oracle-with-umbrel (Jade + Umbrel photos).
+- FINGERPRINT (need current top-right source from Main User Flows + text lower/bottom->top right): add-a-bip39-passphrase-for-jade; verify-your-recovery-phrase (mockup keep but under-imaged — decide).
+- THIRD-PARTY (iPhone-frame mobile screenshots, desktop raw): use-jade-plus-qr-scan-with-nunchuk, use-jade-with-nunchuk-honey-badger-wallet, use-jade-plus-qr-scan-with-bluewallet, use-jade-plus-qr-scan-with-specter, use-jade-qr-scan-with-sparrow.
+- QUICKSTART mixed (mobile app + Jade + SeedQR): blockstream-jade-quickstart-guide-for-ios, -android. DEFAULTS in use (Brady "continue"): polish transparent; keep top-right fingerprint (don't use outdated bottom-right live imgs); desktop screenshots kept RAW on white (don't transparent-ize); keep-better on already-good polished composites; 3rd-party mobile -> iPhone bezel.
 - REMAINING notable: air-gapped-setup(11 imgs incl SeedQR-grid composite), qr-pin-unlock(4 jade+3 QR-scan photos), fingerprint articles (verify-recovery, bip39 — need current top-right source from Main User Flows, and change text lower/bottom->top right), desktop-screenshot articles (electrum, sparrow, quickstart-desktop, add-jade-plus, send-airgap-qr — keep desktop raw), third-party (nunchuk/specter/bluewallet/honey-badger/sparrow-qr — big), SeedQR-grid articles (create-seedqr, seedqr-vs-qrpin, calculate, wallet-erase-pin — grids don't transparent-ize well, keep on white or handle). Already-good/keep: bip85(my fixed 429-7547), duress, factory-reset, wallet-id, send-airgap-qr(471-27/28).
 
 ## NEXT (resume here)
