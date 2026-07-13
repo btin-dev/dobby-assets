@@ -1,5 +1,16 @@
 # Jade Mockup ↔ Live Audit — Execution State (resume doc)
 
+## ✅ AUDIT COMPLETE (2026-07-13)
+All 47 Jade articles verified 1-by-1 against live. Every genuinely-broken item fixed.
+FINAL SCOPE DECISION (Brady, 2026-07-13): third-party app articles SHIP AS-IS matching live.
+The live site does NOT put third-party mobile screenshots in iPhone bezels — it shows raw
+2-up composites with soft shadows. Framing them would DIVERGE from live, so we do not.
+(connect-jade framing was correct because those were Blockstream app screens with no live
+equivalent; third-party articles already embed the exact live CDN images inline → match.)
+Nothing further to build. Deploy live at commit f20db1c, Pages build `built`.
+See "Session close-out" at bottom for the full done-list.
+
+
 Working file: `hc-full-mockup.html` (repo btin-dev/dobby-assets, GitHub Pages).
 Live articles: `help.blockstream.com/blockstream-jade/<section>/<slug>`.
 
