@@ -95,3 +95,27 @@ Portraits needing iPhone framing (from /tmp/portraits/list.json): only 5 (enable
 ## FLAGS for Brady (report at end)
 1. verify-your-recovery-phrase: live shows 8-char fingerprint BOTTOM-right (matches live text "bottom right"). Earlier this session Dobby changed the mockup text to "top right" per Brady — that edit may have been WRONG (the top-right F6B624 is the wallet ID on a different screen). NEEDS Brady's call: revert to "bottom right"?
 2. Cat F verdicts (keep/remove) — pending per-article judgment.
+
+## LIVE CRAFT PUBLISH — Set Up/Transact/Recover section (2026-07-13)
+Craft entry IDs (site=help, section helpCenterProductsStructure, source UID f0618608-a1cf-4ec4-9ce6-f7e7d6798504):
+- jade-overview 198 | set-up-jade 522 | download-a-companion-app-for-jade 340 | connect-jade-to-a-companion-app 662
+- perform-a-genuine-check-with-jade 1090 | receive-bitcoin-using-jade 786 | send-bitcoin-using-jade 859
+- set-up-watch-only-access-for-jade 1164 | verify-your-recovery-phrase 976 | restore-recovery-phrase-to-jade 1040
+- migrate-to-jade-from-another-hardware-wallet 1144 | update-jade-firmware 436
+
+PUBLISH METHOD (proven): navigate entry → read live CKEditor getData() (source of truth) → surgical DOM edit (remove old <img>/<figure>, insert grouped composite <figure class="image"><img src="https://btin-dev.github.io/dobby-assets/hc-import/_staging/NAME.png?v=N"> at image-before-step anchors, preserving ALL live text + Craft entry-ref links) → editor.setData + updateSourceElement → FormData(form) with draftId/provisional deleted, action=elements/save → Craft.sendActionRequest POST → reload entry, verify canonical (!draftId && elementId===canonicalId) + new refs present + no dxp-staging → curl bare public URL (~60s ISR propagation).
+
+PUBLISHED (all 9 image articles, canonical+public verified):
+- connect-jade 662: 7 individual → 3 grouped (connectjade-appgroup-1, connectjade-3, connectjade-appgroup-2)
+- receive 786: 5 → rcv-appgroup-1, rcv-4, rcv-solo-5
+- send 859: 5 → snd-appgroup-1, snd-5 (+ fixed duplicate step "4."→"5.")
+- genuine-check 1090: 3 → gc-appgroup-1 (inside the Note blockquote wrapper)
+- jade-overview 198: kept hardware diagram (still dxp-staging 41927032727193, loads OK publicly), upgraded 2 status screens → jov-2, jov-3
+- set-up-jade 522: 6 → 468-3 (steps1-3), 468-4 (steps4-5)
+- restore 1040: was image-less → added 471-9 (step1), 471-10 (step3)
+- migrate 1144: 1 → mig-1 (+ fixed 4x "seed phrase"→"recovery phrase")
+- verify-your-recovery-phrase 976: 6 → verify-1 (steps1-3), verify-2 (steps4-6). REBUILT from the live article's 5 actual screens (01-05) since the old mockup 471-6/471-7 dropped select-length + select-connection and had wrong word-entry screens. CAVEAT: verify screens show fingerprint bottom-right (older firmware) — flagged to Brady, he approved publishing anyway.
+
+TEXT-ONLY (no live images, nothing to publish): download-companion 340, watch-only 1164, update-firmware 436.
+
+KEY LEARNINGS: (a) surgical image-swap preserving live text+links is the safe pattern (mockup text was byte-identical to live for the app-flow articles). (b) Jade-DEVICE-screen articles: VERIFY the mockup composites contain ALL live screens before replacing (set-up-jade's 468-3/468-4 covered all 6; verify's 471-6/471-7 dropped 2 → had to rebuild). (c) elements/save canonical path never silently failed here; every reload verified canonical=true. (d) CDN edges serve stale transiently — a single "MISS" on public poll isn't a real failure; check the actual served image srcs.
