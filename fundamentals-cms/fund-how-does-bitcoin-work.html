@@ -1,0 +1,283 @@
+<p class="tldr">
+<strong>TL;DR:</strong> Bitcoin is a peer-to-peer monetary system where thousands of independent computers enforce the same rules to agree on who owns what, without any central authority. Transactions are signed with private keys, broadcast to the network, and bundled into blocks by miners who expend energy (proof-of-work) to secure the chain. A fixed supply schedule, difficulty adjustment, and decentralized consensus make the system both predictable and resistant to manipulation.
+</p>
+<p>
+<strong>Bitcoin</strong> is a decentralized payment network and monetary system that uses cryptographic signatures to prove ownership, proof-of-work mining to order transactions into blocks, and a distributed network of nodes to enforce consensus rules without requiring trust in any single party. Every participant can independently verify every transaction and every block, making Bitcoin the first monetary system where "don't trust, verify" is a technical reality, not just a slogan.
+</p>
+<h2>The Big Picture</h2>
+<p>Every traditional payment system relies on a central authority to maintain the ledger. When you send money through a bank, the bank updates its internal database: your balance goes down, the recipient's balance goes up. You trust the bank to do this honestly, to not reverse transactions arbitrarily, and to not create money out of thin air. That trust is the single point of failure.</p>
+<p>Bitcoin eliminates that single point of failure by distributing the ledger across thousands of independent computers (called nodes) around the world. Each node stores a complete copy of every transaction ever made. Each node independently validates every new transaction against the same set of rules. No single entity controls the ledger, and no single entity can change the rules.</p>
+<p>The result is a system where:</p>
+<ul>
+<li><strong>Ownership is proven cryptographically.</strong> Your <a href="https://help.blockstream.com/education/wallets/security-and-storage/what-is-a-private-key-and-how-do-i-store-it">private key</a> proves you control your bitcoin. No bank or institution needs to vouch for you.</li>
+<li><strong>Transactions become practically irreversible.</strong> Once confirmed in a block and buried under additional blocks, a transaction cannot be undone without redoing enormous amounts of computational work.</li>
+<li><strong>Supply is fixed and auditable.</strong> Every node enforces the 21 million bitcoin cap. Anyone can verify the total supply at any time.</li>
+<li><strong>The rules apply equally to everyone.</strong> Whether you're moving 0.001 bitcoin or 10,000 bitcoin, the network applies the same validation rules.</li>
+</ul>
+<p>Understanding Bitcoin means understanding how these properties emerge from the interaction of several interlocking systems: transactions, the <a href="https://help.blockstream.com/education/glossary/utxo-set">UTXO</a> model, blocks, mining, nodes, and consensus rules. Each piece depends on the others. None works alone.</p>
+
+<h2>Transactions: From Send to Confirmed</h2>
+<p>A Bitcoin transaction is a signed data structure that transfers ownership of bitcoin from one set of addresses to another. Every bitcoin transfer, from a two-dollar coffee purchase to a billion-dollar institutional settlement, follows the same process.</p>
+<h3>Step 1: Constructing the Transaction</h3>
+<p>A transaction has three core components:</p>
+<ul>
+<li><strong>Inputs:</strong> References to bitcoin you previously received. Each input points to the specific output of a prior transaction that sent you bitcoin. These are your "source of funds".</li>
+<li><strong>Outputs:</strong> The destinations. Each output specifies a Bitcoin address and an amount. A transaction can have multiple outputs (for example, one to the recipient and one back to yourself as change).</li>
+<li><strong>Amounts:</strong> The sum of inputs must be greater than or equal to the sum of outputs. All values are denominated in satoshis, where one bitcoin equals 100,000,000 satoshis (the <code>COIN</code> constant in <a href="https://help.blockstream.com/education/nodes/set-up-and-optimization/what-is-bitcoin-core">Bitcoin Core</a>'s <a href="https://github.com/bitcoin/bitcoin/blob/master/src/consensus/amount.h"><code>src/consensus/amount.h</code></a>). The difference between inputs and outputs becomes the transaction fee, which goes to the miner who includes the transaction in a block.</li>
+</ul>
+<p>Your wallet software handles this construction automatically. It selects which inputs to spend, calculates the appropriate fee, creates a change output if needed, and formats the transaction according to the Bitcoin protocol.</p>
+<h3>Step 2: Signing With Your Private Key</h3>
+<p>Before a transaction can be broadcast, you must prove that you control the bitcoin being spent. This is done through a digital signature created with your private key.</p>
+<p>The private key is a 256-bit number. From it, your wallet derives a public key (using elliptic curve multiplication, a one-way mathematical function). From the public key, it derives your Bitcoin address. Anyone can send bitcoin to your address, but only the holder of the corresponding private key can spend it.</p>
+<p>When you sign a transaction, your wallet uses your private key to produce a signature that anyone can verify against your public key. This proves two things: that you hold the private key, and that the transaction data has not been tampered with since signing. The private key itself is never revealed. Bitcoin uses two signature schemes: ECDSA (used by legacy and SegWit outputs) and Schnorr (BIP 340, activated with Taproot in November 2021 and used by Taproot outputs).</p>
+<p>This is why securing your private key is the single most important responsibility in Bitcoin. Whoever controls the private key controls the bitcoin, with no exceptions and no customer support to call. A hardware wallet like the <a href="https://store.blockstream.com/products/jade-plus">Jade Plus</a> stores your private keys on a dedicated signing device that keeps them isolated from internet-connected computers, and can operate fully air-gapped via QR code signing.</p>
+<h3>Step 3: Broadcasting to the Network</h3>
+<p>Your wallet sends the signed transaction to one or more Bitcoin nodes it's connected to. Those nodes validate the transaction (checking the signature, confirming the inputs haven't already been spent, verifying the amounts balance) and, if valid, relay it to their peers. Within seconds, the transaction propagates across the global network.</p>
+<h3>Step 4: The Mempool</h3>
+<p>Before being included in a block, the transaction sits in the <strong><a href="https://help.blockstream.com/education/glossary/mempool">mempool</a></strong> (memory pool), a holding area that each node maintains for unconfirmed transactions. The transaction remains in the mempool until a miner picks it up and includes it in a block. More on the mempool below.</p>
+<h3>Step 5: Inclusion in a Block</h3>
+<p>A miner selects transactions from their mempool (typically prioritizing those with higher fees per byte of data), bundles them into a candidate block, and begins the <a href="https://help.blockstream.com/education/glossary/proof-of-work">proof-of-work</a> process. Once the miner finds a block header hash that falls below the network's target, the block is broadcast to the network.</p>
+<h3>Step 6: Confirmation</h3>
+<p>When the network accepts the block containing your transaction, the transaction is considered confirmed with one confirmation. Each subsequent block added on top adds another confirmation. Most wallets and services consider a transaction final after six confirmations (roughly 60 minutes), though even one confirmation provides strong assurance for typical transactions.</p>
+<h3>Under the Hood: How Nodes Validate Transactions</h3>
+<p>When a node receives a transaction, it does not simply check that the math adds up. It executes a scripting system embedded in every transaction. Each input contains a <code>scriptSig</code> (or witness data, post-<a href="https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki">SegWit</a>) that provides proof of authorization. Each referenced output contains a <code>scriptPubKey</code> that defines the conditions for spending. The node runs the scriptSig against the scriptPubKey in a stack-based virtual machine. If execution succeeds (the stack evaluates to true), the spend is authorized. If it fails, the transaction is rejected.</p>
+<p>For a standard Pay-to-Public-Key-Hash (P2PKH) transaction, the scriptPubKey says: "Provide a public key that hashes to this address, and a valid signature from that key." The scriptSig provides exactly that. For more advanced transaction types (multisig, time-locks, hash-locks), the scripts encode more complex spending conditions, all evaluated by the same deterministic engine.</p>
+<p>This script-based model is what makes Bitcoin programmable at the base layer without requiring a general-purpose virtual machine. Every node on the network executes the same scripts and arrives at the same result, with no ambiguity. The scripting language is intentionally limited (no loops, no unbounded computation) to ensure that validation is fast and predictable.</p>
+
+<h2>The UTXO Model</h2>
+<p>Most people think of money in terms of account balances. Your bank account says $5,000. Ethereum works this way too: each address has a balance, and a transaction subtracts from one balance and adds to another.</p>
+<p>Bitcoin does not track account balances. It tracks <strong>Unspent Transaction Outputs</strong>, or UTXOs.</p>
+<h3>What Is a UTXO?</h3>
+<p>Every time you receive bitcoin, the transaction creates an output assigned to your address. That output sits on the <a href="https://help.blockstream.com/education/glossary/blockchain">blockchain</a>, unspent, until you use it as an input in a future transaction. Each unspent output is a UTXO.</p>
+<p>Think of UTXOs like physical bills. If you have a $20 bill and a $10 bill, you don't have "a balance of $30." You have two discrete items worth $20 and $10. If you want to pay someone $25, you hand over both bills ($30 total) and receive $5 in change. The original $20 and $10 bills are destroyed (spent), and two new items are created: a $25 payment and a $5 change bill.</p>
+<p>Bitcoin works the same way. If you have a 0.5 BTC UTXO and a 0.3 BTC UTXO, and you want to send someone 0.6 bitcoin, your wallet consumes both UTXOs as inputs (0.8 BTC total) and creates two new outputs: 0.6 BTC to the recipient and roughly 0.2 BTC back to yourself as change (minus the transaction fee).</p>
+<h3>Why UTXOs Instead of Account Balances?</h3>
+<p>The UTXO model provides several advantages over an account-based model:</p>
+<ul>
+<li><strong>Parallel validation.</strong> Each UTXO is independent. Nodes can validate transactions spending different UTXOs simultaneously without worrying about ordering conflicts. In an account model, transactions from the same account must be processed sequentially to prevent double-counting.</li>
+<li><strong>Privacy.</strong> Because each transaction can create new outputs at new addresses, tracing the flow of funds is more complex than in an account model where all activity links to a single address. Wallet software typically generates a new address for each transaction.</li>
+<li><strong>Simple double-spend detection.</strong> A UTXO either exists (unspent) or it doesn't (spent). There's no ambiguous state. If a transaction tries to spend a UTXO that's already been consumed, every node rejects it immediately.</li>
+<li><strong>Auditability.</strong> The entire UTXO set represents the current state of Bitcoin ownership. Nodes maintain this set and can verify it against the blockchain at any time.</li>
+</ul>
+<h3>The UTXO Set</h3>
+<p>The complete collection of all unspent outputs at any given moment is called the UTXO set. As of early 2026, the UTXO set contains on the order of 170 to 180 million entries. Every full node maintains this set in memory for fast transaction validation. When a new transaction arrives, the node checks: do the referenced inputs exist in the UTXO set? If yes, the transaction is potentially valid. If no, it's rejected.</p>
+
+<h2>Blocks and the Blockchain</h2>
+<p>Individual transactions are not written directly to the permanent ledger. They are grouped into blocks, and blocks are chained together in sequence to form the blockchain.</p>
+<h3>What a Block Contains</h3>
+<p>Every Bitcoin block has two parts: a header and a body.</p>
+<p>The <strong>block header</strong> (80 bytes) contains:</p>
+<table>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>Version</td>
+<td>The block format version, signaling which protocol rules apply.</td>
+</tr>
+<tr>
+<td>Previous block hash</td>
+<td>A double-SHA-256 hash of the previous block's header. This is the link that chains blocks together.</td>
+</tr>
+<tr>
+<td>Merkle root</td>
+<td>A single hash that summarizes every transaction in the block. Built by hashing pairs of transactions together repeatedly until one hash remains. If any transaction in the block were changed, the Merkle root would change, invalidating the block.</td>
+</tr>
+<tr>
+<td>Timestamp</td>
+<td>When the miner began working on the block (approximate, with a two-hour tolerance window).</td>
+</tr>
+<tr>
+<td>Difficulty target</td>
+<td>The threshold that the block hash must fall below for the block to be valid.</td>
+</tr>
+<tr>
+<td>Nonce</td>
+<td>A 32-bit number miners vary while searching for a valid hash. It is one of several fields miners adjust during proof-of-work (along with the coinbase extra nonce and timestamp).</td>
+</tr>
+</table>
+<p>The <strong>block body</strong> contains the transactions themselves. A block can hold a maximum of 4 million weight units (4 MWU), defined as <code>MAX_BLOCK_WEIGHT</code> in Bitcoin Core's <a href="https://github.com/bitcoin/bitcoin/blob/master/src/consensus/consensus.h"><code>src/consensus/consensus.h</code></a>. This typically produces blocks of roughly 1.5 to 2 MB of serialized data and fits a few thousand transactions, often in the range of 2,000 to 4,500 depending on their complexity.</p>
+<h3>How Blocks Chain Together</h3>
+<p>Each block header includes the hash of the previous block's header. This creates a chain where every block is linked to the one before it, all the way back to the genesis block (block #0, mined by Satoshi Nakamoto on January 3, 2009).</p>
+<p>This chaining is what makes the blockchain tamper-evident. If someone altered a transaction in block 500,000, the Merkle root of that block would change, which would change the block's hash, which would break the "previous block hash" reference in block 500,001. To maintain a consistent chain, the attacker would need to redo the proof-of-work for block 500,000 and every subsequent block, racing against the entire network's hashrate. The deeper a block is buried, the more computationally infeasible this becomes.</p>
+<h2>Mining and Proof-of-Work</h2>
+<p>Mining is the process by which new blocks are created and added to the blockchain. It serves two functions: ordering transactions into a tamper-evident sequence, and issuing new bitcoin according to a predetermined schedule.</p>
+<h3>The Mining Process</h3>
+<p>A miner assembles a candidate block by:</p>
+<ol>
+<li>Selecting transactions from their mempool (typically the ones paying the highest fees relative to their size).</li>
+<li>Creating a special transaction called the <strong>coinbase transaction</strong> that awards the block reward (newly created bitcoin + all transaction fees in the block) to the miner's address.</li>
+<li>Computing the Merkle root of all selected transactions.</li>
+<li>Filling in the block header with the previous block's hash, the Merkle root, the current timestamp, and the target difficulty.</li>
+</ol>
+<p>The miner then begins hashing the block header using double-SHA-256 (applying SHA-256 twice). The goal: find a nonce value that, when included in the header, produces a hash below the current difficulty target. There is no shortcut. The only known method is brute-force trial and error: try a nonce, hash the header, check if the result is below the target, and if not, increment the nonce and try again.</p>
+<p>Modern mining hardware (ASICs, Application-Specific Integrated Circuits) can perform hundreds of trillions of hashes per second. Even so, the network-wide average time to find a valid block is approximately ten minutes, defined by <code>nPowTargetSpacing</code> (600 seconds) in Bitcoin Core's <a href="https://github.com/bitcoin/bitcoin/blob/master/src/kernel/chainparams.cpp"><code>src/kernel/chainparams.cpp</code></a>, because the difficulty target is calibrated to match the total hashrate.</p>
+<h3>Why Proof-of-Work Matters</h3>
+<p>Proof-of-work is what gives Bitcoin its security guarantees. To rewrite the blockchain, an attacker would need to outpace the combined computational power of every honest miner on the network. As of Q1 2026, the Bitcoin network's total hashrate exceeds 800 exahashes per second (per mempool.space / Coin Metrics). Assembling even a fraction of that power would require billions of dollars in hardware and energy, with no guarantee of success.</p>
+<p>Proof-of-work also solves the "who gets to decide" problem in a decentralized system. Anyone can attempt to mine a block. No permission is needed. The miner who finds a valid hash first earns the right to propose the next block. Other miners verify the block and, if valid, build on top of it. This converts energy expenditure into a fair, permissionless selection mechanism.</p>
+<h2>The Difficulty Adjustment</h2>
+<p>If more miners join the network, blocks would be found faster. If miners leave, blocks would slow down. Either scenario creates problems: too-fast blocks waste bandwidth and increase orphan rates; too-slow blocks delay transaction confirmation.</p>
+<p>Bitcoin solves this with the <strong>difficulty adjustment</strong>, one of its most elegant mechanisms.</p>
+<h3>How It Works</h3>
+<p>Every 2,016 blocks (approximately two weeks), every node on the network recalculates the difficulty target. The 2,016-block interval is derived from <a href="https://github.com/bitcoin/bitcoin/blob/master/src/kernel/chainparams.cpp"><code>nPowTargetTimespan</code></a> (1,209,600 seconds, or exactly two weeks) divided by <a href="https://github.com/bitcoin/bitcoin/blob/master/src/kernel/chainparams.cpp"><code>nPowTargetSpacing</code></a> (600 seconds), both defined in Bitcoin Core's <code>src/kernel/chainparams.cpp</code>. The calculation is simple: compare how long the last 2,016 blocks actually took versus the expected time of 20,160 minutes (2,016 blocks x 10 minutes each).</p>
+<ul>
+<li>If blocks came too fast (the 2,016 blocks took less than two weeks), difficulty increases, making the target hash harder to find.</li>
+<li>If blocks came too slow (the 2,016 blocks took more than two weeks), difficulty decreases, making the target easier to find.</li>
+</ul>
+<p>The adjustment is capped at a factor of four in either direction per period, preventing sudden, destabilizing swings.</p>
+<h3>Why It Matters</h3>
+<p>The difficulty adjustment is what keeps Bitcoin's issuance schedule on track regardless of how much or how little mining power is deployed. Whether ten miners or ten million miners are running, blocks arrive roughly every ten minutes. This makes the supply schedule predictable decades into the future, something no other monetary system can claim.</p>
+<p>It also creates a self-regulating economic feedback loop. When the bitcoin price rises, mining becomes more profitable, attracting more hashrate. More hashrate triggers a difficulty increase, raising costs for miners. When the price falls, unprofitable miners shut off, hashrate drops, difficulty decreases, and the remaining miners become more profitable. The system continuously rebalances.</p>
+
+<h2>Nodes: The Enforcers of the Rules</h2>
+<p>Miners produce blocks, but nodes decide whether those blocks are valid: miners propose, nodes dispose. A miner who produces an invalid block (one that violates consensus rules) will have that block rejected by every honest node on the network. The miner wastes their energy and earns nothing.</p>
+<h3>What a Node Does</h3>
+<p>A Bitcoin full node performs three primary functions:</p>
+<ol>
+<li><strong>Validates transactions.</strong> When a node receives a new transaction, it checks: Are the signatures valid? Do the referenced UTXOs exist and are they unspent? Do the input amounts cover the output amounts? Does the transaction conform to the script rules? If any check fails, the transaction is rejected and not relayed.</li>
+<li><strong>Validates blocks.</strong> When a node receives a new block, it verifies every transaction in the block, confirms the proof-of-work meets the difficulty target, checks the block header references the correct previous block, and ensures the block reward does not exceed the allowed amount. A single invalid transaction or incorrect field causes the entire block to be rejected.</li>
+<li><strong>Stores the blockchain.</strong> Full nodes maintain the complete transaction history from the genesis block to the present. This allows any node to independently verify the entire chain and reconstruct the current UTXO set from scratch.</li>
+</ol>
+<h3>Full Nodes vs. Lightweight Nodes</h3>
+<p>A <strong>full node</strong> downloads and validates every block and every transaction. It trusts nothing and verifies everything. Running a full node requires roughly 600+ GB of disk space (as of 2026) and a persistent internet connection, though the hardware requirements are modest: any modern computer with sufficient storage can run one.</p>
+<p>A <strong>lightweight node</strong> (also called an SPV client, for <a href="https://bitcoin.org/bitcoin.pdf">Simplified Payment Verification</a>) does not download the full blockchain. It downloads only block headers and requests proof that specific transactions are included in blocks. This requires far less storage and bandwidth but relies on full nodes for validation. Lightweight nodes trust that the blocks they receive are valid because full nodes accepted them.</p>
+<table>
+<tr>
+<th>Property</th>
+<th>Full Node</th>
+<th>SPV/Lightweight Node</th>
+</tr>
+<tr>
+<td>Data stored</td>
+<td>Complete blockchain (every block and every transaction since genesis)</td>
+<td>Block headers only (~80 bytes per block), plus Merkle proofs for relevant transactions</td>
+</tr>
+<tr>
+<td>Storage requirement</td>
+<td>600+ GB (as of 2026)</td>
+<td>Under 1 GB</td>
+</tr>
+<tr>
+<td>Trust model</td>
+<td>Trustless: independently verifies every rule and every transaction</td>
+<td>Trust-minimized: relies on full nodes to validate blocks; assumes the heaviest chain is valid</td>
+</tr>
+<tr>
+<td>Validation approach</td>
+<td>Executes all consensus rules, scripts, and signature checks for every transaction</td>
+<td>Verifies block headers and Merkle inclusion proofs; does not validate individual transactions</td>
+</tr>
+</table>
+<h3>Why Running a Node Matters</h3>
+<p>Running your own full node means you verify every rule yourself. You don't trust your wallet provider, your exchange, or your internet service provider to tell you the truth about the state of the Bitcoin network. You see it directly. This is the technical foundation of self-sovereignty in Bitcoin: if you can't verify it yourself, you're trusting someone else.</p>
+<p>Full nodes also form the enforcement layer of the network's consensus rules. If a majority of miners colluded to change Bitcoin's rules (for example, increasing the supply cap beyond 21 million), full node operators could simply reject those blocks. Miners don't define the rules. Nodes do.</p>
+<p>Blockstream Satellite, a satellite broadcast service Blockstream previously operated (transferred to an independent mining entity in April 2025), broadcasted the entire Bitcoin blockchain from space, allowing anyone to run a full node without a traditional internet connection. This removed one of the last infrastructure dependencies for node operation: even if local internet access was censored or unavailable, the blockchain data remained accessible via satellite receiver.</p>
+<h2>Consensus: How the Network Agrees</h2>
+<p>With thousands of independent nodes and hundreds of thousands of miners, how does the Bitcoin network agree on a single version of the truth? Through Nakamoto Consensus, the mechanism described in the <a href="https://bitcoin.org/bitcoin.pdf">original Bitcoin whitepaper</a>.</p>
+<h3>Nakamoto Consensus</h3>
+<p>The rule is straightforward: every node follows the valid chain with the most accumulated proof-of-work. "Valid" means every block in the chain follows all consensus rules. "Most accumulated proof-of-work" means the chain representing the most total computational effort (commonly but somewhat imprecisely called "the longest chain").</p>
+<p>The rule needs no vote, and nodes take part without registering or proving an identity. Each node independently evaluates every chain it sees and follows the one with the most work. Because producing proof-of-work is expensive and verifying it is cheap, an attacker cannot fake accumulated work. The only way to build a chain with more work than the honest chain is to control more hashrate than the rest of the network combined.</p>
+<h3>How Forks Are Resolved</h3>
+<p>Occasionally, two miners find a valid block at nearly the same time. Some nodes see Block A first; others see Block B first. The network temporarily has two competing chain tips. This is a <strong>fork</strong>.</p>
+<p>The fork resolves itself naturally. Miners continue working on whichever block they received first. Eventually, one side finds the next block before the other. That chain now has more accumulated work, and all nodes switch to it. The transactions in the orphaned block return to the mempool and are typically included in a subsequent block.</p>
+<p>These forks are rare (lasting more than one block is extremely uncommon) and resolve without any coordination. The protocol handles it automatically.</p>
+<h2>The Mempool</h2>
+<p>The mempool is the waiting room for unconfirmed transactions. Every node maintains its own version of the mempool, and the contents vary slightly from node to node depending on which transactions they've received and their individual relay policies.</p>
+<h3>How the Mempool Works</h3>
+<p>When a transaction is broadcast and validated by a node, it enters that node's mempool. It remains there until one of three things happens:</p>
+<ol>
+<li>A miner includes it in a block (the transaction is confirmed and removed from the mempool).</li>
+<li>A conflicting transaction that spends the same inputs gets confirmed first (the original transaction becomes invalid and is purged).</li>
+<li>It expires. Nodes typically drop transactions that have been in the mempool for more than two weeks without confirmation, though this varies by node configuration.</li>
+</ol>
+<h3>The Fee Market</h3>
+<p>Bitcoin blocks have a limited capacity of 4 million weight units (4 MWU). When more transactions are waiting in the mempool than a single block can fit, miners must choose which transactions to include. The selection criterion is economic: miners maximize their revenue by selecting the transactions paying the highest fees per unit of block weight (measured in satoshis per virtual byte, or sat/vB).</p>
+<p>This creates a fee market. During periods of high demand, the mempool grows, and users compete by offering higher fees for faster confirmation. During low-demand periods, the mempool clears, and even minimum-fee transactions confirm quickly. The fee market is Bitcoin's mechanism for allocating scarce block space without a central authority setting prices.</p>
+<p>You can follow a transaction's entire journey using a block explorer. Paste any transaction ID into <a href="https://blockstream.info/">Blockstream Explorer</a> to see its inputs, outputs, fees, and confirmation status.</p>
+<h2>Block Rewards and the Halving</h2>
+<p>Every block's coinbase transaction creates new bitcoin. This is the only way new bitcoin enters circulation, and the amount follows a rigid, predetermined schedule coded into the protocol. Newly mined bitcoin cannot be spent until 100 additional blocks have been built on top of the block that created them, a maturity rule defined by <code>COINBASE_MATURITY</code> in Bitcoin Core's <a href="https://github.com/bitcoin/bitcoin/blob/master/src/consensus/consensus.h"><code>src/consensus/consensus.h</code></a>. This prevents miners from spending coins on a chain tip that might be orphaned.</p>
+<h3>The Issuance Schedule</h3>
+<p>When Bitcoin launched in 2009, the block reward was 50 bitcoin per block. Every 210,000 blocks (approximately four years), the reward is cut in half. This interval is controlled by <a href="https://github.com/bitcoin/bitcoin/blob/master/src/kernel/chainparams.cpp"><code>nSubsidyHalvingInterval</code></a> in Bitcoin Core's <code>src/kernel/chainparams.cpp</code>. This event is called the <strong><a href="https://help.blockstream.com/education/glossary/halving">halving</a></strong>.</p>
+<table>
+<tr>
+<th>Era</th>
+<th>Block Range</th>
+<th>Reward per Block</th>
+<th>Approximate Dates</th>
+</tr>
+<tr>
+<td>1</td>
+<td>0 - 209,999</td>
+<td>50 BTC</td>
+<td>2009 - 2012</td>
+</tr>
+<tr>
+<td>2</td>
+<td>210,000 - 419,999</td>
+<td>25 BTC</td>
+<td>2012 - 2016</td>
+</tr>
+<tr>
+<td>3</td>
+<td>420,000 - 629,999</td>
+<td>12.5 BTC</td>
+<td>2016 - 2020</td>
+</tr>
+<tr>
+<td>4</td>
+<td>630,000 - 839,999</td>
+<td>6.25 BTC</td>
+<td>2020 - 2024</td>
+</tr>
+<tr>
+<td>5 (current)</td>
+<td>840,000 - 1,049,999</td>
+<td>3.125 BTC</td>
+<td>2024 - ~2028</td>
+</tr>
+</table>
+<p>This schedule continues, halving approximately every four years, until the reward becomes so small it rounds to zero. The final bitcoin will be mined around the year 2140. At that point, the total supply will have approached 21 million bitcoin. No more can ever be created.</p>
+<h3>How the 21 Million Cap Works</h3>
+<p>The 21 million cap is not a configurable parameter that can be adjusted. It is a mathematical consequence of the halving schedule. Sum the total bitcoin produced across all eras:</p>
+<p>50 x 210,000 + 25 x 210,000 + 12.5 x 210,000 + ... = 21,000,000</p>
+<p>This is a geometric series that converges to exactly 21 million. Every full node enforces this limit by rejecting any block whose coinbase transaction exceeds the allowed reward for that block height. If a miner tried to award themselves extra bitcoin, every node on the network would reject the block. (Due to satoshi-level integer rounding, the actual maximum is approximately 20,999,999.98 BTC; "21 million" is standard shorthand.)</p>
+<h3>The Long-Term Fee Transition</h3>
+<p>As block rewards diminish, transaction fees become an increasingly important part of miner revenue. By the time the last bitcoin is mined, miners will be compensated entirely through fees. This transition is already underway: during periods of high network activity, fees have at times rivaled or exceeded the block reward in value. The fee market ensures that miners remain economically incentivized to secure the network even as new issuance approaches zero.</p>
+
+<h2>Putting It All Together: Alice Sends Bitcoin to Bob</h2>
+<p>Here is the complete journey of a single transaction, from wallet to confirmed settlement.</p>
+<p><strong>1. Alice opens her wallet.</strong> Her wallet software scans the UTXO set and finds the unspent outputs she controls. She has three UTXOs: 0.2 BTC, 0.15 BTC, and 0.05 BTC, totaling 0.4 bitcoin.</p>
+<p><strong>2. Alice constructs the transaction.</strong> She wants to send Bob 0.3 bitcoin. Her wallet selects the 0.2 BTC and 0.15 BTC UTXOs as inputs (0.35 BTC total) and creates two outputs: 0.3 BTC to Bob's address and 0.0499 BTC back to Alice's change address. The remaining 0.0001 BTC is the transaction fee.</p>
+<p><strong>3. Alice signs the transaction.</strong> Her wallet uses the private keys corresponding to each input's address to produce digital signatures. The signed transaction proves Alice controls the bitcoin being spent, without revealing her private keys.</p>
+<p><strong>4. The transaction is broadcast.</strong> Alice's wallet sends the signed transaction to a connected Bitcoin node. That node validates it by checking that the signatures are correct, that the referenced UTXOs exist and are unspent, and that the amounts balance. The checks pass, and the node relays the transaction to its peers. Within seconds, the transaction reaches thousands of nodes worldwide.</p>
+<p><strong>5. The transaction enters the mempool.</strong> Each node that validates the transaction adds it to their mempool. The transaction is now "unconfirmed" but visible to the network. Alice's wallet may show "pending" or "0 confirmations".</p>
+<p><strong>6. A miner includes it in a block.</strong> A miner constructing the next block sees Alice's transaction in their mempool. The 0.0001 BTC fee is competitive relative to the transaction's size, so the miner includes it alongside roughly 3,000 other transactions. The miner builds the Merkle tree, fills in the block header, and begins hashing.</p>
+<p><strong>7. The miner finds a valid hash.</strong> After trillions of attempts, the miner's ASIC finds a nonce that produces a block hash below the current difficulty target. The completed block is broadcast to the network.</p>
+<p><strong>8. Nodes validate and accept the block.</strong> Every full node that receives the block independently verifies: Does the proof-of-work meet the difficulty target? Does every transaction in the block follow consensus rules? Is the block reward correct? Does the "previous block hash" field match the current chain tip? Everything checks out. Nodes add the block to their chain and remove its transactions from their mempools.</p>
+<p><strong>9. Alice's UTXOs are spent; Bob's UTXO is created.</strong> The 0.2 BTC and 0.15 BTC UTXOs that Alice spent are removed from the UTXO set. Two new UTXOs are created: 0.3 BTC assigned to Bob's address and 0.0499 BTC assigned to Alice's change address. The UTXO set is updated across every node.</p>
+<p><strong>10. Bob sees one confirmation.</strong> Bob's wallet detects the new UTXO assigned to his address and displays the received bitcoin. The transaction has one confirmation. Ten minutes later, another block is built on top, giving it two confirmations. After six confirmations (roughly 60 minutes), the transaction is considered deeply settled. To reverse it, an attacker would need to redo the proof-of-work for six blocks while outpacing the rest of the network. The cost would be astronomical and the probability of success near zero.</p>
+<p>The entire process, from Alice pressing "send" to Bob seeing a confirmed payment, takes an average of ten minutes for the first confirmation. No bank approved the transfer, no institution processed it, and no government authorized it. Thousands of independent computers enforced the same rules, and the math checked out.</p>
+
+<h2>Frequently Asked Questions</h2>
+
+<h3>How long does a Bitcoin transaction take?</h3>
+<p>A transaction typically receives its first confirmation within about ten minutes (the average time between blocks, set by <a href="https://github.com/bitcoin/bitcoin/blob/master/src/kernel/chainparams.cpp"><code>nPowTargetSpacing</code></a> of 600 seconds). However, this varies. If the mempool is congested and the fee is low, a transaction may wait longer to be included in a block. Most recipients consider a transaction settled after six confirmations (roughly 60 minutes), though for smaller amounts, one or two confirmations are often sufficient. For faster settlements, layer-2 networks like the <a href="https://help.blockstream.com/education/glossary/lightning-network">Lightning Network</a> (near-instant) and the <a href="https://help.blockstream.com/education/glossary/liquid-network">Liquid Network</a> (one-minute blocks) extend Bitcoin's capabilities.</p>
+
+<h3>What happens if a transaction is never confirmed?</h3>
+<p>If a transaction sits in the mempool without being included in a block, it eventually expires (most nodes drop unconfirmed transactions after about two weeks). The bitcoin is never "lost" because the original UTXOs were never actually spent. The funds remain under the sender's control. The sender can also broadcast a replacement transaction with a higher fee to speed up confirmation, using a feature called Replace-By-Fee (RBF).</p>
+
+<h3>Can a Bitcoin transaction be reversed?</h3>
+<p>In practice, no. Once a transaction is confirmed in a block and subsequent blocks are built on top of it, reversing it would require redoing the proof-of-work for every block from that point forward while outpacing the entire network. After six confirmations, this is computationally infeasible for any known entity. This finality is a core property of Bitcoin and one of its key differences from traditional payment systems where chargebacks and reversals are common.</p>
+
+<h3>What determines Bitcoin transaction fees?</h3>
+<p>Transaction fees are determined by supply and demand for block space. Each block has limited capacity of 4 million weight units (<a href="https://github.com/bitcoin/bitcoin/blob/master/src/consensus/consensus.h"><code>MAX_BLOCK_WEIGHT</code></a> in <code>src/consensus/consensus.h</code>). When more transactions are waiting in the mempool than a single block can fit, users bid higher fees for priority. Fees are measured in satoshis per virtual byte (sat/vB). During low-demand periods, fees can be as low as 1 sat/vB. During high-demand periods, they can spike significantly. Your wallet typically estimates an appropriate fee based on current mempool conditions.</p>
+
+<h3>Why does Bitcoin use so much energy?</h3>
+<p>Bitcoin's energy expenditure is the direct cost of its security model. Proof-of-work mining requires real-world energy to produce blocks, which makes the blockchain expensive to attack. The energy spent mining is not waste; it is the physical anchor that prevents anyone from rewriting transaction history without incurring enormous, real-world costs. The network's energy consumption is proportional to its security. Whether this tradeoff is worth it depends on how you value a monetary system that cannot be censored, debased, or controlled by any single entity.</p>
+
+<h3>What happens when all 21 million bitcoin are mined?</h3>
+<p>The last bitcoin will be mined around the year 2140, after approximately 33 halvings reduce the block subsidy to zero satoshis. After that, no new bitcoin will be created, and miners will be compensated entirely through transaction fees. This transition happens gradually rather than all at once: with each halving (every 210,000 blocks per <a href="https://github.com/bitcoin/bitcoin/blob/master/src/kernel/chainparams.cpp"><code>nSubsidyHalvingInterval</code></a>, roughly every four years), the block reward shrinks and fees make up a larger share of miner revenue. The total supply converges on 21 million through the geometric series: 210,000 × 50 × (1 + 1/2 + 1/4 + ...) = 21,000,000. The fee market is already operational and has sustained meaningful miner revenue during periods of high network demand.</p>
+
+<h3>What is the difference between a full node and a lightweight node?</h3>
+<p>A full node downloads and independently validates every block and every transaction, trusting nothing and verifying everything. It requires roughly 600 GB of disk space. A lightweight node, also called an SPV (Simplified Payment Verification) client, downloads only block headers and Merkle proofs, requiring under 1 GB, but relies on full nodes to validate blocks. Full nodes form the enforcement layer of Bitcoin's consensus rules, while lightweight nodes trade some trust assumptions for far lower resource use. Running your own full node, paired with a hardware wallet like the <a href="https://store.blockstream.com/products/jade-plus">Jade Plus</a>, lets you verify every rule yourself rather than trusting a third party.</p>
