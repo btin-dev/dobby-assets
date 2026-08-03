@@ -1,0 +1,392 @@
+<p class="tldr">
+<strong>TL;DR:</strong> A Bitcoin transaction is a cryptographically signed message that transfers bitcoin from one set of unspent outputs (UTXOs) to another. Your wallet constructs the transaction, your private key signs it, and the signed transaction propagates across the network through connected nodes until a miner includes it in a block. Each additional block mined on top of that block makes the transaction exponentially harder to reverse.
+</p>
+
+<strong>Bitcoin transaction:</strong> A signed data structure that consumes one or more existing unspent transaction outputs (UTXOs) and creates new ones. The signature proves the sender controls the private key associated with each input, the network validates that the inputs exist and haven't already been spent, and miners include the transaction in a block to finalize it. Transactions are the fundamental unit of value transfer on the Bitcoin network.
+
+<h2>What Is a Bitcoin Transaction?</h2>
+<p>Every time bitcoin moves from one owner to another, a transaction records that transfer. But a Bitcoin transaction is not an account balance update. There are no accounts. There is no central ledger that tracks how much bitcoin belongs to which user. Instead, Bitcoin uses a system of individual outputs, each locked by a specific cryptographic condition, that can only be unlocked (spent) by whoever holds the right key.</p>
+<p>A transaction is a message broadcast to the entire Bitcoin network that says: "Here are the outputs I'm spending. Here is the proof that I'm authorized to spend them. And here are the new outputs I'm creating for the recipients". The network verifies every piece of that message before accepting it.</p>
+<p>The UTXO model gives Bitcoin several properties that account-based systems lack. Every transaction is independently verifiable: any node can confirm that the inputs exist, the signatures are valid, and no bitcoin is being created or double-spent. No trust in any third party is required.</p>
+<p>A bank transfer requires the bank to update its internal database. A Bitcoin transaction requires cryptographic proof, verified by thousands of independent nodes, recorded permanently in a shared data structure that anyone can audit.</p>
+<h2>Transaction Components</h2>
+<p>A Bitcoin transaction is a structured data object with a few core components. Each one has a specific role in the system.</p>
+<h3>Inputs</h3>
+<p>Every transaction input is a reference to a previous transaction's output that the sender is spending. It contains three pieces of information:</p>
+<ul>
+<li><strong>Transaction ID (txid):</strong> The hash of the previous transaction that created the output being spent.</li>
+<li><strong>Output index (vout):</strong> Which specific output from that previous transaction is being consumed. A single transaction can have multiple outputs; the index identifies the exact one.</li>
+<li><strong>Unlocking script (scriptSig or witness):</strong> The cryptographic proof, typically a digital signature and a public key, that satisfies the spending conditions set by the previous output.</li>
+</ul>
+<p>Think of an input as a receipt plus a key. The receipt says "here's where my bitcoin came from" and the key proves "I'm authorized to spend it". A transaction can have any number of inputs. If you're paying someone 0.5 bitcoin and your wallet holds three <a href="https://help.blockstream.com/education/transactions/transaction-basics/what-are-utxos">UTXOs</a> of 0.2, 0.15, and 0.2 bitcoin, the transaction will consume all three as inputs, totaling 0.55 bitcoin.</p>
+<h3>Outputs</h3>
+<p>Transaction outputs define where the bitcoin goes. Each output contains:</p>
+<ul>
+<li><strong>Amount:</strong> The value in satoshis (the smallest unit of bitcoin; one bitcoin equals 100,000,000 sats).</li>
+<li><strong>Locking script (scriptPubKey):</strong> A set of conditions that must be met to spend this output in the future. For a standard transaction, this condition is: "provide a valid signature from the <a href="https://help.blockstream.com/education/wallets/security-and-storage/what-is-a-private-key-and-how-do-i-store-it">private key</a> corresponding to this public key hash".</li>
+</ul>
+<p>In the example above, 0.55 bitcoin went in through three inputs. The transaction would create two outputs: 0.5 bitcoin to the recipient's address, and the remainder (minus the transaction fee) back to the sender as change. That change output is a new UTXO controlled by the sender's wallet.</p>
+<h3>UTXOs: The Building Blocks</h3>
+<p>The <strong>UTXO model</strong> (Unspent Transaction Output model) is the accounting system that makes Bitcoin work. Every piece of bitcoin in existence is held in a UTXO. Your wallet balance is not a number stored somewhere; it is the sum of all UTXOs that your private keys can unlock.</p>
+<p>When a transaction is confirmed, its inputs destroy existing UTXOs and its outputs create new ones. A UTXO can only be spent once, in its entirety. If you have a UTXO worth one bitcoin and want to send 0.3 bitcoin to someone, you must spend the whole UTXO and create two new outputs: 0.3 bitcoin to the recipient and 0.7 bitcoin (minus fees) back to yourself.</p>
+<div class="diagram-container">
+<pre class="mermaid">
+flowchart LR
+    UTXO["<b>Input UTXO</b><br/>1.0 BTC"]
+    TX["Transaction"]
+    OUT1["<b>Recipient</b><br/>0.3 BTC"]
+    OUT2["<b>Change</b><br/>~0.6999 BTC"]
+    FEE["<b>Fee</b><br/>0.0001 BTC"]
+
+    UTXO --&gt; TX
+    TX --&gt; OUT1
+    TX --&gt; OUT2
+    TX -.-&gt; FEE
+
+    classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
+    classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
+    classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
+
+    class UTXO blue
+    class TX blue
+    class OUT1,OUT2 green
+    class FEE amber
+</pre>
+<div class="diagram-label">UTXO consumption: a 1.0 BTC UTXO is spent entirely, producing a 0.3 BTC output to the recipient and ~0.7 BTC change, minus the fee.</div>
+</div>
+<p>The global UTXO set, the collection of all currently unspent outputs across the entire Bitcoin network, is what every <a href="https://help.blockstream.com/education/nodes/introduction-and-role/what-is-a-bitcoin-node">full node</a> tracks. As of early 2026, the UTXO set contains roughly 170 million individual outputs. When a new transaction arrives, nodes check it against this set: do the referenced UTXOs exist and are they unspent? This is the core mechanism that prevents double-spending.</p>
+<p>UTXO management matters for fees. A wallet with many small UTXOs will need more inputs to construct a transaction, which means a larger transaction size, which means a higher fee. Consolidating UTXOs during periods of low fees is a common optimization.</p>
+<h3>Script: Bitcoin's Transaction Language</h3>
+<p>Bitcoin transactions are programmable. Each output contains a small program written in Bitcoin Script, a stack-based language with a deliberately limited set of operations called <strong>opcodes</strong>. The locking script sets the spending conditions; the unlocking script provides the data to satisfy them.</p>
+<p>The most familiar script type, and the classic teaching example, is Pay-to-Public-Key-Hash (P2PKH): "to spend this output, provide a public key that hashes to this value and a valid signature from the corresponding private key". But Script supports more complex conditions:</p>
+<ul>
+<li><strong>Multisig:</strong> Require signatures from two of three keys (or any m-of-n combination).</li>
+<li><strong>Timelocks:</strong> Prevent spending until a specific block height or timestamp.</li>
+<li><strong>Hash locks:</strong> Require revealing the preimage of a specific hash (used in Lightning payment channels and atomic swaps).</li>
+</ul>
+<p>Script is intentionally limited. It is not Turing-complete, meaning it cannot loop or run indefinitely. Every Bitcoin node must execute every script, so the language is deliberately constrained to operations that are fast, deterministic, and safe to verify. The trade-off is reduced expressiveness in exchange for predictable execution and security. The full set of available opcodes is defined in <a href="https://help.blockstream.com/education/nodes/set-up-and-optimization/what-is-bitcoin-core">Bitcoin Core</a>'s <a href="https://github.com/bitcoin/bitcoin/blob/master/src/script/script.h"><code>script/script.h</code></a>, with each opcode assigned a specific byte value (e.g., <code>OP_CHECKSIG = 0xac</code>, <code>OP_HASH160 = 0xa9</code>).</p>
+<p>Modern Bitcoin transactions typically use Pay-to-Witness-Public-Key-Hash (P2WPKH, defined in <a href="https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki">BIP 141</a>) or Pay-to-Taproot (P2TR, defined in <a href="https://github.com/bitcoin/bips/blob/master/bip-0341.mediawiki">BIP 341</a>) output types, introduced by the Segregated Witness (SegWit) and Taproot upgrades respectively. These newer formats are more space-efficient and offer better privacy properties, but the underlying concept remains the same: a locking script that defines conditions, and an unlocking script that satisfies them.</p>
+<h2>How Transactions Are Signed</h2>
+<p>Creating a Bitcoin transaction is a two-step process: constructing the transaction data and signing it. These steps can happen on the same device or on separate devices for security.</p>
+<h3>Transaction Construction</h3>
+<p>Your wallet software handles transaction construction. It selects which UTXOs to use as inputs (coin selection), creates the outputs (destination address and amount, plus a change output if needed), and calculates the appropriate fee based on current network conditions. The result is an unsigned transaction: a complete data structure that specifies what bitcoin is being spent and where it's going, but with no proof of authorization yet.</p>
+<h3>The Signing Process</h3>
+<p>Signing is where the private key comes in. The wallet takes the unsigned transaction data, runs it through the Elliptic Curve Digital Signature Algorithm (ECDSA, or Schnorr for Taproot transactions), and produces a digital signature using the private key associated with each input's UTXO.</p>
+<p>This signature has two properties:</p>
+<ul>
+<li><strong>It proves authorization.</strong> Only the holder of the private key could have produced this specific signature for this specific transaction.</li>
+<li><strong>It is bound to the transaction data.</strong> If anyone changes even a single byte of the transaction after signing, the signature becomes invalid. This prevents tampering.</li>
+</ul>
+<p>Anyone on the network can verify the signature using the corresponding public key, but no one can work backwards from the signature to derive the private key.</p>
+<h3>Signing With a Hardware Wallet</h3>
+<p>In a standard software wallet, the private key exists in memory on an internet-connected device. This is convenient but creates a risk: malware, keyloggers, or compromised operating systems could extract the key.</p>
+<p>A hardware wallet solves this by keeping the private key on a separate, dedicated device. The workflow changes slightly:</p>
+<ol>
+<li>The wallet software constructs the unsigned transaction on the computer or phone.</li>
+<li>The unsigned transaction is transferred to the hardware wallet (via USB, Bluetooth, or QR code).</li>
+<li>The hardware wallet displays the transaction details on its own screen for the user to verify.</li>
+<li>The user confirms, and the hardware wallet signs the transaction internally.</li>
+<li>The signed transaction is sent back to the wallet software, which broadcasts it.</li>
+</ol>
+<p>The private key never leaves the hardware device. A hardware wallet like the <a href="https://store.blockstream.com/products/jade-plus">Jade Plus</a> handles the signing step on a dedicated device with air-gapped QR code communication, so the private key never touches an internet-connected computer. The Jade Plus uses its camera and screen to exchange transaction data through QR codes, eliminating the need for USB or Bluetooth connections during the signing process.</p>
+<div class="diagram-container">
+<pre class="mermaid">
+flowchart LR
+    WALLET["<b>Wallet Software</b><br/>Constructs unsigned tx"]
+    QR1["QR Code<br/>Unsigned tx displayed"]
+    HW["<b>Hardware Wallet</b><br/>Scans QR, verifies<br/>details on screen"]
+    SIGN["User confirms<br/>Device signs internally"]
+    QR2["QR Code<br/>Signed tx displayed"]
+    BROADCAST["<b>Wallet Software</b><br/>Scans signed QR<br/>Broadcasts to network"]
+
+    WALLET --&gt; QR1 --&gt; HW --&gt; SIGN --&gt; QR2 --&gt; BROADCAST
+
+    classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
+    classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
+    classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
+
+    class WALLET,BROADCAST blue
+    class QR1,QR2 amber
+    class HW,SIGN green
+</pre>
+<div class="diagram-label">Air-gapped hardware wallet signing flow: the private key never touches an internet-connected device.</div>
+</div>
+<h3>Under the Hood: Transaction Serialization</h3>
+<p>Before a transaction can be signed or broadcast, it must be serialized into a precise byte sequence. The serialization format (defined in Bitcoin Core's <a href="https://github.com/bitcoin/bitcoin/blob/master/src/primitives/transaction.h"><code>primitives/transaction.h</code></a>) follows a strict structure: a 4-byte version field, a variable-length count of inputs, each input's data (32-byte txid, 4-byte vout, scriptSig, and 4-byte nSequence), a variable-length count of outputs, each output's data (8-byte value in satoshis and scriptPubKey), and a 4-byte locktime field.</p>
+<p>For SegWit transactions (<a href="https://github.com/bitcoin/bips/blob/master/bip-0144.mediawiki">BIP 144</a>), the serialization includes a marker byte (<code>0x00</code>) and a flag byte (<code>0x01</code>) after the version, followed by witness data appended after the outputs. This separation is what gives witness data its weight discount: the transaction ID (txid) is computed from the non-witness serialization, while the witness transaction ID (wtxid) covers the full serialized form including witness data.</p>
+<p>The transaction's size in virtual bytes (vBytes) determines its fee cost. Virtual size is calculated as: <code>(weight units) / 4</code>, where weight = (non-witness bytes * 4) + witness bytes. A typical single-input, two-output P2WPKH transaction weighs about 561 weight units, or roughly 141 vBytes. Understanding this serialization structure explains why different transaction types have different fee profiles: the ratio of witness to non-witness data determines the effective discount.</p>
+<h2>Broadcasting a Transaction</h2>
+<p>A signed transaction is just a blob of data until it reaches the Bitcoin network. Broadcasting is the process of getting that data to the rest of the world.</p>
+<h3>Connecting to the Network</h3>
+<p>Your wallet connects to one or more Bitcoin nodes, either directly (if you run your own node) or through the wallet provider's node infrastructure. When you hit "send", the wallet transmits the raw signed transaction to these connected nodes.</p>
+<h3>Node Validation</h3>
+<p>Every node that receives a transaction runs it through a series of validation checks before relaying it further:</p>
+<table>
+<tr>
+<th>Validation Check</th>
+<th>What the Node Verifies</th>
+<th>Failure Result</th>
+</tr>
+<tr>
+<td>Structural validity</td>
+<td>Transaction is properly formatted; data fields within expected size limits</td>
+<td>Rejected immediately</td>
+</tr>
+<tr>
+<td>Input existence</td>
+<td>Referenced UTXOs exist in the current UTXO set</td>
+<td>Rejected (missing inputs)</td>
+</tr>
+<tr>
+<td>No double-spending</td>
+<td>UTXOs have not been spent by another confirmed or pending transaction</td>
+<td>Rejected (double-spend attempt)</td>
+</tr>
+<tr>
+<td>Signature verification</td>
+<td>Each input's unlocking script satisfies the corresponding UTXO's locking script</td>
+<td>Rejected (invalid signature)</td>
+</tr>
+<tr>
+<td>Value conservation</td>
+<td>Total input value ≥ total output value (difference = miner fee)</td>
+<td>Rejected (value mismatch)</td>
+</tr>
+<tr>
+<td>Script execution</td>
+<td>Script executes correctly and terminates with "true" on the stack</td>
+<td>Rejected (script failure)</td>
+</tr>
+<tr>
+<td>Fee threshold</td>
+<td>Transaction meets the node's minimum relay fee (configurable per node; Bitcoin Core's default dropped to 0.1 sat/vB in version 30.0, though many nodes still enforce the long-standing 1 sat/vB)</td>
+<td>Not relayed (below minimum)</td>
+</tr>
+</table>
+<p>These checks are implemented primarily in Bitcoin Core's <a href="https://github.com/bitcoin/bitcoin/blob/master/src/validation.cpp"><code>src/validation.cpp</code></a>, which handles both mempool acceptance and block-level validation. If any check fails, the node rejects the transaction and does not relay it. A rejected transaction does not consume bitcoin or fees because it never enters the system.</p>
+<h3>The Gossip Protocol</h3>
+<p>Valid transactions propagate across the network through a mechanism called the <strong>gossip protocol</strong>, part of Bitcoin's base P2P messaging layer (refined in <a href="https://github.com/bitcoin/bips/blob/master/bip-0152.mediawiki">BIP 152</a> for compact block relay). When a node validates a transaction, it sends an <code>inv</code> (inventory) message containing the transaction's hash to its connected peers. Peers that haven't seen the transaction respond with a <code>getdata</code> message requesting the full serialized transaction, validate it independently, and then announce it to their own peers via their own <code>inv</code> messages. This cascading relay spreads the transaction across the global network within seconds.</p>
+<p>The gossip protocol is decentralized and redundant. There is no single point of failure. Even if some nodes are offline or malicious, the transaction reaches the rest of the network through alternative paths. As of early 2026, the Bitcoin network has roughly 22,000 reachable nodes, with the total, including those running behind firewalls or on private networks, estimated at 60,000 or more.</p>
+<div class="diagram-container">
+<pre class="mermaid">
+flowchart TD
+    ORIGIN["<b>Your Node</b><br/>Broadcasts transaction"]
+    N1["Peer Node 1<br/>~1 second"]
+    N2["Peer Node 2<br/>~1 second"]
+    N3["Node 3<br/>~3 seconds"]
+    N4["Node 4<br/>~3 seconds"]
+    N5["Node 5<br/>~6 seconds"]
+    N6["Node 6<br/>~6 seconds"]
+    GLOBAL["<b>Global Network</b><br/>60,000+ nodes<br/>~10 seconds"]
+
+    ORIGIN --&gt; N1
+    ORIGIN --&gt; N2
+    N1 --&gt; N3
+    N1 --&gt; N4
+    N2 --&gt; N5
+    N2 --&gt; N6
+    N3 --&gt; GLOBAL
+    N4 --&gt; GLOBAL
+    N5 --&gt; GLOBAL
+    N6 --&gt; GLOBAL
+
+    classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
+    classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
+    classDef grey fill:#E8ECF0,stroke:#414C59,color:#111316
+
+    class ORIGIN blue
+    class N1,N2 green
+    class N3,N4,N5,N6 grey
+    class GLOBAL blue
+</pre>
+<div class="diagram-label">Gossip protocol: a transaction propagates from the originating node through connected peers, reaching the global network within seconds.</div>
+</div>
+<h3>The Mempool</h3>
+<p>Once a transaction passes validation and enters a node's awareness, it sits in that node's <strong><a href="https://help.blockstream.com/education/glossary/mempool">mempool</a></strong> (memory pool), the collection of all valid but unconfirmed transactions. Every node maintains its own mempool independently, so there is no single "the mempool" but rather thousands of slightly different views across the network.</p>
+<p>Transactions remain in the mempool until one of two things happens: a miner includes the transaction in a block (confirmation), or the transaction expires from the mempool after a configurable timeout. Bitcoin Core's default mempool expiry is 336 hours (14 days), set by the <code>-mempoolexpiry</code> option.</p>
+<p>The mempool is where fee competition occurs. During periods of high demand, miners prioritize transactions that pay higher fees per unit of data (measured in sats per virtual byte, or sat/vB). Transactions with lower fee rates may wait hours, days, or get dropped entirely. Wallet software estimates the appropriate fee by sampling current mempool conditions.</p>
+<h2>From Mempool to Confirmation</h2>
+<p>A transaction in the mempool is pending. Confirmation is what makes it final.</p>
+<h3>Miner Selection</h3>
+<p>Miners assemble candidate blocks by selecting transactions from their mempool. The primary selection criterion is fee rate: transactions that pay more sats per virtual byte get priority. Miners are economically incentivized to maximize the total fees in each block, so they pack the most profitable transactions first.</p>
+<p>A standard block has a maximum weight of four million weight units (roughly equivalent to about 1.5-2 MB of raw data, depending on transaction types). During normal conditions, a block holds between 2,000 and 4,000 transactions. During high-demand periods, the backlog can grow to hundreds of thousands of pending transactions.</p>
+<h3>Block Mining</h3>
+<p>Once a miner has assembled a candidate block (selected transactions plus the coinbase transaction that pays the block reward), the mining process begins. The miner repeatedly hashes the block header, varying a nonce value, searching for a hash that falls below the current difficulty target. This is <a href="https://help.blockstream.com/education/glossary/proof-of-work">proof-of-work</a>: a computationally expensive process that is trivial to verify but hard to produce.</p>
+<p>On average, the Bitcoin network produces one block every ten minutes. When a miner finds a valid hash, it broadcasts the block to the network. Other nodes verify the block (checking the proof-of-work, validating every transaction inside it, and confirming the block follows consensus rules), and upon acceptance, add it to their copy of the blockchain.</p>
+<p>At this point, every transaction in that block has one confirmation.</p>
+<h3>Confirmation Depth and Security</h3>
+<p>A single confirmation means the transaction is included in a valid block. But the security of that transaction increases with each subsequent block mined on top of it. Each new block adds another layer of proof-of-work that an attacker would need to redo to reverse the transaction.</p>
+<table>
+<tr>
+<th>Confirmations</th>
+<th>Time (approximate)</th>
+<th>Security Level</th>
+<th>Typical Use</th>
+</tr>
+<tr>
+<td>0 (unconfirmed)</td>
+<td>Seconds</td>
+<td>No proof-of-work protection</td>
+<td>Monitoring only</td>
+</tr>
+<tr>
+<td>1</td>
+<td>~10 minutes</td>
+<td>Protected by one block of work</td>
+<td>Small transactions</td>
+</tr>
+<tr>
+<td>3</td>
+<td>~30 minutes</td>
+<td>Reversal requires significant hashrate</td>
+<td>Medium-value transfers</td>
+</tr>
+<tr>
+<td>6</td>
+<td>~60 minutes</td>
+<td>Reversal requires sustained majority hashrate attack</td>
+<td>Industry standard for large settlements</td>
+</tr>
+</table>
+<p>The six-confirmation standard is widely cited as the threshold for finality. To reverse a transaction buried under six blocks, an attacker would need to control more than 50% of the network's total hashrate and sustain that control long enough to rebuild six blocks of work faster than the honest network extends the chain. With Bitcoin's hashrate exceeding 800 exahashes per second in early 2026, this is an astronomically expensive proposition.</p>
+<h2>The Complete Transaction Lifecycle</h2>
+<p>To see how all these pieces fit together, follow a single transaction from creation to final settlement.</p>
+<h3>Step 1: Intent</h3>
+<p>Alice wants to send 0.1 bitcoin to Bob. She opens her wallet and enters Bob's Bitcoin address and the amount.</p>
+<h3>Step 2: Construction</h3>
+<p>The wallet scans Alice's UTXO set and selects a 0.15 bitcoin UTXO as the input. It creates two outputs: 0.1 bitcoin to Bob's address and 0.0499 bitcoin back to Alice as change. The remaining 0.0001 bitcoin (10,000 sats) is the implicit transaction fee.</p>
+<h3>Step 3: Signing</h3>
+<p>The wallet signs the transaction using Alice's private key, producing a valid ECDSA signature that proves she controls the UTXO being spent. If Alice uses a hardware wallet, this step happens on the device.</p>
+<h3>Step 4: Broadcasting</h3>
+<p>The wallet sends the signed transaction to a connected Bitcoin node. The node validates the transaction (checks UTXO existence, signature validity, value conservation) and relays it to peers.</p>
+<h3>Step 5: Propagation</h3>
+<p>Through the gossip protocol, the transaction spreads across the network within seconds. It enters the mempool of thousands of nodes worldwide.</p>
+<h3>Step 6: Mining</h3>
+<p>A miner includes Alice's transaction in the next candidate block. After expending computational work, the miner finds a valid proof-of-work and broadcasts the block.</p>
+<h3>Step 7: First Confirmation</h3>
+<p>Nodes around the world receive the block, validate it, and add it to their chain. Alice's transaction now has one confirmation. Bob's wallet detects the incoming 0.1 bitcoin.</p>
+<h3>Step 8: Settlement</h3>
+<p>Over the next hour, five more blocks are mined on top. Alice's transaction is now buried under six blocks of proof-of-work. The 0.15 bitcoin UTXO that Alice spent has been removed from the global UTXO set. Two new UTXOs exist: 0.1 bitcoin controlled by Bob's key and 0.0499 bitcoin controlled by Alice's key.</p>
+<div class="diagram-container">
+<pre class="mermaid">
+flowchart LR
+    INTENT["1. Intent<br/>Alice opens wallet"]
+    CONSTRUCT["2. Construction<br/>Select UTXOs,<br/>create outputs"]
+    SIGN2["3. Signing<br/>Private key<br/>produces signature"]
+    BCAST["4. Broadcasting<br/>Sent to node"]
+    PROPAGATE["5. Propagation<br/>Gossip protocol<br/>spreads to network"]
+    MINE["6. Mining<br/>Miner includes<br/>in candidate block"]
+    CONFIRM["7. Confirmation<br/>Block validated<br/>1 confirmation"]
+    SETTLE["8. Settlement<br/>6 blocks deep<br/>Final"]
+
+    INTENT --&gt; CONSTRUCT --&gt; SIGN2 --&gt; BCAST --&gt; PROPAGATE --&gt; MINE --&gt; CONFIRM --&gt; SETTLE
+
+    classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
+    classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
+
+    class INTENT,CONSTRUCT,SIGN2,BCAST blue
+    class PROPAGATE,MINE,CONFIRM,SETTLE green
+</pre>
+<div class="diagram-label">Complete transaction lifecycle: from Alice's intent to six-confirmation settlement in approximately 60 minutes.</div>
+</div>
+<p>You can follow every step of a transaction's lifecycle on <a href="https://blockstream.info">Blockstream Explorer</a>. Paste a transaction ID to see its inputs, outputs, fees, and confirmation status in real time. The explorer displays the raw transaction data, the script conditions, the fee rate in sat/vB, and the current confirmation count, giving full visibility into exactly what happened and when.</p>
+<h2>What Can Go Wrong</h2>
+<p>Most transactions complete without issues. But understanding failure modes clarifies how the system works.</p>
+<h3>Stuck Transactions</h3>
+<p>If a transaction's fee rate is too low relative to current mempool demand, it can sit unconfirmed for an extended period. The transaction is valid, but miners consistently choose higher-fee transactions first. Solutions include:</p>
+<ul>
+<li><strong>Replace-by-fee (RBF):</strong> If the original transaction was flagged as replaceable (which is the default in modern wallets), the sender can broadcast a new version with a higher fee. Nodes replace the old transaction in their mempool.</li>
+<li><strong>Child-pays-for-parent (CPFP):</strong> The recipient (or sender, using the change output) creates a new transaction that spends the unconfirmed output with a high enough fee to make both transactions profitable for miners to include together.</li>
+</ul>
+<h3>Invalid Transactions</h3>
+<p>A transaction that fails any validation check is rejected by nodes and never enters the mempool. Common causes include referencing a UTXO that has already been spent, providing an invalid signature, or constructing a malformed transaction. No bitcoin is lost because the transaction simply never executes.</p>
+<h3>Chain Reorganizations</h3>
+<p>In rare cases, two miners find valid blocks at roughly the same time, creating a temporary fork. Nodes follow the chain with the most accumulated proof-of-work. When one branch extends further, the shorter branch is abandoned, and transactions in the orphaned block return to the mempool for re-inclusion. This is why waiting for multiple confirmations matters: each additional block makes reorganization exponentially less likely.</p>
+<h2>Transaction Types and Advanced Patterns</h2>
+<p>The basic single-input, two-output transaction described above is the most common pattern. But Bitcoin's scripting system supports several other configurations.</p>
+<h3>Batched Transactions</h3>
+<p>A single transaction can include dozens or hundreds of outputs, sending bitcoin to many recipients simultaneously. Exchanges and payment processors use batching to reduce the total number of transactions (and therefore total fees) needed to process withdrawals.</p>
+<h3>Multisig Transactions</h3>
+<p>Multisig outputs require multiple signatures to spend. A 2-of-3 multisig, for example, requires any two of three designated keys to sign the spending transaction. This enables shared custody arrangements, corporate treasury management, and inheritance planning without trusting any single keyholder.</p>
+<h3>Time-Locked Transactions</h3>
+<p>Bitcoin supports both absolute timelocks (prevent spending before a specific block height or timestamp) and relative timelocks (prevent spending until a certain number of blocks have been mined after the UTXO was created). These are used in payment channels, vaults, and other advanced protocols.</p>
+<h3>SegWit and Taproot Transactions</h3>
+<p>SegWit moved signature data to a separate section of the transaction, reducing effective size and fixing the transaction malleability bug. Taproot, activated in November 2021, introduced Schnorr signatures and Merklized Abstract Syntax Trees (MAST), enabling complex spending conditions that look identical to simple single-signature transactions on the blockchain. This improves both efficiency and privacy.</p>
+<div class="diagram-container">
+<pre class="mermaid">
+flowchart TB
+    subgraph TYPES["Transaction Patterns"]
+        direction LR
+        subgraph STD["Standard"]
+            direction TB
+            S_IN["1 input"]
+            S_OUT["2 outputs"]
+            S_SIZE["~140 vB"]
+        end
+        subgraph BATCH["Batched"]
+            direction TB
+            B_IN["1 input"]
+            B_OUT["10+ outputs"]
+            B_SIZE["~450 vB"]
+        end
+        subgraph MULTI["Multisig"]
+            direction TB
+            M_IN["1 input<br/>2-of-3 keys"]
+            M_OUT["2 outputs"]
+            M_SIZE["~370 vB"]
+        end
+        subgraph TLOCK["Time-Locked"]
+            direction TB
+            T_IN["1 input<br/>+ timelock"]
+            T_OUT["1 output"]
+            T_SIZE["~150 vB"]
+        end
+    end
+
+    classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
+    classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
+    classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
+    classDef grey fill:#E8ECF0,stroke:#414C59,color:#111316
+
+    class S_IN,S_OUT,S_SIZE blue
+    class B_IN,B_OUT,B_SIZE green
+    class M_IN,M_OUT,M_SIZE amber
+    class T_IN,T_OUT,T_SIZE grey
+</pre>
+<div class="diagram-label">Transaction pattern comparison: standard, batched, multisig, and time-locked transactions vary in structure and cost.</div>
+</div>
+<h2>For Institutions: Transaction Workflows at Scale</h2>
+<h3>Approval Processes and Policy Engines</h3>
+<p>Institutional Bitcoin holders do not sign transactions the way individual users do. Institutions implement policy engines that enforce rules before any transaction can be signed: spending limits per transaction and per time period, required approvals from multiple authorized personnel, whitelisted destination addresses, and time-of-day restrictions. These policies are enforced programmatically, not by individual judgment.</p>
+<p>A typical institutional transaction workflow looks like this:</p>
+<ol>
+<li>An authorized user initiates a withdrawal or transfer request in the organization's treasury management system.</li>
+<li>The policy engine evaluates the request against configured rules (amount limits, destination whitelist, required approvals).</li>
+<li>If the request requires additional approvals, the system routes it to the appropriate signers based on the organization's governance structure.</li>
+<li>Once all required approvals are collected, the system constructs and coordinates the signing of the transaction.</li>
+<li>The signed transaction is broadcast, and the system logs an audit trail of every approval, signature, and action taken.</li>
+</ol>
+<h3>Multi-Party Signing and Key Ceremonies</h3>
+<p>Institutional custody typically uses multisig configurations (such as 2-of-3, 3-of-5, or higher thresholds) to ensure that no single person can move funds unilaterally. Key generation follows strict procedures called <strong>key ceremonies</strong>, where each keyholder generates their key on a dedicated device in a controlled environment, often with witnesses and documented procedures.</p>
+<p>Qualified custodians manage the signing process with segregation of duties: the person who initiates a transaction is not the same person who approves it, and neither is the same person who holds the signing keys. This separation prevents both internal fraud and single points of compromise. Platforms like <a href="https://blockstream.com/enterprise">Blockstream Enterprise</a> provide the infrastructure for these workflows, including role-based access controls, configurable policy engines, and complete audit trails designed for regulatory compliance.</p>
+<h3>Compliance and Audit Considerations</h3>
+<p>Every institutional transaction generates a paper trail. The Bitcoin blockchain itself provides an immutable record of when the transaction was confirmed, but institutions also maintain internal records of who requested the transaction, who approved it, which keys signed it, and the business justification. This dual record, on-chain and off-chain, supports regulatory requirements for financial controls and reporting.</p>
+<h2>Frequently Asked Questions</h2>
+
+<p class="faq-question">How long does a Bitcoin transaction take to confirm?</p>
+<p class="faq-answer">The Bitcoin network targets one block every ten minutes on average, so a single confirmation typically takes around ten minutes. However, the actual time depends on when a miner includes your transaction, which is influenced by your fee rate relative to other pending transactions. During high-demand periods, low-fee transactions can wait hours or longer. Six confirmations (about 60 minutes) is the widely accepted standard for settlement finality.</p>
+
+<p class="faq-question">What happens if I set the fee too low?</p>
+<p class="faq-answer">Your transaction will sit in the mempool, waiting for a miner to include it. If mempool demand drops, it may eventually confirm. If demand remains high, the transaction could be dropped after the mempool expiry period (typically 14 days). You can increase the fee using Replace-by-Fee (RBF) if the transaction was flagged as replaceable, or use Child-Pays-for-Parent (CPFP) to incentivize miners by attaching a high-fee child transaction.</p>
+
+<p class="faq-question">Can a Bitcoin transaction be reversed after confirmation?</p>
+<p class="faq-answer">Reversing a confirmed transaction requires an attacker to redo the proof-of-work for that block and every block mined after it, faster than the rest of the network continues extending the chain. With one confirmation, this is difficult. With six confirmations, it is practically impossible without controlling a sustained majority of the network's hashrate. Bitcoin transactions are designed to become more irreversible with each passing block.</p>
+
+<p class="faq-question">What is the minimum amount of bitcoin I can send?</p>
+<p class="faq-answer">The smallest unit on the Bitcoin network is one satoshi (0.00000001 bitcoin). However, the practical minimum is determined by the "dust limit", a threshold below which transaction outputs are considered uneconomical because the fee to spend them would exceed their value. The dust limit depends on the output type and is typically around 546 sats for standard P2PKH outputs and 294 sats for SegWit outputs.</p>
+
+<p class="faq-question">Do I need to run a full node to send a Bitcoin transaction?</p>
+<p class="faq-answer">You do not need to run a full node to create and broadcast transactions. Wallet software can connect to remote nodes or use simplified payment verification (SPV). However, running your own node provides the highest level of privacy and trustlessness because you verify transactions and blocks yourself without relying on any third party.</p>
+
+<p class="faq-question">What is the difference between a transaction ID and an address?</p>
+<p class="faq-answer">A Bitcoin address is a destination: it encodes the spending conditions (typically derived from a public key) that define who can spend funds sent to it. A transaction ID (txid) is the unique hash of a specific transaction, computed as the double SHA-256 hash of the serialized transaction data (excluding witness data for SegWit transactions). Addresses are used to receive bitcoin. Transaction IDs are used to track and verify specific transfers on the network. You can look up any txid on <a href="https://blockstream.info">Blockstream Explorer</a> to see the full transaction details.</p>
