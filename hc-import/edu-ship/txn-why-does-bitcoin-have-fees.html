@@ -13,30 +13,7 @@
 <li><strong>Spam prevention.</strong> Without fees, an attacker could flood the network with millions of zero-cost transactions, consuming bandwidth, storage, and processing power across every node. Fees impose a real cost on using block space, making sustained spam attacks economically expensive.</li>
 </ol>
 <p>When you broadcast a transaction, you are bidding for a scarce resource: space in the next block. The fee you attach signals to miners how much you value fast confirmation. A transaction with zero fee can technically be valid, but no rational miner would include it when other transactions are paying for the same space.</p>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart LR
-    USER["<b>User Wallet</b><br/>Creates transaction"]
-    MEMPOOL["<b>Mempool</b><br/>Pending transactions"]
-    MINER["<b>Miner</b><br/>Selects by fee rate"]
-    BLOCK["<b>Block</b><br/>Transaction confirmed"]
 
-    USER --&gt;|"Broadcast"| MEMPOOL
-    MEMPOOL --&gt;|"Fee-based selection"| MINER
-    MINER --&gt;|"Proof-of-work"| BLOCK
-    BLOCK -.-&gt;|"Fee reward"| MINER
-
-    classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-    classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
-    classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
-
-    class USER blue
-    class MEMPOOL blue
-    class MINER amber
-    class BLOCK green
-</pre>
-<div class="diagram-label">Transaction fee flow: the fee incentivizes miners to include your transaction in a block.</div>
-</div>
  SECTION 2: Understanding Bitcoin's Fee Market 
 <h2>Understanding Bitcoin's Fee Market</h2>
 <p>Bitcoin's fee market emerges from a simple constraint: block space is finite, but demand for it is not.</p>
@@ -48,41 +25,7 @@ flowchart LR
 <p>The fee rate is measured in <strong>satoshis per virtual byte</strong> (sat/vB). A simple transfer between two addresses might be around 140 virtual bytes (vBytes). A more complex transaction with multiple inputs and outputs could be 400 vBytes or more. The total fee equals the fee rate multiplied by the transaction's virtual size:</p>
 <p><strong>Total fee = fee rate (sat/vB) × transaction size (vBytes)</strong></p>
 <p>Transaction structure matters because size drives cost: a transaction paying 20 sat/vB that is 140 vBytes would cost 2,800 sats in fees. The same fee rate on a 400-vByte transaction would cost 8,000 sats. Smaller transactions cost less even at the same fee rate.</p>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart TB
-    subgraph CALCS["Fee Calculations at Various Rates"]
-        direction LR
-        subgraph SIMPLE["Simple Send<br/>~140 vB"]
-            direction TB
-            S5["5 sat/vB: <b>700 sats</b>"]
-            S20["20 sat/vB: <b>2,800 sats</b>"]
-            S100["100 sat/vB: <b>14,000 sats</b>"]
-        end
-        subgraph MSIG["2-of-3 Multisig<br/>~370 vB"]
-            direction TB
-            M5["5 sat/vB: <b>1,850 sats</b>"]
-            M20["20 sat/vB: <b>7,400 sats</b>"]
-            M100["100 sat/vB: <b>37,000 sats</b>"]
-        end
-        subgraph BATCHED["Batched 10-output<br/>~450 vB"]
-            direction TB
-            B5["5 sat/vB: <b>2,250 sats</b>"]
-            B20["20 sat/vB: <b>9,000 sats</b>"]
-            B100["100 sat/vB: <b>45,000 sats</b>"]
-        end
-    end
 
-    classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
-    classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-    classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
-
-    class S5,M5,B5 green
-    class S20,M20,B20 blue
-    class S100,M100,B100 amber
-</pre>
-<div class="diagram-label">Fee calculations: total fee depends on transaction size (vBytes) multiplied by the fee rate (sat/vB).</div>
-</div>
 <h3>Under the Hood: Fee Market Mechanics</h3>
 <p>Miners optimize for total revenue per block. <a href="https://help.blockstream.com/education/nodes/set-up-and-optimization/what-is-bitcoin-core">Bitcoin Core</a>'s block assembly algorithm (implemented in the <code>BlockAssembler</code> class in <a href="https://github.com/bitcoin/bitcoin/blob/master/src/node/miner.cpp"><code>node/miner.cpp</code></a>) sorts mempool transactions by "ancestor fee rate," which accounts for both the transaction's own fee rate and the fee rates of any unconfirmed parent transactions it depends on. The algorithm fills the candidate block from highest ancestor fee rate to lowest until the 4 million weight unit limit is reached.</p>
 <p>This ancestor-aware sorting is what makes Child-Pays-for-Parent work: a high-fee child transaction raises the effective fee rate of its low-fee parent, causing both to be selected together. The minimum relay fee, configured via <code>-minrelaytxfee</code> in Bitcoin Core (default: 100 satoshis per kvB, or 0.1 sat/vB, lowered from 1,000 sat/kvB in Bitcoin Core 29.1, defined in <a href="https://github.com/bitcoin/bitcoin/blob/master/src/policy/policy.h"><code>src/policy/policy.h</code></a>), determines the floor below which nodes will not propagate transactions at all.</p>
@@ -90,33 +33,7 @@ flowchart TB
  SECTION 3: Fees as Bitcoin's Long-Term Security Model 
 <h2>Fees as Bitcoin's Long-Term Security Model</h2>
 <p>Miners earn revenue from two sources: the <strong>block subsidy</strong> (newly created bitcoin) and <strong>transaction fees</strong>. The block subsidy started at 50 bitcoin per block in 2009 and halves approximately every four years. After the April 2024 halving, the subsidy dropped to 3.125 bitcoin per block. By 2140, the subsidy will be zero.</p>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart LR
-    subgraph SCHEDULE["Block Subsidy Halving Schedule"]
-        direction LR
-        H1["<b>2009</b><br/>50 BTC<br/>50% issued"]
-        H2["<b>2012</b><br/>25 BTC<br/>75% issued"]
-        H3["<b>2016</b><br/>12.5 BTC<br/>87.5% issued"]
-        H4["<b>2020</b><br/>6.25 BTC<br/>93.75% issued"]
-        H5["<b>2024</b><br/>3.125 BTC<br/>96.875% issued"]
-        H6["<b>2028</b><br/>1.5625 BTC<br/>~98.4% issued"]
-        FUTURE["<b>2140</b><br/>0 BTC<br/>Fees only"]
-    end
 
-    H1 --&gt; H2 --&gt; H3 --&gt; H4 --&gt; H5 --&gt; H6 -.-&gt; FUTURE
-
-    classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-    classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
-    classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
-
-    class H1,H2 blue
-    class H3,H4 blue
-    class H5,H6 green
-    class FUTURE amber
-</pre>
-<div class="diagram-label">Bitcoin halving schedule: the block subsidy halves every ~4 years, shifting miner revenue toward transaction fees.</div>
-</div>
 <h3>The Halving Schedule</h3>
 <table>
 <tr><th>Year</th><th>Block Subsidy</th><th>Cumulative Bitcoin Issued</th><th>% of Total Supply</th></tr>
@@ -166,23 +83,7 @@ flowchart LR
 <p>A simple transaction that costs a few hundred sats during calm periods could cost tens of thousands of sats during these spikes.</p>
 <h3>What Drives Low-Fee Periods</h3>
 <p>When demand drops below the available block space, fees fall to their floor. Blocks go out partially empty, and even transactions at 1 sat/vB confirm in the next block. Weekends, holidays, and bear markets typically produce the lowest fee environments.</p>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart TD
-    SPIKES["<b>Fee Spike Catalysts</b>"]
-    SPIKES --&gt; PRICE["Price volatility<br/>Traders rush to move bitcoin"]
-    SPIKES --&gt; EVENTS["Network events<br/>Ordinals, protocol upgrades"]
-    SPIKES --&gt; BULL["Market cycles<br/>Bull run demand"]
-    SPIKES --&gt; EXCHANGE["Exchange activity<br/>Bulk withdrawals/deposits"]
 
-    classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-    classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
-
-    class SPIKES blue
-    class PRICE,EVENTS,BULL,EXCHANGE amber
-</pre>
-<div class="diagram-label">What drives fee spikes: price movements, network events, market cycles, and exchange activity all increase demand for block space.</div>
-</div>
 <h3>Reading the Mempool</h3>
 <p>The mempool is a real-time indicator of fee market conditions. When the mempool is deep (many unconfirmed transactions at high fee rates), fees are elevated. When the mempool is shallow (few pending transactions), fees are low.</p>
 <p>Tools like <a href="https://blockstream.info">Blockstream Explorer</a> display current mempool conditions, showing how many transactions are waiting and at what fee rates. This information helps you choose an appropriate fee for your transaction based on current demand.</p>
@@ -259,41 +160,7 @@ flowchart TD
 <li><strong>Asset issuance.</strong> Liquid supports Issued Assets (stablecoins, security tokens) that benefit from the same low-fee, confidential infrastructure.</li>
 </ul>
 <p>The <a href="https://blockstream.com/app">Blockstream app</a> supports Bitcoin, Lightning, and Liquid in a single interface, with built-in Lightning ↔ Liquid swaps. This makes it straightforward to move bitcoin to whichever layer offers the best fee economics for a given transaction.</p>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart TB
-    subgraph LAYERS["Layer Comparison: Fees and Settlement"]
-        direction LR
-        subgraph L1["Bitcoin On-Chain"]
-            direction TB
-            L1_FEE["Fee: <b>Variable</b><br/>1-500+ sat/vB"]
-            L1_TIME["Settlement: <b>~10-60 min</b>"]
-            L1_USE["Best for: Large transfers,<br/>cold storage"]
-        end
-        subgraph L2LN["Lightning Network"]
-            direction TB
-            L2_FEE["Fee: <b>Fractions of a cent</b>"]
-            L2_TIME["Settlement: <b>Seconds</b>"]
-            L2_USE["Best for: Small payments,<br/>point-of-sale"]
-        end
-        subgraph L2LQ["Liquid Network"]
-            direction TB
-            L3_FEE["Fee: <b>~0.1 sat/vB</b>"]
-            L3_TIME["Settlement: <b>~2 min</b>"]
-            L3_USE["Best for: Trading, privacy,<br/>asset issuance"]
-        end
-    end
 
-    classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-    classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
-    classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
-
-    class L1_FEE,L1_TIME,L1_USE blue
-    class L2_FEE,L2_TIME,L2_USE green
-    class L3_FEE,L3_TIME,L3_USE amber
-</pre>
-<div class="diagram-label">Layer comparison: Bitcoin on-chain for security, Lightning for speed, Liquid for privacy and low fees.</div>
-</div>
 <h3>Choosing the Right Layer</h3>
 <table>
 <tr><th>Layer</th><th>Typical Fee</th><th>Settlement Time</th><th>Best For</th></tr>
