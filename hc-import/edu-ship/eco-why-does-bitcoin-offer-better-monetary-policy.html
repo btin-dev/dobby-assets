@@ -1,0 +1,322 @@
+<p class="tldr">
+<strong>TL;DR:</strong> Bitcoin's monetary policy is defined entirely by code and enforced by a decentralized network of thousands of nodes. Its supply is capped at 21 million bitcoin, its issuance schedule is predetermined and has never deviated since the network launched in 2009, and changing those rules would take overwhelming agreement across the network rather than a decision by any individual, committee, or government. Fiat monetary policy, by contrast, is set by central bank committees that can expand the money supply through policy decisions, which proponents of sound money argue erodes the purchasing power of savers over time. Whether a rules-based money is economically preferable to a discretionary one is an active debate among economists, and this article lays out the case Bitcoin's proponents make.
+</p>
+
+<strong>Monetary policy</strong> refers to the rules governing how money is created, how much of it exists, and how it enters circulation. In fiat systems, central banks set and adjust these rules through committee decisions. In Bitcoin, the rules are written into the protocol's source code and enforced by consensus across the network. Bitcoin's monetary policy is fixed, transparent, and verifiable by anyone running a node.
+
+<h2>What Is Monetary Policy?</h2>
+<p>Every form of money operates under a set of rules that determine how new units are created, who controls the supply, and how issuance changes over time. These rules, collectively, are the monetary policy of that system.</p>
+<p>For most of human history, monetary policy was constrained by physical reality. Gold had to be mined from the earth. Silver had to be smelted. The difficulty of extracting precious metals from the ground acted as a natural governor on supply expansion. No king, no matter how powerful, could conjure gold into existence by decree.</p>
+<p>The modern fiat system removed that constraint. When the United States severed the dollar's link to gold in 1971, the only remaining limit on money creation became the judgment of the people running central banks. The Federal Reserve, the European Central Bank, the Bank of Japan, and their peers around the world gained the ability to expand the money supply through policy decisions. These expansions face no hard ceiling and no predetermined schedule: how much money exists is a policy decision rather than a fixed rule.</p>
+<p>Bitcoin reintroduced a hard constraint, but replaced the physical scarcity of gold with mathematical certainty enforced by software. Every node on the network independently verifies its monetary-policy rules in every block, with no committee interpreting them.</p>
+<p>This article lays out the economic case that Bitcoin's proponents make for a rules-based monetary policy: why they argue predictable issuance is preferable to the discretionary expansion of fiat. This is a contested thesis. Many mainstream economists defend discretionary monetary policy and hold that a rigidly fixed money supply would harm a modern economy, a debate this article returns to below. For the mechanics of the supply ceiling itself, including the issuance schedule, the halvings, and how every node enforces it, see <a href="https://help.blockstream.com/education/economics/bitcoin-economics/why-is-the-bitcoin-supply-limited">the 21-million supply cap</a>.</p>
+<div class="diagram-container">
+<pre class="mermaid">
+flowchart LR
+  A["Gold Standard\nEra\nPhysical scarcity"]:::amber --&gt; B["1944\nBretton Woods\n$35/oz peg"]:::amber
+  B --&gt; C["1971\nNixon Shock\nGold link severed"]:::amber
+  C --&gt; D["Fiat Era\nUnlimited supply\nCentral bank control"]:::amber
+  D --&gt; E["2009\nBitcoin Genesis\nMathematical scarcity"]:::green
+  classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
+  classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
+</pre>
+<div class="diagram-label">Monetary policy regimes: from gold standard to fiat to Bitcoin's mathematical scarcity</div>
+</div>
+<h2>Fixed Supply: 21 Million Bitcoin, Ever</h2>
+<p>The most consequential feature of Bitcoin's monetary policy is the hard cap: there will never be more than <a href="https://help.blockstream.com/education/economics/bitcoin-economics/why-is-the-bitcoin-supply-limited">21 million</a> bitcoin in existence. Every node on the network enforces this cap as an invariant rather than a target or policy goal that anyone adjusts. Any block that attempts to create bitcoin beyond the schedule is rejected as invalid, regardless of who produced it. (Due to satoshi-level integer rounding, the actual maximum is approximately 20,999,999.98 BTC; "21 million" is standard shorthand.)</p>
+<p>As of mid-2026, approximately 20 million bitcoin have been mined, roughly 95% of the total supply. The remaining 1 million bitcoin will enter circulation gradually over the next century, and the final fraction of a bitcoin is expected to be mined around the year 2140.</p>
+<h3>Why 21 Million?</h3>
+<p>Satoshi Nakamoto chose the 21 million cap based on a combination of factors: the initial block reward of 50 bitcoin, <a href="https://help.blockstream.com/education/economics/bitcoin-economics/what-is-the-bitcoin-halving">the halving</a> interval of 210,000 blocks, and the geometric series that results from repeatedly halving the reward. The sum 210,000 × 50 × (1 + 1/2 + 1/4 + ...) = 210,000 × 50 × 2 = 21,000,000. The specific number matters less than the fact that it is fixed and that the entire network agrees on it. The constant <code>MAX_MONEY</code> in <a href="https://github.com/bitcoin/bitcoin/blob/master/src/consensus/amount.h"><code>src/consensus/amount.h</code></a> enforces 2,100,000,000,000,000 satoshis as the hard ceiling; any transaction output exceeding this value is rejected by every node.</p>
+<h3>Fiat Supply Has No Cap</h3>
+<p>The US M2 money supply, which includes cash, checking deposits, and easily convertible near-money, stood at approximately $4.6 trillion in 2000, according to Federal Reserve (FRED series M2SL) data. By January 2020, it had grown to $15.4 trillion. By late 2021, after the pandemic-era monetary expansion, it exceeded $21 trillion. That represents a roughly 360% increase in 21 years, with the most dramatic expansion happening in the span of months.</p>
+<p>Other major currencies followed similar trajectories. The European Central Bank's balance sheet expanded from roughly €1 trillion in 2004 to over €8 trillion by 2022. The Bank of Japan's balance sheet grew to exceed Japan's entire GDP.</p>
+<p>None of these expansions required legislative approval, public referendum, or external audit. They were policy decisions made by small committees operating with broad discretionary authority.</p>
+<div class="diagram-container">
+<pre class="mermaid">
+flowchart TB
+  subgraph BTC["Bitcoin Supply (Fixed Cap)"]
+    B1["2009: 0 BTC"]:::blue --&gt; B2["2012: 10.5M"]:::blue
+    B2 --&gt; B3["2016: 15.75M"]:::blue
+    B3 --&gt; B4["2020: 18.4M"]:::blue
+    B4 --&gt; B5["2024: 19.7M"]:::green
+    B5 --&gt; B6["2140: 21M cap"]:::green
+  end
+  subgraph USD["U.S. M2 Money Supply (No Cap)"]
+    U1["2000: $4.6T"]:::amber --&gt; U2["2008: $8.2T"]:::amber
+    U2 --&gt; U3["2020: $15.4T"]:::amber
+    U3 --&gt; U4["2021: $21.7T"]:::amber
+    U4 --&gt; U5["Trajectory:\nContinued expansion"]:::amber
+  end
+  classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
+  classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
+  classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
+</pre>
+<div class="diagram-label">Diverging trajectories: Bitcoin supply approaching 21M cap vs. U.S. M2 money supply expanding 360% since 2000</div>
+</div>
+<h2>Predictable Issuance: Everyone Knows the Schedule</h2>
+<p>Bitcoin does not just have a fixed supply. It has a <b>predictable issuance schedule</b> that anyone can verify at any time.</p>
+<p>New bitcoin enters circulation through mining rewards. When a miner successfully adds a block to the blockchain, the protocol allows them to create a specific number of new bitcoin as a reward. This reward started at 50 bitcoin per block when the network launched in January 2009.</p>
+<p>Every 210,000 blocks (approximately every four years), this reward is cut in half. This event, known as the <a href="https://help.blockstream.com/education/glossary/halving">halving</a>, is the mechanism that governs Bitcoin's disinflationary supply curve.</p>
+<table>
+<tr>
+<th>Halving Event</th>
+<th>Date</th>
+<th>Block Height</th>
+<th>Block Reward</th>
+<th>Daily Issuance (approx.)</th>
+</tr>
+<tr>
+<td>Genesis</td>
+<td>Jan 2009</td>
+<td>0</td>
+<td>50 BTC</td>
+<td>~7,200 BTC</td>
+</tr>
+<tr>
+<td>1st Halving</td>
+<td>Nov 2012</td>
+<td>210,000</td>
+<td>25 BTC</td>
+<td>~3,600 BTC</td>
+</tr>
+<tr>
+<td>2nd Halving</td>
+<td>Jul 2016</td>
+<td>420,000</td>
+<td>12.5 BTC</td>
+<td>~1,800 BTC</td>
+</tr>
+<tr>
+<td>3rd Halving</td>
+<td>May 2020</td>
+<td>630,000</td>
+<td>6.25 BTC</td>
+<td>~900 BTC</td>
+</tr>
+<tr>
+<td>4th Halving</td>
+<td>Apr 2024</td>
+<td>840,000</td>
+<td>3.125 BTC</td>
+<td>~450 BTC</td>
+</tr>
+<tr>
+<td>5th Halving</td>
+<td>~2028</td>
+<td>1,050,000</td>
+<td>1.5625 BTC</td>
+<td>~225 BTC</td>
+</tr>
+</table>
+<p>This schedule has been public since the first line of Bitcoin's source code was released. Anyone running a <a href="https://help.blockstream.com/education/nodes/introduction-and-role/what-is-a-bitcoin-node">Bitcoin node</a> can independently verify the current block reward, calculate how many bitcoin exist at any block height, and project the exact supply at any future date. Verifying the supply requires no phone call to a central bank and no waiting for a press conference. It never depends on interpreting vague forward guidance.</p>
+<p>In over 17 years of operation, Bitcoin's issuance schedule has never once deviated.</p>
+<div class="diagram-container">
+<pre class="mermaid">
+flowchart LR
+  A["50 BTC\n2009"]:::blue --&gt; B["25 BTC\n2012"]:::blue
+  B --&gt; C["12.5 BTC\n2016"]:::blue
+  C --&gt; D["6.25 BTC\n2020"]:::blue
+  D --&gt; E["3.125 BTC\n2024"]:::green
+  E --&gt; F["1.5625 BTC\n~2028"]:::grey
+  F --&gt; G["0.78125 BTC\n~2032"]:::grey
+  G --&gt; H["Approaching\n0 BTC\n~2140"]:::grey
+  classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
+  classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
+  classDef grey fill:#E8ECF0,stroke:#414C59,color:#414C59,stroke-dasharray: 5 5
+</pre>
+<div class="diagram-label">Bitcoin block reward step-down: each halving cuts the reward in half, approaching zero by 2140</div>
+</div>
+<h2>Decentralized Consensus: No One Controls the Rules</h2>
+<p>A fixed supply and a predictable schedule mean nothing if a single entity can change the rules. Bitcoin prevents rule changes through <a href="https://help.blockstream.com/education/glossary/decentralization">decentralized consensus</a>.</p>
+<p>Bitcoin has no CEO, no board of directors, and no monetary policy committee. The network is maintained by tens of thousands of independently operated nodes distributed across every continent. Each node independently validates every transaction and every block against the protocol's rules. If a miner produces a block that violates any rule, including the issuance schedule, that block is rejected by every honest node on the network.</p>
+<h3>How Hard Is It to Change Bitcoin's Rules?</h3>
+<p>Changing Bitcoin's consensus rules requires a process that is deliberately, structurally difficult. A proposed change must be implemented in software, reviewed by the developer community, adopted voluntarily by node operators, and accepted by miners, exchanges, and the broader economic ecosystem. There is no mechanism to force an upgrade. Every participant opts in or continues running the existing rules.</p>
+<p>The history of Bitcoin governance illustrates how resistant the network is to rule changes, even popular ones. The block size debate of 2015-2017 was the most contentious governance dispute in Bitcoin's history. Despite years of lobbying, significant corporate backing, and a well-funded campaign by major mining operations, the effort to increase the block size through a hard fork failed to achieve consensus. The network continued operating under its existing rules.</p>
+<p>If coordinated industry pressure could not change a parameter as relatively mundane as block size, the probability of anyone successfully changing the 21 million supply cap approaches zero. The economic incentives of every bitcoin holder are aligned against supply inflation, creating a self-reinforcing defense of the existing monetary policy.</p>
+<h2>Bitcoin vs. Fiat: A Direct Comparison</h2>
+<p>The differences between Bitcoin's monetary policy and the fiat system are structural, not just philosophical.</p>
+<table>
+<tr>
+<th>Property</th>
+<th>Bitcoin</th>
+<th>Fiat Currency</th>
+</tr>
+<tr>
+<td><strong>Who sets the rules</strong></td>
+<td>Protocol code, enforced by decentralized consensus across thousands of nodes</td>
+<td>Central bank committee (e.g., FOMC has 12 voting members)</td>
+</tr>
+<tr>
+<td><strong>Supply cap</strong></td>
+<td>21 million bitcoin. Hard-coded. Unchangeable without overwhelming network consensus.</td>
+<td>No cap. Supply expands at the discretion of central banks.</td>
+</tr>
+<tr>
+<td><strong>Issuance schedule</strong></td>
+<td>Predetermined. Halves every 210,000 blocks. Known decades in advance.</td>
+<td>Variable. Adjusted through open market operations, quantitative easing, reserve requirements.</td>
+</tr>
+<tr>
+<td><strong>Transparency</strong></td>
+<td>Fully transparent. Every bitcoin ever created is traceable on the public blockchain. Anyone can audit the total supply.</td>
+<td>Opaque. M2 data is published with a lag. Shadow banking and Eurodollar creation are difficult to measure.</td>
+</tr>
+<tr>
+<td><strong>Track record</strong></td>
+<td>Zero deviations from schedule since January 3, 2009.</td>
+<td>Constant adjustments. The Fed has changed its federal funds rate target dozens of times since 2008.</td>
+</tr>
+<tr>
+<td><strong>Auditability</strong></td>
+<td>Any person running a node can verify the total supply in real time.</td>
+<td>Requires trusting official statistics. The Fed's financial statements are audited, but its monetary-policy operations are exempt from a full GAO audit by law.</td>
+</tr>
+<tr>
+<td><strong>Rule changes</strong></td>
+<td>Requires near-unanimous agreement across a globally distributed network of voluntary participants.</td>
+<td>Requires a committee vote, often behind closed doors, with policies announced after the fact.</td>
+</tr>
+</table>
+<p>The core distinction is who or what has to be trusted. Fiat monetary policy asks citizens to trust that central bankers will make wise decisions under political pressure, with access to unlimited money creation. Bitcoin's monetary policy asks participants to verify the math. The protocol does not require trust because every claim it makes is independently auditable.</p>
+<div class="diagram-container">
+<pre class="mermaid">
+flowchart TB
+  subgraph BTC["Bitcoin Monetary Policy"]
+    BR["Rules: Protocol code\nenforced by nodes"]:::green
+    BS["Supply: 21M hard cap"]:::green
+    BSch["Schedule: Halves every\n210,000 blocks"]:::green
+    BT["Transparency: Anyone\ncan audit via node"]:::green
+    BTr["Track Record: Zero\ndeviations since 2009"]:::green
+  end
+  subgraph FIAT["Fiat Monetary Policy"]
+    FR["Rules: Committee\ndecisions"]:::amber
+    FS["Supply: No cap"]:::amber
+    FSch["Schedule: Variable,\nnext meeting"]:::amber
+    FT["Transparency: Data\npublished with lag"]:::amber
+    FTr["Track Record: Constant\nadjustments"]:::amber
+  end
+  classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
+  classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
+</pre>
+<div class="diagram-label">Bitcoin monetary policy (code-enforced, fixed, transparent) vs. fiat monetary policy (committee-driven, variable, opaque)</div>
+</div>
+<h2>The Problem With Inflation</h2>
+<p>When central banks expand the money supply, each existing unit of currency represents a smaller share of the total. This dilution manifests as rising prices for goods, services, and assets. The mechanism is straightforward: more dollars chasing the same goods means each dollar buys less.</p>
+<h3>The Measurable Cost of Fiat Inflation</h3>
+<p>Measured by the <a href="https://www.bls.gov/cpi/">Consumer Price Index</a>, the US dollar has lost more than 97% of its purchasing power since the Federal Reserve was established in 1913: a dollar in 1913 had the equivalent purchasing power of roughly $34 in 2026. Central banks treat low positive inflation as intended policy rather than a flaw, explicitly targeting around 2% annual inflation, which compounds to roughly a halving of purchasing power over about 35 years.</p>
+<p>For savers, this creates a structural disadvantage. Money held in a savings account earning 0.5% interest while inflation runs at 3-5% loses real purchasing power every year. The incentive structure pushes individuals into riskier assets (equities, real estate, bonds) to try to outrun the debasement of their cash holdings.</p>
+<p>For people in countries with less stable currencies, the problem is more severe. Turkey's lira lost over 80% of its value against the dollar between 2018 and 2024. Argentina's peso has experienced chronic inflation exceeding 100% annually. Lebanon's pound collapsed by over 90% during its financial crisis. In these cases, inflation destroys savings acutely rather than eroding them gradually.</p>
+<h3>Bitcoin's Disinflationary Alternative</h3>
+<p>Bitcoin's issuance rate decreases over time by design. After each halving, fewer new bitcoin enter circulation. The annual inflation rate of the bitcoin supply dropped below 2% after the 2020 halving and fell below 1% after the April 2024 halving. By 2028, it will drop below 0.5%.</p>
+<p>This declining issuance, combined with a fixed cap, means Bitcoin's scarcity increases over time. If demand remains constant or grows, each unit of bitcoin represents a larger share of a fixed whole. The incentive structure reverses: savers are rewarded.</p>
+<div class="diagram-container">
+<pre class="mermaid">
+flowchart LR
+  subgraph BTCInflation["Bitcoin Supply Inflation Rate"]
+    B1["2010\n~25%"]:::blue --&gt; B2["2013\n~12%"]:::blue
+    B2 --&gt; B3["2017\n~4%"]:::blue
+    B3 --&gt; B4["2021\n~1.8%"]:::blue
+    B4 --&gt; B5["2025\n~0.85%"]:::green
+    B5 --&gt; B6["2029\n~0.4%"]:::green
+  end
+  subgraph CPI["U.S. CPI Inflation"]
+    C1["2010\n1.6%"]:::amber --&gt; C2["2015\n0.1%"]:::amber
+    C2 --&gt; C3["2020\n1.2%"]:::amber
+    C3 --&gt; C4["2022\n9.1%"]:::amber
+    C4 --&gt; C5["2025\n~3%"]:::amber
+  end
+  classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
+  classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
+  classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
+</pre>
+<div class="diagram-label">Bitcoin supply inflation (predictable staircase decline) vs. U.S. CPI inflation (unpredictable fluctuations)</div>
+</div>
+<h2>Sound Money Properties</h2>
+<p>Economists and monetary theorists have identified a set of properties that define <a href="https://help.blockstream.com/education/glossary/sound-money">sound money</a>, a medium of exchange and store of value that holds its worth over time and resists manipulation. Bitcoin was designed with these properties in mind.</p>
+<table>
+<tr>
+<th>Property</th>
+<th>Bitcoin</th>
+<th>Gold</th>
+<th>Fiat Currency</th>
+</tr>
+<tr>
+<td><strong>Scarcity</strong></td>
+<td>Absolute. 21 million cap enforced by code. Current supply verifiable by anyone.</td>
+<td>High but uncertain. ~216,000 metric tons above ground (as of 2024, per World Gold Council), with new deposits still discoverable and asteroid mining theoretically possible.</td>
+<td>None. Supply expanded at discretion of central banks. No hard cap.</td>
+</tr>
+<tr>
+<td><strong>Durability</strong></td>
+<td>Digital information, replicated across thousands of nodes globally. Survives as long as the network operates.</td>
+<td>Excellent. Gold does not corrode, tarnish, or degrade.</td>
+<td>Paper degrades. Digital balances depend on bank solvency and government stability.</td>
+</tr>
+<tr>
+<td><strong>Divisibility</strong></td>
+<td>Divisible to eight decimal places (1 bitcoin = 100,000,000 sats). Layer-2 solutions enable sub-satoshi payments.</td>
+<td>Difficult to divide into small units. Requires physical cutting or specialized coins.</td>
+<td>Divisible to two decimal places (cents). Smaller divisions technically possible digitally.</td>
+</tr>
+<tr>
+<td><strong>Portability</strong></td>
+<td>Excellent. Any amount transferred globally in minutes. A recovery phrase stores unlimited value in 12 or 24 words.</td>
+<td>Poor for large values. Heavy, expensive to transport, requires security.</td>
+<td>Good digitally (wire transfers). Physical cash limited by bulk and customs enforcement.</td>
+</tr>
+<tr>
+<td><strong>Verifiability</strong></td>
+<td>Perfect. Every transaction is verified by the network and every unit is traceable to its creation, so counterfeiting is not possible.</td>
+<td>Difficult. Requires assay equipment or a trusted intermediary, and tungsten-core fraud exists.</td>
+<td>Moderate. Physical counterfeiting possible. Digital balances depend on bank records.</td>
+</tr>
+<tr>
+<td><strong>Fungibility</strong></td>
+<td>High in practice. Every bitcoin is interchangeable at the protocol level. On-chain history is public, which creates some practical nuance around chain analysis.</td>
+<td>High. One ounce of .9999 gold is identical to another.</td>
+<td>Generally high. Bills are interchangeable, though serial number tracking exists.</td>
+</tr>
+</table>
+<p>Bitcoin matches or exceeds gold on every sound money property except fungibility, where both score high. It matches or exceeds fiat on every property except the incumbent advantage of widespread acceptance, which is a function of adoption rather than monetary design.</p>
+<p>The clearest difference is verifiability. Gold requires trust in assayers and fiat requires trust in banks and governments, whereas Bitcoin requires only trust in mathematics. Anyone running a Bitcoin node, which can operate on hardware as simple as a Raspberry Pi, independently verifies the entire monetary supply and every transaction in real time.</p>
+<h2>Criticisms Addressed</h2>
+<h3>"Deflation Is Bad for an Economy"</h3>
+<p>The standard Keynesian argument holds that deflation (falling prices) discourages spending because consumers will delay purchases in anticipation of lower future prices. In theory, this creates a downward spiral: less spending leads to less production, which leads to layoffs, which leads to even less spending.</p>
+<p>This argument carries weight within debt-based economic models where falling prices increase the real burden of debt repayment. If a business borrows $1 million and prices fall 10%, that debt is effectively 10% more expensive to repay in real terms.</p>
+<p>The counterargument distinguishes between two types of deflation. <strong>Monetary deflation</strong> caused by a contracting money supply (as in the Great Depression) is destructive. <strong>Price deflation</strong> caused by productivity gains and technological improvement is benign and historically common. The technology sector provides a clear example: computing power has fallen in price for decades while the industry has grown explosively. Consumers did not stop buying computers because they knew next year's model would be cheaper and faster.</p>
+<p>Under a Bitcoin standard, modest deflation would mean that savings increase in purchasing power over time. This rewards delayed gratification and long-term planning. People would still spend on necessities and on goods whose present value exceeds their future price decline. What changes is the incentive structure: instead of being forced into risky investments to preserve purchasing power, individuals can save in a currency that appreciates rather than depreciates.</p>
+<p>Mainstream macroeconomics does not accept this rebuttal. Most economists hold that sustained deflation discourages investment, raises the real burden of debt across the economy, and can deepen downturns, which is why central banks deliberately target low positive inflation. Bitcoin's proponents counter that the "deflationary spiral" presupposes an economy built on continuous credit expansion that requires inflation to function. Whether a fixed-supply money would help or harm a modern economy remains an open question among economists.</p>
+<h3>"Bitcoin Is Too Volatile to Be Money"</h3>
+<p>Bitcoin's price has been volatile relative to fiat currencies, particularly in its early years. Drawdowns of 50-80% have occurred multiple times, and daily price swings of 5-10% were common in earlier market cycles.</p>
+<p>Volatility in this context is a feature of the monetization process, not a permanent property of the asset. When a new monetary good moves from zero adoption to global adoption, its price must increase by orders of magnitude. That price discovery process is inherently volatile. Gold experienced significant price volatility after the end of Bretton Woods: it rose from $35 to $850 between 1971 and 1980, then fell to $250 by 1999, before rising above $2,000 by 2023. The dollar itself was volatile against other currencies after leaving the gold standard.</p>
+<p>As Bitcoin's market capitalization grows and its holder base diversifies, from individuals to corporations to sovereign wealth funds, volatility has trended downward over each successive market cycle. Bitcoin's 30-day annualized volatility has decreased substantially from its early years, and the magnitude of drawdowns has diminished in each cycle.</p>
+<p>A practical approach for individuals concerned about short-term volatility is <a href="https://help.blockstream.com/education/economics/bitcoin-economics/dollar-cost-averaging-into-bitcoin">dollar-cost averaging</a>, which involves buying a fixed amount of bitcoin on a regular schedule regardless of the current price. This strategy smooths out entry price over time and reduces the impact of any single price movement. The <a href="https://blockstream.com/app">Blockstream app</a> supports recurring purchases for this approach. For those taking direct control of their bitcoin as an exercise of monetary sovereignty, a hardware wallet like <a href="https://store.blockstream.com/products/jade-plus">Jade Plus</a> ensures private keys remain under the owner's sole control, matching Bitcoin's protocol-level self-sovereignty with self-custodial security at the individual level.</p>
+<h2>Why Credible Neutrality Matters</h2>
+<p>Fiat monetary policy is, by design, discretionary. Central banks adjust interest rates, expand or contract the money supply, and implement targeted programs (quantitative easing, yield curve control, emergency lending facilities) based on their assessment of economic conditions. These decisions have distributional consequences: quantitative easing benefits asset holders disproportionately, low interest rates benefit borrowers at the expense of savers, and currency debasement affects those on fixed incomes most severely.</p>
+<h3>Under the Hood: How the Difficulty Adjustment Maintains the Schedule</h3>
+<p>Bitcoin's issuance schedule depends on blocks arriving approximately every 10 minutes. The <a href="https://help.blockstream.com/education/glossary/difficulty-adjustment">difficulty adjustment</a> mechanism ensures this pace regardless of how much hashrate joins or leaves the network. Every 2,016 blocks (approximately two weeks), every node recalculates the <a href="https://help.blockstream.com/education/glossary/proof-of-work">proof-of-work</a> target by comparing the actual time it took to mine the last 2,016 blocks against the expected time of 20,160 minutes. If blocks arrived faster than expected, difficulty increases; if they arrived slower, difficulty decreases. The adjustment is capped at a factor of 4 in either direction per retarget period, which prevents extreme swings. This self-regulating mechanism, defined in <code>CalculateNextWorkRequired()</code> in <a href="https://help.blockstream.com/education/nodes/set-up-and-optimization/what-is-bitcoin-core">Bitcoin Core</a>'s <a href="https://github.com/bitcoin/bitcoin/blob/master/src/pow.cpp"><code>src/pow.cpp</code></a>, has maintained the average block time near 10 minutes across 17 years of hashrate fluctuations spanning many orders of magnitude.</p>
+<p>Bitcoin's monetary policy is credibly neutral because no participant has the ability to alter the rules for their own benefit. The protocol treats every participant identically. A miner in Iceland and a node operator in Nigeria verify the same rules. A whale holding thousands of bitcoin and a newcomer holding a few hundred thousand sats operate under the same issuance schedule. Lobbying, political pressure, and emergency decrees cannot change the supply cap or accelerate issuance.</p>
+<p>This neutrality is what makes Bitcoin's monetary policy credible across adversarial environments. It works between parties who do not trust each other, between nations that are in conflict, and across jurisdictions with incompatible legal systems.</p>
+<h2>What This Means for Individuals and Institutions</h2>
+<p>For individuals, Bitcoin's monetary policy offers an exit from involuntary currency debasement. Every person holding fiat currency is an involuntary participant in their central bank's monetary policy decisions. They cannot opt out of inflation. They cannot vote on interest rate changes. They can only watch their purchasing power erode and try to offset the damage through investment. Bitcoin provides a monetary system where the rules are known in advance and apply equally to everyone.</p>
+<p>For institutions, Bitcoin's predictability is an asset in its own right. Treasury management, long-term capital allocation, and liability matching all benefit from a monetary asset whose supply schedule is known with certainty decades into the future. The risk model for bitcoin does not need to account for surprise policy changes, emergency stimulus programs, or discretionary interest rate decisions.</p>
+<p>For nations, particularly those whose citizens have suffered under hyperinflationary monetary policies, Bitcoin offers an alternative monetary infrastructure that cannot be captured by a corrupt central authority. El Salvador adopted Bitcoin as legal tender in 2021 (legal tender status was repealed in January 2025 as a condition of IMF lending; merchant adoption continues). Whatever one thinks of the implementation, the move reflected a real demand among citizens for monetary stability that their domestic currency could not provide.</p>
+<h2>Frequently Asked Questions</h2>
+
+<p class="faq-question">Can Bitcoin's 21 million supply cap ever be changed?</p>
+<p class="faq-answer">Technically, the cap exists as a consensus rule that could theoretically be altered if an overwhelming majority of nodes, miners, developers, and economic participants agreed to the change. In practice, this is effectively impossible. Every bitcoin holder has a direct financial incentive to maintain the cap, and the decentralized governance structure requires near-unanimous voluntary adoption of any rule change. No one has the authority to impose the change unilaterally.</p>
+
+<p class="faq-question">What happens when all 21 million bitcoin have been mined?</p>
+<p class="faq-answer">The last bitcoin is projected to be mined around the year 2140. At that point, miners will be compensated entirely through transaction fees rather than block rewards. This transition is gradual: block rewards have been declining since 2009, and transaction fees currently contribute a meaningful portion of miner revenue during periods of high network activity. The security budget question is real and actively studied, but the transition happens over a 130-year timeframe, not overnight.</p>
+
+<p class="faq-question">How does Bitcoin's monetary policy affect its price?</p>
+<p class="faq-answer">Bitcoin's price is determined by supply and demand in open markets. The monetary policy governs only the supply side: how many bitcoin exist and how many new bitcoin enter circulation. Because the supply schedule is fixed and known in advance, price movements are driven primarily by changes in demand. Historically, the halving events (which cut new supply issuance in half) have preceded significant price appreciation, though the exact causal relationship is debated.</p>
+
+<p class="faq-question">Is Bitcoin's fixed supply a form of deflation?</p>
+<p class="faq-answer">Bitcoin has a disinflationary supply schedule, meaning new bitcoin are still being created but at a decreasing rate. Once all 21 million bitcoin have been mined, the supply becomes fixed (and effectively deflationary, since some bitcoin are lost permanently). Whether this constitutes "deflation" in the macroeconomic sense depends on whether Bitcoin is used as a unit of account. If goods were priced in bitcoin, increasing Bitcoin adoption would mean falling prices, which is price deflation driven by productivity and adoption gains rather than monetary contraction.</p>
+
+<p class="faq-question">Why does Bitcoin use proof-of-work instead of just setting rules in software?</p>
+<p class="faq-answer">The rules are set in software. Proof-of-work is the mechanism that makes those rules enforceable in a decentralized system without a trusted authority. That mechanism requires miners to expend real-world energy to produce blocks, which makes it prohibitively expensive to rewrite transaction history or produce fraudulent blocks. The energy cost anchors the digital rules to physical reality, ensuring that the monetary policy encoded in software has real-world enforcement.</p>
+
+<p class="faq-question">How do I verify Bitcoin's total supply myself?</p>
+<p class="faq-answer">Run a Bitcoin full node. The software (Bitcoin Core is the reference implementation) downloads and validates every block ever produced, independently verifying every transaction and every coin creation event. Once synced, your node knows the exact total supply of bitcoin in existence, calculated from first principles rather than trusting anyone's reported number. The <code>gettxoutsetinfo</code> RPC command returns the exact circulating supply by scanning every unspent transaction output. This level of monetary auditability has no equivalent in any other financial system.</p>
