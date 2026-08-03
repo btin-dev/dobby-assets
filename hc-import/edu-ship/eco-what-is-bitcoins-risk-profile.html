@@ -15,22 +15,7 @@
 <h3>Bitcoin Is More Volatile Than Most Traditional Assets</h3>
 <p>Bitcoin's annualized volatility has historically ranged from 50% to over 100%, depending on the time period measured. By comparison, the S&amp;P 500 typically runs 15-20% annualized volatility, gold around 15%, and U.S. Treasuries under 10%.</p>
 <p>This makes bitcoin one of the most volatile widely traded assets in the world. For investors accustomed to traditional portfolios, the magnitude of bitcoin's price swings can be disorienting. Drawdowns of 50% or more have occurred in every market cycle.</p>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart TB
-  subgraph Volatility["Annualized Volatility Comparison"]
-    direction TB
-    BTC["Bitcoin\n50-100%+ annualized\nDeclining each cycle"]:::amber
-    SP["S&amp;P 500\n15-20% annualized\nRelatively stable"]:::blue
-    GOLD["Gold\n~15% annualized\nLow and steady"]:::green
-    BOND["U.S. Treasuries\nUnder 10% annualized\nLowest volatility"]:::green
-  end
-  classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-  classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
-  classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
-</pre>
-<div class="diagram-label">Annualized volatility: Bitcoin vs. S&amp;P 500, gold, and U.S. Treasuries (2013-2025)</div>
-</div>
+
 <h3>Volatility Has Decreased Over Time</h3>
 <p>While bitcoin remains more volatile than traditional assets, its volatility has been on a long-term downward trajectory. In 2011-2013, annualized volatility regularly exceeded 150%. By 2018-2020, it had settled closer to 60-80%. After 2024, periods of sub-40% annualized volatility have become more common.</p>
 <p>This decline mirrors what happened with other asset classes as they matured. Larger market capitalization, deeper liquidity, more diverse market participants, regulated derivatives markets, and the introduction of spot <a href="https://help.blockstream.com/education/economics/bitcoin-economics/what-are-bitcoin-etfs">Bitcoin ETFs</a> have all contributed to dampening volatility over time.</p>
@@ -43,25 +28,7 @@ flowchart TB
 <h3>Bitcoin's Sharpe Ratio Across Time Horizons</h3>
 <p>Over one-year periods, bitcoin's Sharpe ratio varies wildly. In strong years (2013, 2017, 2020, 2024), the Sharpe ratio has exceeded 2.0 or even 3.0. In down years (2014, 2018, 2022), it has been deeply negative. This one-year variability reflects bitcoin's cyclical nature.</p>
 <p>Over rolling four-year periods, the picture changes dramatically. Bitcoin's four-year Sharpe ratio has consistently ranked among the best of any asset class, typically falling between 1.0 and 2.5. For comparison, the S&amp;P 500's long-term Sharpe ratio hovers around 0.4-0.6, gold around 0.2-0.4, and bonds around 0.2-0.3. The four-year window corresponds to Bitcoin's halving cycle (the block reward halves every 210,000 blocks, roughly every four years), which has historically driven a full market cycle of accumulation, supply shock, appreciation, and correction within each period.</p>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart TB
-  subgraph Sharpe["Rolling 4-Year Sharpe Ratios"]
-    direction TB
-    BTC["Bitcoin\n1.0 - 2.5\nExcellent"]:::green
-    SP["S&amp;P 500\n0.4 - 0.6\nModerate"]:::blue
-    GOLD["Gold\n0.2 - 0.4\nLow"]:::amber
-    BONDS["Bonds\n0.2 - 0.3\nLow"]:::amber
-  end
-  NOTE["Sharpe above 1.0 = good\nSharpe above 2.0 = excellent\nBitcoin leads all asset classes\nover 4-year rolling periods"]:::grey
-  Sharpe ~~~ NOTE
-  classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-  classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
-  classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
-  classDef grey fill:#E8ECF0,stroke:#414C59,color:#414C59,stroke-dasharray: 5 5
-</pre>
-<div class="diagram-label">Rolling 4-year Sharpe ratios: Bitcoin consistently delivers the best risk-adjusted returns</div>
-</div>
+
 <h3>What This Means in Practice</h3>
 <p>A Sharpe ratio above 1.0 is generally considered good. Above 2.0 is considered excellent. Bitcoin has delivered excellent risk-adjusted returns over medium- and long-term horizons, despite (and partly because of) its higher volatility. The returns have more than compensated for the volatility.</p>
 <p>This is why institutional allocators have increasingly added bitcoin to portfolios. Its risk-adjusted returns over multi-year periods have outperformed every other major asset class.</p>
@@ -99,18 +66,7 @@ flowchart TB
 </tr>
 </table>
 <p>Two patterns stand out. First, the severity of drawdowns has decreased over time (from 93% to 77%). Second, Bitcoin has recovered from every drawdown and gone on to set new highs. Every previous bear market bottom has since become a low point on a much larger upward trajectory.</p>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart LR
-  A["2011\n~93% drawdown\n~2yr recovery"]:::amber --&gt; B["2013-15\n~85% drawdown\n~3yr recovery"]:::amber
-  B --&gt; C["2017-18\n~84% drawdown\n~3yr recovery"]:::amber
-  C --&gt; D["2021-22\n~77% drawdown\n~2yr recovery"]:::amber
-  D --&gt; E["Trend:\nDecreasing severity\nFaster recovery"]:::green
-  classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
-  classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
-</pre>
-<div class="diagram-label">Bitcoin major drawdowns: severity decreasing and recovery time shortening with each cycle</div>
-</div>
+
 <h3>The Cyclical Nature of Bitcoin Markets</h3>
 <p>Bitcoin's price history shows a cyclical pattern loosely correlated with <a href="https://help.blockstream.com/education/economics/bitcoin-economics/what-is-the-bitcoin-halving">the halving</a>. Halvings occurred in 2012, 2016, 2020, and 2024.</p>
 <p>Each cycle has followed a rough pattern: a period of accumulation after a bear market low, a supply shock from the halving, a bull run to new highs, and then a correction. The critical observation for risk analysis: every cycle low has been higher than the previous cycle's low. The 2015 low (~$200) was higher than the 2011 low (~$2). The 2018 low (~$3,200) was higher than the 2015 low. The 2022 low (~$15,500) was higher than the 2018 low.</p>
@@ -123,35 +79,7 @@ flowchart LR
 <p>Gold has served as a store of value for thousands of years. That track record is real, and it would be dishonest to dismiss it. Gold's price stability, physical nature, and cultural acceptance as a hedge give it advantages that bitcoin has not yet fully replicated.</p>
 <p>Where bitcoin surpasses gold is in the properties that matter for the digital age: portability (bitcoin can be sent anywhere in minutes; gold cannot), divisibility (bitcoin can be divided to eight decimal places; gold bars cannot), verifiability (anyone can verify bitcoin supply; gold audits are opaque and infrequent), and supply certainty (bitcoin's supply cap is mathematically enforced; gold's above-ground supply grows 1-2% per year, and asteroid mining could eventually alter supply dynamics entirely).</p>
 <p>Gold's estimated total market value is approximately $31 trillion as of end of 2025. Bitcoin's market capitalization, while substantial, remains a fraction of that figure. If bitcoin captures even a portion of gold's store-of-value function, the price implications are significant.</p>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart TB
-  subgraph BTC["Bitcoin"]
-    B1["Scarcity: 21M cap"]:::green
-    B2["Portability: Global, minutes"]:::green
-    B3["Divisibility: 100M sats"]:::green
-    B4["Verifiability: Any node"]:::green
-    B5["Censorship resistance: High"]:::green
-    B6["Supply certainty: Exact"]:::green
-    B7["Track record: 17 years"]:::amber
-    B8["Volatility: High, declining"]:::amber
-  end
-  subgraph GOLD["Gold"]
-    G1["Scarcity: High, unknown"]:::amber
-    G2["Portability: Poor"]:::amber
-    G3["Divisibility: Limited"]:::amber
-    G4["Verifiability: Requires assay"]:::amber
-    G5["Censorship resistance: Moderate"]:::amber
-    G6["Supply certainty: Estimated"]:::amber
-    G7["Track record: 5,000+ years"]:::green
-    G8["Volatility: Low, stable"]:::green
-  end
-  classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-  classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
-  classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
-</pre>
-<div class="diagram-label">Bitcoin vs. gold across key store-of-value properties</div>
-</div>
+
 <h3>CBDCs: A Fundamentally Different Category</h3>
 <p>Central Bank Digital Currencies (CBDCs) are government-issued digital currencies. Despite the surface-level similarity of being "digital money", CBDCs are the opposite of bitcoin in every dimension that matters for risk analysis.</p>
 <p>CBDCs are centrally controlled, meaning a government can freeze, seize, or devalue them at will. They are inflationary by design, subject to the same monetary policy decisions that debase traditional fiat currencies. And they are surveillance-compatible, giving governments visibility into every transaction.</p>
@@ -241,26 +169,7 @@ flowchart TB
 </tr>
 </table>
 <p>If bitcoin captures 10% of gold's market alone, its price would more than double from current levels. If it captures meaningful share across multiple store-of-value categories, the upside multiples are larger still. Whether this happens is uncertain. That the upside potential significantly exceeds the downside potential for a given allocation is a mathematical observation, not a prediction.</p>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart TB
-  subgraph TAM["Total Addressable Market"]
-    direction TB
-    BONDS["Global Sovereign Bonds\n~$70T"]:::grey
-    RE["Real Estate as Store of Value\n~$30T+"]:::grey
-    GOLD["Gold\n~$35T"]:::amber
-    RESERVE["Global Reserve Assets\n~$12T"]:::grey
-    BTC["Bitcoin Current Market Cap\n~$1.3T"]:::blue
-  end
-  NOTE["If Bitcoin captures 10% of gold alone,\nprice more than doubles from current levels"]:::green
-  TAM ~~~ NOTE
-  classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-  classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
-  classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
-  classDef grey fill:#E8ECF0,stroke:#414C59,color:#414C59,stroke-dasharray: 5 5
-</pre>
-<div class="diagram-label">Bitcoin's total addressable market: global store-of-value categories and asymmetric upside potential</div>
-</div>
+
 <p>This asymmetry is why many portfolio allocators frame bitcoin as a "convex bet": the potential magnitude of the upside substantially exceeds the potential magnitude of the downside, even after accounting for volatility.</p>
 <h2>Portfolio Allocation Considerations</h2>
 <h3>A Small Allocation Can Meaningfully Improve Risk-Adjusted Returns</h3>
