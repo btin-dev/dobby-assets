@@ -1,0 +1,186 @@
+<p class="tldr">
+<strong>TL;DR:</strong> In the United States, the IRS treats bitcoin as property rather than currency, so general capital-gains rules apply. You owe tax when you sell, spend, or trade bitcoin at a gain, and on bitcoin you earn as income. Buying with dollars and holding, and moving bitcoin between your own wallets, are not taxable events. Gains held over one year get lower long-term rates. Starting with 2025 transactions, brokers report sales on the new Form 1099-DA. This article is general information, not tax advice; rules vary by country and change often.
+</p>
+
+<strong>The core rule, as of mid-2026:</strong> the IRS classifies bitcoin and other digital assets as <em>property</em>, established in Notice 2014-21. Because bitcoin is property rather than currency, general property and capital-gains tax principles apply. Selling, spending, or exchanging it is a disposal that can produce a taxable gain or loss; buying and holding it is not. This article focuses on US federal tax for individuals. It is general information, not tax advice. Tax rules differ by country and change frequently, so consult a qualified tax professional for your situation.
+
+ ============================================================ 
+ SECTION 1: How the IRS classifies bitcoin 
+ ============================================================ 
+<h2>How the IRS Classifies Bitcoin</h2>
+<p>The foundation of US bitcoin taxation is a single decision: in 2014 the IRS ruled that virtual currency is treated as property for federal tax purposes (<a href="https://www.irs.gov/pub/irs-drop/n-14-21.pdf">IRS Notice 2014-21</a>). That classification, reaffirmed in current IRS guidance, drives everything else. Because bitcoin is property, the same rules that govern stocks, real estate, and other capital assets apply to it.</p>
+<p>The practical consequence is that you track a cost basis and a holding period for the bitcoin you own, and you calculate a gain or loss each time you dispose of it. The IRS also requires every taxpayer to answer a digital-asset question on the front of Form 1040, so reporting is not optional even in years when you owe nothing.</p>
+<p>Bitcoin is not taxed as foreign currency, and spending it is not treated like spending dollars. Paying for a coffee with appreciated bitcoin is, to the IRS, a sale of property followed by a purchase, which is why small everyday spends can carry tax consequences that surprise people. The IRS maintains a plain-language overview on its <a href="https://www.irs.gov/filing/digital-assets">digital assets</a> page.</p>
+ ============================================================ 
+ SECTION 2: Taxable events 
+ ============================================================ 
+<h2>Taxable Events: When You Owe Tax</h2>
+<p>A taxable event is any action that the IRS treats as realizing income or disposing of property. For bitcoin, the common taxable events fall into two groups: disposals that trigger capital gains, and receipts that count as ordinary income.</p>
+<h3>Disposals That Trigger Capital Gains</h3>
+<ul>
+<li><strong>Selling bitcoin for dollars.</strong> The classic disposal. Gain or loss equals the sale price minus your cost basis.</li>
+<li><strong>Spending bitcoin on goods or services.</strong> Using bitcoin to buy something is a disposal at the asset's fair market value on the day you spend it, with the same gain-or-loss math. For where bitcoin can be used directly, see <a href="https://help.blockstream.com/education/wallets/using-and-transacting-bitcoin/where-can-i-spend-my-bitcoin">where you can spend your bitcoin</a>.</li>
+<li><strong>Trading bitcoin for another digital asset.</strong> Swapping bitcoin for any other coin or token is a disposal of the bitcoin, taxed on the gain even though no dollars were involved.</li>
+</ul>
+<h3>Receipts That Count as Ordinary Income</h3>
+<ul>
+<li><strong>Getting paid in bitcoin.</strong> Wages, freelance income, or business payments received in bitcoin are ordinary income at the fair market value on the day received. That value also becomes your cost basis for any later disposal.</li>
+<li><strong>Mining rewards.</strong> Bitcoin from mining is income at its fair market value when received. If you mine as a business, self-employment tax may also apply.</li>
+<li><strong>Other earned bitcoin.</strong> Rewards, referral payouts, and similar receipts are generally ordinary income at fair market value when you gain control of them. (Proof-of-stake "staking" does not apply to Bitcoin, which uses proof-of-work, so there is no staking income for bitcoin itself.)</li>
+</ul>
+ ============================================================ 
+ SECTION 3: Non-taxable events 
+ ============================================================ 
+<h2>Non-Taxable Events: When You Do Not Owe Tax</h2>
+<p>As of mid-2026, the following common actions are not taxable under US federal rules:</p>
+<ul>
+<li><strong>Buying bitcoin with US dollars.</strong> A purchase sets your cost basis and holding period. No tax is due until you dispose of the bitcoin.</li>
+<li><strong>Holding bitcoin.</strong> Unrealized gains carry no tax. Bitcoin that rises in value while you hold it triggers nothing until you sell, spend, or trade it.</li>
+<li><strong>Moving bitcoin between your own wallets.</strong> Transferring your bitcoin from an exchange to your own self-custodial wallet, or between two wallets you control, is not a disposal. You still own the same property, so there is no gain to report.</li>
+<li><strong>Gifting bitcoin within the annual limits.</strong> Gifts up to the annual gift-tax exclusion generally create no income tax for giver or recipient, though large gifts may require a gift-tax return. The recipient inherits your cost basis.</li>
+<li><strong>Donating bitcoin to a qualified charity.</strong> A donation of appreciated bitcoin to a registered charity is generally not a taxable disposal and may be deductible. Confirm specifics with a professional.</li>
+</ul>
+<p>Because moving bitcoin between your own wallets is not taxable, taking <a href="https://help.blockstream.com/education/wallets/managing-and-acquiring-bitcoin/what-are-the-differences-between-kyc-and-non-kyc-bitcoin">self-custody of your bitcoin</a> changes nothing about what you owe. It changes only where the keys live.</p>
+<div class="diagram-container">
+<pre class="mermaid">
+flowchart TD
+    A["You acquire bitcoin"]
+    B{"What happens<br/>next?"}
+    C["Hold it"]
+    D["Move between<br/>your own wallets"]
+    E["Sell for dollars"]
+    F["Spend on goods<br/>or services"]
+    G["Trade for another<br/>digital asset"]
+    H["No tax now<br/>(basis and clock<br/>keep running)"]
+    I["Capital gain or loss<br/>= proceeds - cost basis"]
+
+    A --&gt; B
+    B --&gt; C --&gt; H
+    B --&gt; D --&gt; H
+    B --&gt; E --&gt; I
+    B --&gt; F --&gt; I
+    B --&gt; G --&gt; I
+
+    classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
+    classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
+    classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
+
+    class A blue
+    class B amber
+    class C,D,H green
+    class E,F,G,I amber
+</pre>
+<div class="diagram-label">Figure 1: Taxable versus non-taxable bitcoin events under current US federal rules</div>
+</div>
+ ============================================================ 
+ SECTION 4: Capital gains, short vs long term 
+ ============================================================ 
+<h2>Capital Gains: Short-Term Versus Long-Term</h2>
+<p>When you dispose of bitcoin at a gain, the holding period decides the rate. The line is one year.</p>
+<ul>
+<li><strong>Short-term capital gains</strong> apply to bitcoin held one year or less. These are taxed at your ordinary income tax rate, the same brackets that apply to your salary.</li>
+<li><strong>Long-term capital gains</strong> apply to bitcoin held longer than one year. These are taxed at the lower long-term capital gains rates, which for most taxpayers are meaningfully below ordinary rates.</li>
+</ul>
+<p>The holding period starts the day after you acquire the bitcoin and runs through the day you dispose of it. For bitcoin received as income, the clock starts when you received it, using the same fair market value that was your income and your basis. This is one reason long-term <a href="https://help.blockstream.com/education/glossary/hodler">holders</a> track acquisition dates carefully: crossing the one-year mark can change the rate that applies to a sale.</p>
+<table>
+<tr>
+<th>Holding Period</th>
+<th>Gain Type</th>
+<th>Tax Treatment</th>
+</tr>
+<tr>
+<td>One year or less</td>
+<td>Short-term</td>
+<td>Taxed at ordinary income rates</td>
+</tr>
+<tr>
+<td>Longer than one year</td>
+<td>Long-term</td>
+<td>Taxed at lower long-term capital gains rates</td>
+</tr>
+</table>
+<p>Specific rates and brackets change with tax law and your income, so the bracket that applies in any given year should be confirmed against current IRS tables or with a professional. The underlying structure is more stable than the numbers: short-term gains are taxed as ordinary income, and long-term gains receive preferential rates.</p>
+ ============================================================ 
+ SECTION 5: Cost basis and accounting methods 
+ ============================================================ 
+<h2>Cost Basis and Accounting Methods</h2>
+<p>Cost basis is what you paid for the bitcoin, including fees, expressed in dollars at the time of purchase. Every gain or loss is measured against it, so accurate basis records are the heart of getting bitcoin taxes right.</p>
+
+<strong>Cost basis</strong> is the original value of an asset for tax purposes, usually the purchase price plus acquisition fees. When you dispose of bitcoin, your taxable gain is the proceeds minus the cost basis of the specific bitcoin you disposed of. For bitcoin received as income, the basis is the fair market value on the day you received it.
+
+<p>The complication is that most people buy bitcoin in multiple lots at different prices. When you sell only part of your holdings, which lot's basis applies? The IRS permits a few accounting methods:</p>
+<ul>
+<li><strong>FIFO (first in, first out).</strong> The default method: the earliest bitcoin you bought is treated as the first sold. In a rising market, FIFO tends to surface larger gains because the oldest, cheapest lots go first.</li>
+<li><strong>Specific identification (Spec ID).</strong> You identify the exact units being sold, choosing which lots to dispose of. This allows strategies like selling higher-basis lots to reduce a gain, but it requires detailed, contemporaneous records that meet the IRS documentation standard.</li>
+</ul>
+<p>A significant change took effect for digital assets: the IRS now requires cost basis to be tracked on a <strong>wallet-by-wallet (account-by-account) basis</strong> rather than across all of your holdings pooled together. Revenue Procedure 2024-28 set out a safe harbor for allocating existing basis to specific wallets, generally as of the start of 2025 (<a href="https://www.irs.gov/pub/irs-drop/rp-24-28.pdf">IRS Rev. Proc. 2024-28</a>). The practical effect is that records must now connect each disposal to the specific account or wallet that held the bitcoin.</p>
+ ============================================================ 
+ SECTION 6: Broker reporting and Form 1099-DA 
+ ============================================================ 
+<h2>Broker Reporting and Form 1099-DA</h2>
+<p>For years, bitcoin sold on exchanges was largely self-reported. That is changing. Under digital-asset broker regulations, custodial brokers, which include centralized US exchanges, must report customers' digital-asset sales to the IRS on a new information return, <strong>Form 1099-DA</strong>.</p>
+<p>The reporting phases in: brokers report gross proceeds for sales beginning with 2025 transactions, on the 1099-DA you will typically receive in early 2026, with cost-basis reporting added for later years. The IRS describes the form and its instructions on its <a href="https://www.irs.gov/forms-pubs/about-form-1099-da">About Form 1099-DA</a> page.</p>
+<p>Two consequences follow for individuals. First, the IRS now receives third-party data about exchange sales, so the return you file should reconcile with the 1099-DAs you receive. Second, because basis reporting lags and self-custodial transfers are outside a broker's view, a broker's 1099-DA may show proceeds without the correct basis, which can overstate your gain if you do not supply your own records. Keeping your own basis records remains essential rather than optional.</p>
+
+<strong>Form 1099-DA</strong> is the IRS information return that digital-asset brokers use to report customer sales of digital assets. "DA" stands for digital assets. It is the digital-asset counterpart to the 1099-B used for stock sales.
+
+ ============================================================ 
+ SECTION 7: Losses and tax-loss harvesting 
+ ============================================================ 
+<h2>Losses and Tax-Loss Harvesting</h2>
+<p>Bitcoin's volatility cuts both ways at tax time. When you dispose of bitcoin for less than your cost basis, you realize a capital loss, and losses have real value on a tax return.</p>
+<p>Capital losses first offset capital gains of the same type, then the other type, then up to $3,000 of net capital loss can offset ordinary income in a year, with any remaining loss carried forward to future years. Deliberately selling at a loss to capture the deduction is called tax-loss harvesting. Whether and how it fits your situation is a matter to confirm with a qualified tax professional.</p>
+<p>One point that often comes up: the "wash sale" rule, which blocks repurchasing a substantially identical security within 30 days before or after a loss sale, has historically applied to securities, and bitcoin is classified as property rather than a security. Whether and how wash-sale rules reach digital assets has been the subject of proposed legislation and changing guidance, so this is precisely the kind of detail to confirm against current law with a professional before relying on it.</p>
+<h3>How Loss Deductions Work</h3>
+<ul>
+<li><strong>Match losses to gains.</strong> Realized losses in a year can offset realized gains, reducing the net taxable amount.</li>
+<li><strong>Mind the annual ordinary-income limit.</strong> Net losses beyond what offsets gains are capped at $3,000 against ordinary income per year, with the rest carried forward.</li>
+<li><strong>Document everything.</strong> A harvested loss is only as good as the records that prove the basis and the disposal.</li>
+</ul>
+ ============================================================ 
+ SECTION 8: Record-keeping 
+ ============================================================ 
+<h2>Record-Keeping</h2>
+<p>Because every disposal is measured against a specific basis and holding period, the burden of proof sits with the taxpayer. For each transaction, keep:</p>
+<ul>
+<li><strong>The date and time</strong> you acquired and disposed of the bitcoin.</li>
+<li><strong>The amount</strong> in bitcoin, often tracked in <a href="https://help.blockstream.com/education/glossary/sats">sats</a> for small spends, and the fair market value in dollars at each event.</li>
+<li><strong>The cost basis,</strong> including any fees paid to acquire the bitcoin.</li>
+<li><strong>The wallet or account</strong> involved, now that basis is tracked wallet-by-wallet.</li>
+<li><strong>The transaction record,</strong> including the <a href="https://help.blockstream.com/education/glossary/transaction-id-txid">transaction ID</a> for on-chain activity, which you can confirm with a block explorer.</li>
+</ul>
+<p>Because the blockchain is a permanent public ledger, on-chain history does not disappear, and a block explorer such as <a href="https://blockstream.info/">Blockstream Explorer</a> lets you confirm dates, amounts, and addresses for any transaction. If you ever need to reconstruct a record, see <a href="https://help.blockstream.com/education/wallets/managing-and-acquiring-bitcoin/how-do-i-look-up-my-bitcoin-transaction">how to look up your bitcoin transaction</a>. Many people use dedicated tax software that connects to exchange accounts and wallets to assemble these records automatically, which is worth considering once transaction counts grow.</p>
+ ============================================================ 
+ SECTION 9: Businesses and jurisdictions 
+ ============================================================ 
+<h2>Businesses and Other Jurisdictions</h2>
+<p>Companies that hold or transact in bitcoin face a separate, more involved set of rules covering income recognition, payroll when paying in bitcoin, and financial-statement accounting that is distinct from the income-tax treatment described here. For the accounting side, see how companies account for bitcoin.</p>
+<p>This article addresses US federal tax for individuals. Tax treatment varies widely across countries: some apply capital gains tax much like the US, some tax bitcoin as income, some offer long-term-holding exemptions, and a few impose no tax on individual gains at all. State and local rules can add another layer within the US. None of that is covered here, and none of it should be assumed from the US framework above.</p>
+ ============================================================ 
+ SECTION 10: Not tax advice 
+ ============================================================ 
+<h2>This Is Not Tax Advice</h2>
+<p>Everything above is general educational information, accurate to the best of our understanding as of mid-2026. It is not tax, legal, or accounting advice, and it does not account for your specific circumstances.</p>
+<p>Tax rules for bitcoin are still developing. Guidance, forms, thresholds, and rates change from year to year, and they differ by country and by state. Treat this article as a map of the concepts, then confirm the specifics that apply to you with a qualified tax professional and the current IRS guidance before you file.</p>
+ ============================================================ 
+ SECTION: FAQ 
+ ============================================================ 
+
+<h3>Do you pay taxes on bitcoin?</h3>
+<p>In the US, you pay tax when you sell, spend, or trade bitcoin at a gain, and on bitcoin you earn as income. Buying bitcoin with dollars and holding it is not a taxable event, and neither is moving it between your own wallets. Rules vary by country and change, so confirm your situation with a tax professional.</p>
+
+<h3>Is buying and holding bitcoin a taxable event?</h3>
+<p>No. Purchasing bitcoin with US dollars and holding it creates no taxable event under current IRS guidance. Tax is owed only when you dispose of it: by selling for cash, spending it on goods or services, or trading it for another asset. Your holding period and cost basis are set at purchase and matter later.</p>
+
+<h3>How much tax do I pay when I sell bitcoin?</h3>
+<p>You pay capital gains tax on the profit, which is the sale price minus your cost basis. Bitcoin held one year or less is taxed at ordinary income rates; held longer than one year, it qualifies for lower long-term capital gains rates. The exact rate depends on your income and filing status.</p>
+
+<h3>Does the IRS know about my bitcoin?</h3>
+<p>Increasingly, yes. Every US tax return asks about digital asset transactions, and starting with 2025 transactions, custodial brokers and exchanges report sales to the IRS on the new Form 1099-DA. The blockchain is also a permanent public ledger. Accurate self-reporting is the only safe approach.</p>
+
+<h3>Can I deduct losses on bitcoin?</h3>
+<p>Yes. Capital losses on bitcoin offset capital gains, and up to $3,000 of net losses can offset ordinary income per year in the US, with the remainder carried forward. Selling at a loss to capture the deduction is called tax-loss harvesting. Confirm the current rules and any limits with a tax professional.</p>
+
+ ============================================================ 
+ Related Articles 
+ ============================================================
