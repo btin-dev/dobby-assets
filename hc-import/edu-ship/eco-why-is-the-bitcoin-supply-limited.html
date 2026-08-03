@@ -68,7 +68,7 @@
 </tr>
 </table>
 <p>The pattern continues: each halving cuts the reward in half again. After 33 halvings (around the year 2140), the reward reaches 0 satoshis because the subsidy calculation uses integer right-shift (<code>nSubsidy &gt;&gt;= halvings</code>) which truncates fractional satoshis. At that point, no new bitcoin will be created. The issuance is complete.</p>
-<p>This schedule is deterministic. Every halving is already defined in the code, so any participant can compute the issuance at any past or future block height, including in 2140. No other widely held monetary asset publishes its future issuance to this precision.</p>
+<p>Every halving is already defined in the code, so any participant can compute the issuance at any past or future block height, including in 2140. No other widely held monetary asset publishes its future issuance to this precision.</p>
 
 <h2>How the Cap Is Enforced</h2>
 <p>A supply cap is only meaningful if it can be enforced. The dollar has no supply cap because the Federal Reserve can create new dollars at will. Gold has a natural supply cap (the total amount in the Earth's crust), but no one can verify exactly how much gold exists or will be discovered. Bitcoin's supply cap is enforced by a mechanism that has no equivalent in traditional monetary systems: decentralized consensus.</p>
