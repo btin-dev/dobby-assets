@@ -10,21 +10,7 @@
 <p>When Satoshi Nakamoto launched the Bitcoin network in January 2009, miners received 50 bitcoin for every block they mined. In November 2012, the first halving reduced that reward to 25 bitcoin. In July 2016, it dropped to 12.5. In May 2020, to 6.25. And in April 2024, the most recent halving brought it down to 3.125 bitcoin per block.</p>
 <p>This reduction is automatic. It happens at a specific block height (a specific block number in the chain), not on a specific calendar date. Every 210,000 blocks, the reward drops. Because the Bitcoin protocol targets one block every ten minutes on average, 210,000 blocks takes approximately four years. But the actual calendar date of each halving depends on how fast blocks are actually produced, which varies slightly based on total network hashrate, the combined computing power securing the network.</p>
 <p>The halving is not a software update, a vote, or a committee decision. The rule was written into Bitcoin's code from the very first day and has never changed. Every <a href="https://help.blockstream.com/education/nodes/introduction-and-role/what-is-a-bitcoin-node">Bitcoin node</a> on the network enforces it. In Bitcoin Core's source code, the halving interval is defined by the constant <code>nSubsidyHalvingInterval = 210000</code> in <a href="https://github.com/bitcoin/bitcoin/blob/master/src/kernel/chainparams.cpp"><code>src/kernel/chainparams.cpp</code></a>. The subsidy calculation in <code>GetBlockSubsidy()</code> (in <a href="https://github.com/bitcoin/bitcoin/blob/master/src/validation.cpp"><code>src/validation.cpp</code></a>) divides the initial 50 BTC reward by 2 for each completed halving interval using integer right-shift: <code>nSubsidy &gt;&gt;= halvings</code>.</p>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart LR
-  A["2009\nGenesis\n50 BTC/block"]:::blue --&gt; B["Nov 2012\n1st Halving\n25 BTC/block\nBlock 210,000"]:::blue
-  B --&gt; C["Jul 2016\n2nd Halving\n12.5 BTC/block\nBlock 420,000"]:::blue
-  C --&gt; D["May 2020\n3rd Halving\n6.25 BTC/block\nBlock 630,000"]:::blue
-  D --&gt; E["Apr 2024\n4th Halving\n3.125 BTC/block\nBlock 840,000"]:::green
-  E --&gt; F["~2028\n5th Halving\n1.5625 BTC/block"]:::grey
-  F --&gt; G["~2140\nFinal satoshi\nmined"]:::grey
-  classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-  classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
-  classDef grey fill:#E8ECF0,stroke:#414C59,color:#414C59,stroke-dasharray: 5 5
-</pre>
-<div class="diagram-label">Bitcoin halving timeline: block rewards cut in half every ~4 years through 2140</div>
-</div>
+
  ========== SECTION 2: The Complete Halving Schedule ========== 
 <h2>The Complete Halving Schedule</h2>
 <p>Bitcoin's halving schedule is fully deterministic. Every halving that will ever happen is already defined in the code. The table below shows the complete history and the projected next halving.</p>
@@ -95,23 +81,7 @@ flowchart LR
 <h3>A Known, Fixed Supply Schedule</h3>
 <p>Fiat currency, gold, and bitcoin differ most in how knowable their future supply is. Central banks decide how much new currency to create, and they can change their minds at any time. Gold's new supply is determined by geology and economics, and while it tends to run between 1% and 2% per year, the exact rate is uncertain. Bitcoin's new supply is determined by mathematics and is known decades in advance.</p>
 <p>Every market participant can see exactly how many bitcoin exist today, how many will exist next year, and how many will exist in 2140. No other monetary asset offers this level of supply transparency.</p>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart LR
-  subgraph Supply["Bitcoin Supply Curve (2009-2140)"]
-    A["2009\n0 BTC\n~25% inflation"]:::blue --&gt; B["2012\n10.5M BTC\nHalving 1"]:::blue
-    B --&gt; C["2016\n15.75M BTC\nHalving 2"]:::blue
-    C --&gt; D["2020\n18.375M BTC\nHalving 3"]:::blue
-    D --&gt; E["2024\n19.69M BTC\nHalving 4"]:::green
-    E --&gt; F["2028\n~20.34M BTC\nHalving 5"]:::grey
-    F --&gt; G["~2140\n21M BTC\nIssuance complete"]:::grey
-  end
-  classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-  classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
-  classDef grey fill:#E8ECF0,stroke:#414C59,color:#414C59,stroke-dasharray: 5 5
-</pre>
-<div class="diagram-label">Bitcoin supply curve: issuance slows at each halving until the subsidy reaches zero and the supply stops at 20,999,999.9769 bitcoin</div>
-</div>
+
  ========== SECTION 4: How the Halving Creates Scarcity ========== 
 <h2>How the Halving Creates Scarcity</h2>
 <p>Scarcity means limited supply relative to demand. The halving enforces scarcity on the supply side by reducing the rate at which new bitcoin becomes available.</p>
@@ -124,27 +94,7 @@ flowchart LR
 <h3>Stock-to-Flow</h3>
 <p>Economists measure scarcity using the stock-to-flow ratio: the total existing supply (stock) divided by the annual new production (flow). Gold has a stock-to-flow ratio of roughly 60, meaning it would take about 60 years of current production to double the existing supply. This high ratio is what gives gold its monetary premium.</p>
 <p>Each halving doubles Bitcoin's stock-to-flow ratio by cutting the flow in half while the stock continues growing (slowly). After the 2024 halving, Bitcoin's stock-to-flow ratio exceeded 100, surpassing gold's for the first time in Bitcoin's history.</p>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart TB
-  subgraph S2F["Stock-to-Flow Ratios"]
-    direction TB
-    BTC24["Bitcoin post-2024\nS2F ~112"]:::green
-    GOLD["Gold\nS2F ~60"]:::amber
-    BTC20["Bitcoin post-2020\nS2F ~56"]:::blue
-    BTC16["Bitcoin post-2016\nS2F ~25"]:::blue
-    SILVER["Silver\nS2F ~22"]:::grey
-    BTC12["Bitcoin post-2012\nS2F ~8"]:::blue
-  end
-  NOTE["Bitcoin surpassed gold's\nstock-to-flow ratio after\nthe 2024 halving"]:::green
-  S2F ~~~ NOTE
-  classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-  classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
-  classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
-  classDef grey fill:#E8ECF0,stroke:#414C59,color:#414C59,stroke-dasharray: 5 5
-</pre>
-<div class="diagram-label">Stock-to-flow ratios: Bitcoin surpassed gold after the 2024 halving, becoming the scarcest monetary asset</div>
-</div>
+
  ========== SECTION 5: Bitcoin's Monetary Policy vs. Fiat and Gold ========== 
 <h2>Bitcoin's Monetary Policy Compared to Fiat and Gold</h2>
 <p>Every monetary system has rules governing how new units enter circulation. These rules determine whether the money holds its value over time or loses it. The halving is Bitcoin's monetary policy, and it differs fundamentally from both fiat currency and gold.</p>
@@ -196,30 +146,7 @@ flowchart TB
 </table>
 <p>Bitcoin's current annual issuance rate (approximately 0.85% post-2024 halving) is already below gold's. After the 2028 halving, it will drop to approximately 0.4%. With each halving, bitcoin's monetary inflation approaches zero.</p>
 <p>No central bank vote, geological discovery, or technological breakthrough can alter this trajectory. The rules are embedded in the protocol, enforced by every node on the network, and have operated without interruption since January 3, 2009.</p>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart LR
-  subgraph USD["U.S. Dollar M2 Growth"]
-    U1["2000-2019\n~6%/yr average"]:::amber --&gt; U2["2020-2021\n~27% spike"]:::amber
-    U2 --&gt; U3["2022-2025\nVariable"]:::amber
-  end
-  subgraph GoldRate["Gold Supply Growth"]
-    G1["Steady\n~1.5%/yr"]:::grey
-  end
-  subgraph BTCRate["Bitcoin Issuance Rate"]
-    B1["2009\n~25%"]:::blue --&gt; B2["2012\n~12%"]:::blue
-    B2 --&gt; B3["2016\n~4%"]:::blue
-    B3 --&gt; B4["2020\n~1.8%"]:::blue
-    B4 --&gt; B5["2024\n~0.85%"]:::green
-    B5 --&gt; B6["2028\n~0.4%"]:::green
-  end
-  classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-  classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
-  classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
-  classDef grey fill:#E8ECF0,stroke:#414C59,color:#414C59,stroke-dasharray: 5 5
-</pre>
-<div class="diagram-label">Annual inflation rate comparison: U.S. Dollar (volatile), gold (steady ~1.5%), Bitcoin (staircase decline toward 0%)</div>
-</div>
+
  ========== SECTION 6: Impact on Miners ========== 
 <h2>Impact on Miners</h2>
 <p>Miners are the most directly affected participants in a halving. Their primary revenue source, the block reward, drops by 50% overnight. Understanding how miners adapt explains why the Bitcoin network remains secure through each halving.</p>
@@ -294,20 +221,7 @@ flowchart LR
 <li>The final satoshi is projected to be mined around 2140, but the block reward becomes economically negligible long before that.</li>
 </ul>
 <p>Each halving is an incremental test of the fee market's ability to sustain miner revenue. If transaction fees prove insufficient at any point, the difficulty adjustment ensures the network continues operating by reducing mining costs until a new equilibrium is reached. Bitcoin does not stop working if mining becomes temporarily less profitable. The difficulty adjustment simply lowers the bar until it is profitable again.</p>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart LR
-  subgraph Revenue["Miner Revenue Composition Over Time"]
-    A["2009-2012\nBlock Reward: ~99%\nFees: ~1%"]:::blue --&gt; B["2016-2020\nBlock Reward: ~95%\nFees: ~5%"]:::blue
-    B --&gt; C["2024-2028\nBlock Reward: ~85%\nFees: ~15%"]:::blue
-    C --&gt; D["2040+\nBlock Reward: Minimal\nFees: Dominant"]:::green
-    D --&gt; E["~2140\nBlock Reward: 0%\nFees: 100%"]:::green
-  end
-  classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-  classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
-</pre>
-<div class="diagram-label">Miner revenue transition: block reward declines with each halving as transaction fees become the primary revenue source</div>
-</div>
+
  ========== SECTION 9: When Is the Next Halving? ========== 
 <h2>When Is the Next Halving?</h2>
 <p>The fifth Bitcoin halving will occur at block 1,050,000. Based on the average block interval of approximately ten minutes, this is projected to happen in approximately <strong>2028</strong>. The exact date depends on actual block production speed between now and then.</p>
