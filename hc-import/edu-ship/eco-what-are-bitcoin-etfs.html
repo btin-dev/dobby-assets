@@ -9,17 +9,7 @@
 <p>An exchange-traded fund (ETF) is a type of investment fund that trades on a stock exchange, just like shares of a company. A Bitcoin ETF applies this familiar structure to bitcoin: the fund holds bitcoin (or bitcoin-related financial instruments), and investors buy shares in the fund. When the price of bitcoin goes up, the share price goes up. When it goes down, so do the shares.</p>
 <p>The result is bitcoin price exposure through a standard brokerage account. An investor with a Fidelity, Schwab, or Vanguard account can buy shares of a Bitcoin ETF in the same way they would buy shares of Apple or an S&amp;P 500 index fund. There is no need to create an account on a Bitcoin exchange, learn about wallets, or manage <a href="https://help.blockstream.com/education/wallets/security-and-storage/what-is-a-private-key-and-how-do-i-store-it">private keys</a>.</p>
 <p>Bitcoin ETFs bridge traditional financial infrastructure and Bitcoin. They make bitcoin exposure available to investors who operate entirely within the conventional financial system.</p>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart LR
-  A["Investor\nBuys ETF Shares\non Stock Exchange"]:::blue --&gt; B["ETF Fund\nHolds Bitcoin\nwith Custodian"]:::blue
-  B --&gt; C["Share Price\nTracks Bitcoin\nPrice"]:::blue
-  D["Authorized\nParticipants"]:::grey -.-&gt;|"Create/redeem\nshares to maintain\nprice alignment"| B
-  classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-  classDef grey fill:#E8ECF0,stroke:#414C59,color:#414C59,stroke-dasharray: 5 5
-</pre>
-<div class="diagram-label">How a spot Bitcoin ETF works: investors buy shares, the fund holds actual bitcoin</div>
-</div>
+
  ===== SECTION: How Bitcoin ETFs Work ===== 
 <h2>How Bitcoin ETFs Work</h2>
 <p>The mechanics of a Bitcoin ETF follow the same structure as any other ETF. The key difference: the underlying asset is bitcoin instead of stocks or bonds.</p>
@@ -41,29 +31,7 @@ flowchart LR
 <h3>Spot Bitcoin ETFs</h3>
 <p>Spot Bitcoin ETFs hold actual bitcoin. There are no futures contracts, no rolling, and no contango drag. When an investor buys a share of a spot Bitcoin ETF, they are buying a proportional claim on actual bitcoin held by the fund. Spot ETFs provide cleaner price tracking, lower structural costs, and a more straightforward investment product.</p>
 <p>The SEC approved 11 spot Bitcoin ETFs simultaneously on January 10, 2024, after more than a decade of applications and rejections.</p>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart TB
-  subgraph Spot["Spot Bitcoin ETFs"]
-    S1["Holds actual bitcoin"]:::green
-    S2["Direct price tracking"]:::green
-    S3["No roll costs"]:::green
-    S4["Approved Jan 2024"]:::blue
-    S5["Expense: 0.15-0.25%"]:::blue
-  end
-  subgraph Futures["Futures Bitcoin ETFs"]
-    F1["Holds futures contracts"]:::amber
-    F2["Tracking deviation"]:::amber
-    F3["Contango roll costs"]:::amber
-    F4["Approved Oct 2021"]:::blue
-    F5["Expense: 0.65-0.95%"]:::amber
-  end
-  classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-  classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
-  classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
-</pre>
-<div class="diagram-label">Spot Bitcoin ETFs vs. Futures Bitcoin ETFs: key structural differences</div>
-</div>
+
 <h3>Why Spot ETFs Matter More</h3>
 <p>Because spot ETFs hold actual bitcoin, they create real demand for the asset. When money flows into a spot Bitcoin ETF, the fund must acquire bitcoin to back the new shares. This creates direct buying pressure on the bitcoin market. Futures ETFs, by contrast, create demand for paper derivatives. Spot ETFs tie the traditional financial system to Bitcoin's fixed supply in a way futures products cannot.</p>
  ===== SECTION: The History of Bitcoin ETFs ===== 
@@ -78,19 +46,7 @@ flowchart TB
 <p>The court found the SEC's reasoning inconsistent: the agency had approved futures-based Bitcoin ETFs while rejecting spot ETFs, even though both derived from the same underlying asset and faced similar market dynamics. The court called the SEC's distinction "arbitrary and capricious," effectively removing the legal basis for continued rejection on the same grounds.</p>
 <h3>January 10, 2024: Approval Day</h3>
 <p>On January 10, 2024, the SEC approved 11 spot Bitcoin ETF applications simultaneously, including offerings from BlackRock (IBIT), Fidelity (FBTC), ARK Invest/21Shares (ARKB), Bitwise (BITB), and the Grayscale Bitcoin Trust conversion (GBTC), among others. Trading began the next day. The launch set records for ETF inflows, with billions of dollars flowing into the new funds within weeks.</p>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart LR
-  A["2013\nWinklevoss\nETF Filing"]:::blue --&gt; B["2017\nFirst SEC\nRejection"]:::amber
-  B --&gt; C["2021\nFutures ETF\nApproved\n(BITO)"]:::blue
-  C --&gt; D["Aug 2023\nGrayscale\nCourt Victory"]:::green
-  D --&gt; E["Jan 2024\n11 Spot ETFs\nApproved"]:::green
-  classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-  classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
-  classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
-</pre>
-<div class="diagram-label">Timeline: the decade-long path to spot Bitcoin ETF approval in the United States</div>
-</div>
+
  ===== SECTION: Major Bitcoin ETFs ===== 
 <h2>Major Bitcoin ETFs</h2>
 <p>The U.S. spot Bitcoin ETF market is dominated by a few large funds, though the full field includes 11 approved products.</p>
@@ -149,21 +105,7 @@ flowchart LR
 <p>IBIT quickly became the largest Bitcoin ETF by assets under management (AUM). BlackRock, the world's largest asset manager, brought wide distribution reach, and IBIT gathered assets unusually quickly by the standards of US exchange-traded fund launches.</p>
 <p>FBTC is the second-largest spot Bitcoin ETF. Fidelity differentiates itself by using its own subsidiary, Fidelity Digital Assets, as the bitcoin custodian rather than relying on a third party. Fidelity's direct custody model appeals to investors who prefer fewer intermediaries in the custody chain.</p>
 <p>ARK 21Shares Bitcoin ETF (ARKB) and Bitwise Bitcoin ETF (BITB) have attracted significant flows with competitive expense ratios. The Grayscale Bitcoin Trust (GBTC), which converted from a closed-end trust to an ETF, initially experienced outflows as investors rotated into lower-fee alternatives. Grayscale later launched the Grayscale Bitcoin Mini Trust (BTC) to compete on cost.</p>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart TB
-  subgraph ETFs["Major U.S. Spot Bitcoin ETFs"]
-    A["IBIT\nBlackRock iShares\n0.25% expense\nCoinbase Custody\nLargest AUM"]:::blue
-    B["FBTC\nFidelity\n0.25% expense\nFidelity Digital Assets\n2nd largest"]:::blue
-    C["ARKB\nARK/21Shares\n0.21% expense\nCoinbase Custody"]:::blue
-    D["BITB\nBitwise\n0.20% expense\nCoinbase Custody"]:::blue
-    E["GBTC\nGrayscale\n1.50% expense\nCoinbase Custody\nConverted from trust"]:::amber
-  end
-  classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-  classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
-</pre>
-<div class="diagram-label">Major U.S. spot Bitcoin ETFs: tickers, expense ratios, and custodians</div>
-</div>
+
 <h3>Flows and Adoption Data</h3>
 <p>Reported flow figures vary by source and date. According to flow trackers such as Farside Investors and Bloomberg, U.S. spot Bitcoin ETFs collectively attracted tens of billions of dollars in net inflows within their first two years, among the most successful ETF launches on record, with total assets under management across all spot Bitcoin ETFs reported above $100 billion. These are point-in-time figures that change daily; current totals should be confirmed against a live flow tracker. Flows came from a mix of retail investors, financial advisors, pension funds, endowments, and hedge funds. This breadth of participation suggests Bitcoin ETFs had become a broad-based investment vehicle.</p>
  ===== SECTION: ETFs vs. Self-Custody ===== 
@@ -274,30 +216,7 @@ flowchart TB
 <li><strong>Self-custodial applications:</strong> Multisig vaults, payment channels, time-locked contracts, and any application requiring a Bitcoin transaction signature are inaccessible through an ETF.</li>
 </ul>
 <p>For investors who view bitcoin as a long-term savings technology and a peer-to-peer payment system, ETFs provide exposure to the price but not access to the network.</p>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart TB
-  subgraph Cannot["What ETFs Cannot Do"]
-    A["Send or receive\nactual bitcoin"]:::amber
-    B["Access the\nLightning Network"]:::amber
-    C["Access the\nLiquid Network"]:::amber
-    D["Use in\nself-custodial apps"]:::amber
-    E["Trade\n24/7/365"]:::amber
-    F["Eliminate\ncounterparty risk"]:::amber
-  end
-  subgraph Can["What Self-Custody Can Do"]
-    G["Send and receive\nbitcoin globally"]:::green
-    H["Lightning payments\nin seconds"]:::green
-    I["Liquid Confidential\nTransactions"]:::green
-    J["Full control\nwith hardware wallet"]:::green
-    K["Access bitcoin\nanytime, anywhere"]:::green
-    L["Zero\ncounterparty risk"]:::green
-  end
-  classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
-  classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
-</pre>
-<div class="diagram-label">ETF limitations vs. self-custody capabilities</div>
-</div>
+
  ===== SECTION: ETFs as an On-Ramp to Self-Custody ===== 
 <h2>ETFs as an On-Ramp to Self-Custody</h2>
 <p>For many investors, Bitcoin ETFs are a first step rather than a final destination. An investor buys ETF shares through their brokerage account, begins following the bitcoin price, starts learning about Bitcoin's technology and monetary properties, and eventually decides to take self-custody of their own bitcoin.</p>
