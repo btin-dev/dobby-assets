@@ -13,25 +13,7 @@
 <p>What Bitcoin does not reveal is <em>who</em> controls those addresses. Addresses are long strings of alphanumeric characters (like <code>bc1q...xyz</code>), and nothing in the Bitcoin protocol ties them to a name, email, or government ID. If no one knows which addresses belong to you, your transaction history remains private by default.</p>
 <p>That "if" carries all the weight. The moment an address is linked to your identity, every transaction connected to that address becomes linked to you as well. Linking addresses to identities is exactly what blockchain analytics companies specialize in.</p>
 <p>This article explains what privacy Bitcoin does and does not provide by default. For the practical habits that strengthen it, see How Do I Keep My Bitcoin Transactions Private?</p>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart LR
-    A["<b>Anonymous</b><br/>Identity: Hidden<br/>Data: Hidden<br/>No trace exists"]
-    B["<b>Pseudonymous</b><br/>Identity: Masked<br/>Data: Visible<br/>Alias used"]
-    C["<b>Identified</b><br/>Identity: Known<br/>Data: Visible<br/>All history exposed"]
 
-    A --- B --- C
-
-    classDef anon fill:#E6F5F2,stroke:#00B093,color:#111316
-    classDef pseudo fill:#E8F7FF,stroke:#00C3FF,color:#111316
-    classDef ident fill:#FDF6E3,stroke:#E09A02,color:#111316
-
-    class A anon
-    class B pseudo
-    class C ident
-</pre>
-<div class="diagram-label">The privacy spectrum: Bitcoin operates in the pseudonymous middle ground, where transaction data is public but identity is masked until linked.</div>
-</div>
  ============================================ 
  SECTION 2: PRIVACY VS ANONYMITY 
  ============================================ 
@@ -83,26 +65,7 @@ flowchart LR
 </table>
 <p>On <a href="https://blockstream.info">Blockstream Explorer</a>, anyone can search for a transaction ID or address and see this data in plain text. The amounts, the flow of funds, the fee, and the chain of transactions leading into and out of any address are all visible.</p>
 <p>This transparency is what allows Bitcoin to function as a trustless system. But it also means that privacy requires deliberate effort.</p>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart TD
-    TX["<b>Bitcoin Transaction</b><br/>txid: a1b2c3..."]
 
-    TX --&gt; IN["<b>Inputs</b><br/>Source addresses"]
-    TX --&gt; OUT["<b>Outputs</b><br/>Destination addresses"]
-    TX --&gt; AMT["<b>Amounts</b><br/>BTC values visible"]
-    TX --&gt; FEE["<b>Fee</b><br/>Paid to miner"]
-    TX --&gt; TIME["<b>Timestamp</b><br/>Block confirmation time"]
-    TX --&gt; BLOCK["<b>Block Height</b><br/>Position in chain"]
-
-    classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-    classDef grey fill:#E8ECF0,stroke:#414C59,color:#414C59
-
-    class TX blue
-    class IN,OUT,AMT,FEE,TIME,BLOCK grey
-</pre>
-<div class="diagram-label">Anatomy of a Bitcoin transaction as seen on a block explorer: all fields are publicly visible.</div>
-</div>
  ============================================ 
  SECTION 4: HOW TRANSACTIONS CAN BE TRACED 
  ============================================ 
@@ -119,38 +82,7 @@ flowchart TD
 <h3>Blockchain Analytics Companies</h3>
 <p>Companies like Chainalysis, Elliptic, and Crystal specialize in deanonymizing Bitcoin transactions at scale. They combine address clustering, exchange data, network analysis, and proprietary heuristics to trace the flow of funds across the Bitcoin network. Their clients include law enforcement agencies, regulators, exchanges, and financial institutions.</p>
 <p>These companies maintain databases that map millions of known addresses to identified entities. When a new transaction touches any known address, the chain of ownership extends further. Each identified transaction provides data that makes future identification easier.</p>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart TD
-    ADDR["<b>Pseudonymous Address</b><br/>bc1q...xyz"]
 
-    KYC["KYC / Exchange Link<br/>Identity verified on signup"]
-    CLUST["Address Clustering<br/>Multi-input co-spend analysis"]
-    IP["IP Correlation<br/>Network-level monitoring"]
-    ANALYTICS["Analytics Databases<br/>Known address mappings"]
-
-    KYC --&gt; LINKED
-    CLUST --&gt; LINKED
-    IP --&gt; LINKED
-    ANALYTICS --&gt; LINKED
-
-    ADDR --&gt; KYC
-    ADDR --&gt; CLUST
-    ADDR --&gt; IP
-    ADDR --&gt; ANALYTICS
-
-    LINKED["<b>Identified Wallet Cluster</b><br/>Full history exposed"]
-
-    classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-    classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
-    classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
-
-    class ADDR blue
-    class KYC,CLUST,IP,ANALYTICS amber
-    class LINKED green
-</pre>
-<div class="diagram-label">How a pseudonymous address becomes identified: multiple techniques converge to link addresses to real-world identities.</div>
-</div>
 <h3>Compliance and Transaction Monitoring</h3>
 <p>For regulated financial institutions, Bitcoin's transparent ledger is an advantage, not a drawback. Banks, exchanges, and broker-dealers are required to comply with Anti-Money Laundering (AML) regulations and sanctions screening. The public nature of the Bitcoin blockchain makes this compliance more straightforward than in traditional financial systems, where transaction data sits in siloed databases across multiple institutions.</p>
 <p>Institutions use blockchain analytics platforms to screen incoming and outgoing transactions against sanctioned addresses, monitor for high-risk patterns, and generate audit trails. The transparency that reduces individual privacy simultaneously provides institutional compliance teams with a level of transaction visibility that does not exist in legacy banking systems.</p>
@@ -165,36 +97,7 @@ flowchart TD
 <p>The <a href="https://help.blockstream.com/education/glossary/liquid-network">Liquid Network</a> uses Confidential Transactions by default on every transaction, hiding both amounts and asset types from outside observers. Because the privacy is built into the protocol, every Liquid transaction gets amount and asset confidentiality without any extra steps from the user.</p>
 <p>Consider the contrast: on <a href="https://blockstream.info">Blockstream Explorer</a>, a standard Bitcoin transaction shows amounts in plain text. A Liquid transaction shows "Confidential" where the amount would be. The transaction is still recorded on the Liquid blockchain, and the number of inputs and outputs is still visible, but the most sensitive financial information (how much was sent and what asset was used) is hidden by default.</p>
 <p>The privacy comes from mathematical proof rather than obfuscation or mixing. The Confidential Transactions cryptography was developed by Gregory Maxwell and other Blockstream Research contributors, peer-reviewed by the broader cryptographic community, and has been running in production on Liquid since 2018.</p>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart LR
-    subgraph BTC["Bitcoin Transaction"]
-        direction TB
-        B_IN["Input: bc1q...abc"]
-        B_OUT["Output: bc1q...def"]
-        B_AMT["Amount: <b>0.5 BTC</b>"]
-        B_FEE["Fee: <b>2,800 sats</b>"]
-    end
 
-    subgraph LIQ["Liquid Transaction"]
-        direction TB
-        L_IN["Input: VJL...abc"]
-        L_OUT["Output: VJL...def"]
-        L_AMT["Amount: <b>Confidential</b>"]
-        L_FEE["Asset: <b>Confidential</b>"]
-    end
-
-    classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-    classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
-    classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
-
-    class B_IN,B_OUT blue
-    class B_AMT,B_FEE amber
-    class L_IN,L_OUT blue
-    class L_AMT,L_FEE green
-</pre>
-<div class="diagram-label">Bitcoin vs. Liquid: Bitcoin transactions show amounts in plain text; Liquid transactions hide amounts and asset types using Confidential Transactions.</div>
-</div>
 <h3>Manage Your UTXOs</h3>
 <p>A UTXO (unspent transaction output) is a discrete chunk of bitcoin in your wallet. Think of <a href="https://help.blockstream.com/education/transactions/transaction-basics/what-are-utxos">UTXOs</a> like individual bills in a physical wallet. Each one has its own history and came from a specific source.</p>
 <p>When you spend bitcoin and the transaction requires more funds than a single UTXO provides, your wallet merges multiple UTXOs as inputs. This reveals that those UTXOs belong to the same owner. If one UTXO came from an exchange (KYC-linked) and another came from a private source, merging them links both sources to the same wallet.</p>
@@ -233,37 +136,7 @@ flowchart LR
 <li><strong>Wallet fingerprinting:</strong> Different wallet software creates transactions with subtly different structures, helping analysts identify the wallet software and its change behavior.</li>
 </ul>
 <p>Confidential Transactions eliminate this entire category of analysis. When amounts are hidden, an observer cannot determine which output is the payment and which is the change, because both amounts are opaque.</p>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart TD
-    subgraph BTC["Bitcoin: Change Output Analysis"]
-        direction TB
-        B_UTXO["Input UTXO<br/>0.5 BTC"] --&gt; B_TX["Transaction"]
-        B_TX --&gt; B_PAY["Output 1<br/><b>0.1 BTC</b><br/>Round number = likely payment"]
-        B_TX --&gt; B_CHG["Output 2<br/><b>0.3985 BTC</b><br/>Irregular = likely change"]
-        B_TX --&gt; B_FEE["Fee: 0.0015 BTC"]
-    end
 
-    subgraph LIQ["Liquid: Change Analysis Impossible"]
-        direction TB
-        L_UTXO["Input UTXO<br/>Confidential"] --&gt; L_TX["Transaction"]
-        L_TX --&gt; L_PAY["Output 1<br/><b>Confidential</b>"]
-        L_TX --&gt; L_CHG["Output 2<br/><b>Confidential</b>"]
-    end
-
-    classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-    classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
-    classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
-    classDef grey fill:#E8ECF0,stroke:#414C59,color:#414C59
-
-    class B_UTXO,L_UTXO blue
-    class B_TX,L_TX grey
-    class B_PAY,B_CHG amber
-    class B_FEE grey
-    class L_PAY,L_CHG green
-</pre>
-<div class="diagram-label">Change output analysis: on Bitcoin, heuristics reveal which output is payment vs. change. On Liquid, Confidential Transactions make this analysis impossible.</div>
-</div>
  ============================================ 
  SECTION 7: INSTITUTIONAL PERSPECTIVE 
  ============================================ 
