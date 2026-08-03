@@ -1,0 +1,229 @@
+<p class="tldr">
+<strong>TL;DR:</strong> Bitcoin and gold are both scarce, non-government stores of value, but they differ across every monetary property. Gold wins on track record (thousands of years), price stability, and physical durability. Bitcoin wins on supply certainty (a verifiable 21 million cap), portability (global settlement in minutes), divisibility (100 million units per bitcoin), and verifiability (anyone can audit the total supply). Gold has historically returned roughly 7-8% annually with low volatility; Bitcoin has delivered far higher returns with far higher volatility. Many investors hold both, using gold for stability and Bitcoin for asymmetric upside. This article is educational, not financial advice.
+</p>
+
+<strong>The Bitcoin-vs-gold comparison</strong> evaluates both assets across the core monetary properties: scarcity, portability, divisibility, durability, verifiability, and fungibility. Gold is the oldest recognized store of value, with millennia of use as money. Bitcoin is the first digitally scarce asset, with a supply cap enforced by open-source code and a global network of nodes. Comparing them provides a framework for understanding what makes any asset a credible store of value.
+
+<h2>Why Compare Bitcoin and Gold?</h2>
+<p>Every generation has to decide what qualifies as sound money. For most of recorded history, gold answered that question convincingly. It was scarce, durable, widely recognized, and difficult to counterfeit. Entire monetary systems were built on gold's physical properties.</p>
+<p>Bitcoin entered that conversation in 2009 with a different set of tools. Instead of relying on atomic structure for scarcity, it uses cryptographic proof. Instead of physical vaults for security, it uses a decentralized network of nodes. The comparison between these two assets sharpens the question of what sound money actually requires in the 21st century.</p>
+<p>The "digital gold" label attached to Bitcoin early in its history. That framing captures something real: both assets are positioned as alternatives to government-issued fiat currencies, and both derive value from scarcity rather than government decree. But the comparison also reveals where the analogy breaks down and where Bitcoin introduces properties that gold physically cannot match.</p>
+<div class="diagram-container">
+<pre class="mermaid">
+flowchart LR
+  subgraph Gold["Gold as Money"]
+    A["~600 BC\nLydian Coins"]:::blue --&gt; B["1816\nGold Standard\n(UK)"]:::blue
+    B --&gt; C["1944\nBretton Woods"]:::blue
+    C --&gt; D["1971\nNixon Shock"]:::amber
+  end
+  subgraph BTC["Bitcoin Milestones"]
+    E["2009\nGenesis Block"]:::green --&gt; F["2012\n1st Halving\n50 → 25 BTC"]:::green
+    F --&gt; G["2020\n3rd Halving\n6.25 BTC"]:::green
+    G --&gt; H["2024\nSpot ETF\nApprovals"]:::green
+  end
+  classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
+  classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
+  classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
+</pre>
+<div class="diagram-label">Key dates in the history of gold as money alongside Bitcoin milestones</div>
+</div>
+<h2>Bitcoin or Gold: Which Is Better?</h2>
+<p>Neither asset is universally "better"; each wins on different properties, and the right choice depends on what an investor values. Gold is better for stability, with low volatility, a multi-thousand-year track record, and near-universal recognition. Bitcoin is better for portability, divisibility, supply certainty, and verifiability, the properties that matter most in a digital, cross-border economy. On historical returns, bitcoin has produced far higher returns than gold over most multi-year periods since its creation, though with much larger drawdowns along the way and stretches where gold has outperformed. Gold has delivered steadier, inflation-tracking returns over decades.</p>
+<p>Because they excel in different ways, the two assets are often held together rather than chosen between. Several portfolio models published by major financial institutions allocate to both, treating gold as the stable anchor and Bitcoin as the higher-risk, higher-upside <a href="https://help.blockstream.com/education/glossary/sound-money">sound money</a> position. The rest of this article compares them property by property so that decision can be made on the specifics rather than on the "digital gold" label.</p>
+<h2>Monetary Properties Compared</h2>
+<p>Sound money is defined by measurable properties, not brand recognition or market sentiment. The six classical monetary properties provide a framework that applies equally to gold and Bitcoin, evaluated on the same criteria.</p>
+<h3>Scarcity</h3>
+<p><strong>Gold:</strong> Gold is scarce relative to other elements, but its total supply is unknown. Geological surveys estimate roughly 216,000 metric tons have been mined throughout history, with an additional 50,000+ tons in identified underground reserves. New gold enters circulation at roughly 1-2% annual inflation through mining, and that rate depends on extraction technology, energy costs, and exploration success. If asteroid mining or deep-sea extraction becomes viable, the supply equation changes entirely.</p>
+<p><strong>Bitcoin:</strong> Bitcoin's total supply is capped at <a href="https://help.blockstream.com/education/economics/bitcoin-economics/why-is-the-bitcoin-supply-limited">21 million</a> units, enforced by consensus rules that every node on the network validates independently. As of mid-2026, approximately 20 million bitcoin have been mined. The issuance rate halves roughly every four years (the "halving"), and all 21 million bitcoin will be mined by approximately 2140. Unlike gold's supply, which requires trusting geological estimates, Bitcoin's supply is auditable by anyone running a node. The command <code>gettxoutsetinfo</code> returns the exact number of bitcoin in circulation at any moment.</p>
+<p>Gold's scarcity is probabilistic (the belief that it is scarce rests on geological models). Bitcoin's scarcity is deterministic (the code enforces a hard cap, and the network rejects any block that violates it).</p>
+<h3>Portability</h3>
+<p><strong>Gold:</strong> Moving gold is expensive, slow, and logistically difficult. Transporting $1 billion in gold requires armored vehicles, insurance, security, and days of transit time. International gold transfers involve multiple custodians, paperwork, and settlement delays. For individuals, even carrying a few ounces across borders involves declaration requirements and confiscation risk.</p>
+<p><strong>Bitcoin:</strong> One billion dollars in bitcoin can be sent anywhere on Earth in under an hour, for a fee that typically ranges from a few cents to a few dollars. A Bitcoin transaction does not require permission from any intermediary. The sender needs only a wallet and access to the network. For smaller, faster payments, the <a href="https://help.blockstream.com/education/glossary/lightning-network">Lightning Network</a> settles in seconds. Bitcoin can also cross borders as nothing more than a memorized sequence of words (a recovery phrase), making it the most portable store of value ever created.</p>
+<h3>Divisibility</h3>
+<p><strong>Gold:</strong> Gold is physically difficult to divide into small units. Bars and coins come in standard sizes. Shaving gold into precise micro-amounts for daily transactions is impractical. Gold-backed financial instruments (ETFs, certificates) solve this problem by adding abstraction layers, but those layers introduce counterparty risk and remove physical possession.</p>
+<p><strong>Bitcoin:</strong> Each bitcoin is divisible into 100,000,000 satoshis (sats). At a price of $100,000 per bitcoin, a single sat is worth $0.001, enabling micropayments that are physically impossible with gold. This divisibility is native to the protocol, requiring no intermediary or financial product. A self-custodial wallet can hold and send any amount from one sat to billions of dollars in bitcoin, all with the same security model.</p>
+<h3>Durability</h3>
+<p><strong>Gold:</strong> Gold is one of the most chemically stable elements. It does not corrode, tarnish, or degrade. Gold artifacts thousands of years old remain intact. This physical durability is one of gold's strongest properties and a major reason it became the standard for long-term value storage.</p>
+<p><strong>Bitcoin:</strong> Bitcoin does not exist as a physical object, so durability depends on the network's continued operation. The Bitcoin network has maintained 99.99% uptime since 2009 (two brief incidents in 2010 and 2013, zero downtime since) and is secured by a massive amount of computational power (hashrate). As long as the network runs, the ledger is permanent. A private key stored properly (on a <a href="https://help.blockstream.com/education/wallets/security-and-storage/what-is-a-hardware-wallet">hardware wallet</a>, in a steel backup, or simply memorized) grants access to bitcoin indefinitely. The risk to Bitcoin's durability is not physical degradation but network disruption, a scenario that would require simultaneously shutting down tens of thousands of nodes across every continent.</p>
+<p>Blockstream Satellite, a satellite broadcast service Blockstream previously operated (transferred to an independent mining entity in April 2025), added another layer of durability by broadcasting the Bitcoin blockchain from space. Full nodes could sync and verify the blockchain without an internet connection, ensuring network access even in regions with unreliable infrastructure.</p>
+<div class="diagram-container">
+<pre class="mermaid">
+flowchart TB
+  subgraph Gold["Gold"]
+    G1["Scarcity\nHigh but unknown"]:::amber
+    G2["Portability\nPoor"]:::amber
+    G3["Divisibility\nLimited"]:::amber
+    G4["Durability\nExcellent"]:::green
+    G5["Verifiability\nRequires equipment"]:::amber
+    G6["Fungibility\nStrong"]:::green
+  end
+  subgraph Bitcoin["Bitcoin"]
+    B1["Scarcity\n21M hard cap"]:::green
+    B2["Portability\nGlobal in minutes"]:::green
+    B3["Divisibility\n100M sats per BTC"]:::green
+    B4["Durability\nNetwork-dependent"]:::blue
+    B5["Verifiability\nAnyone with a node"]:::green
+    B6["Fungibility\nPublic chain history"]:::amber
+  end
+  classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
+  classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
+  classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
+</pre>
+<div class="diagram-label">Monetary properties scorecard: Gold vs. Bitcoin</div>
+</div>
+<h3>Verifiability</h3>
+<p><strong>Gold:</strong> Verifying gold's authenticity requires specialized equipment. X-ray fluorescence (XRF) analyzers, specific gravity testing, and fire assays are the standard methods. Tungsten-filled gold bars have been documented, and counterfeiting remains a persistent risk. Individual buyers must trust the assay process, the dealer, or the mint. Verification is expensive and requires expertise.</p>
+<p><strong>Bitcoin:</strong> Anyone can verify Bitcoin transactions, balances, and the total supply using a <a href="https://help.blockstream.com/education/nodes/introduction-and-role/what-is-a-bitcoin-node">full node</a>. Running a Bitcoin node costs under $500 in hardware and requires no specialized knowledge. The verification is mathematical, not physical, and every node on the network performs it independently. When someone sends you bitcoin, your node independently confirms the transaction was included in a valid block by checking the cryptographic signature against the spender's public key (Bitcoin uses ECDSA for legacy and SegWit v0 outputs and Schnorr for Taproot outputs, activated November 2021). There is no need to trust a third-party assayer.</p>
+<h3>Under the Hood: Bitcoin's Auditability vs. Gold Assays</h3>
+<p>The verifiability gap between gold and Bitcoin is worth examining in detail. A gold assay tests a sample of one bar at a time and requires physical access to the metal. The result tells you about that specific bar, not about the total gold supply. Auditing a central bank's gold reserves requires access to the vault, which is rarely granted, and independent verification of every bar's authenticity and weight.</p>
+<p>A Bitcoin full node verifies the entire monetary supply from the genesis block forward. The <code>gettxoutsetinfo</code> RPC command returns the exact number of bitcoin in existence by scanning every unspent transaction output (<a href="https://help.blockstream.com/education/transactions/transaction-basics/what-are-utxos">UTXO</a>) in the set. This audit is total, not sampled: it covers every satoshi. It can be run by anyone at any time, costs nothing beyond the node hardware, and completes in minutes. The <a href="https://blockstream.info">Blockstream Explorer</a> provides a public interface for anyone to inspect blocks, transactions, and address balances without running their own node, though running a node provides full trustless verification.</p>
+<h3>Monetary Properties Summary</h3>
+<table>
+<tr>
+<th>Property</th>
+<th>Gold</th>
+<th>Bitcoin</th>
+</tr>
+<tr>
+<td>Scarcity</td>
+<td>High but unknown total; ~1-2% annual inflation from mining</td>
+<td>21 million hard cap; ~0.85% annual inflation (post-2024 halving, declining to 0%)</td>
+</tr>
+<tr>
+<td>Portability</td>
+<td>Poor; armored transport, days of transit, high cost</td>
+<td>Global settlement in under an hour; Lightning in seconds</td>
+</tr>
+<tr>
+<td>Divisibility</td>
+<td>Limited; standard bars/coins, impractical micro-amounts</td>
+<td>100 million satoshis per bitcoin; sub-cent micropayments</td>
+</tr>
+<tr>
+<td>Durability</td>
+<td>Excellent; chemically stable for millennia</td>
+<td>Network-dependent; 99.99% uptime since 2009</td>
+</tr>
+<tr>
+<td>Verifiability</td>
+<td>Requires XRF, assays, or trusted dealers</td>
+<td>Any node verifies total supply via <code>gettxoutsetinfo</code></td>
+</tr>
+<tr>
+<td>Fungibility</td>
+<td>Strong; one ounce of .999 gold equals any other</td>
+<td>High at protocol level; chain analysis creates practical nuance</td>
+</tr>
+<tr>
+<td>Storage cost (10-year, $1M position)</td>
+<td>$50,000-$100,000 (vault, insurance, audits)</td>
+<td>Under $200 total (hardware wallet)</td>
+</tr>
+</table>
+<h3>Fungibility</h3>
+<p><strong>Gold:</strong> Gold is generally fungible. An ounce of .999 fine gold is equivalent to any other ounce of .999 fine gold, regardless of where it was mined or who previously owned it. Some edge cases exist (sanctioned central bank gold, for example), but in practice, gold's fungibility is strong.</p>
+<p><strong>Bitcoin:</strong> Bitcoin's fungibility is more complex. Every Bitcoin transaction is recorded on a public blockchain, and chain analysis firms track the history of individual UTXOs. Some exchanges and custodians flag bitcoin with certain transaction histories, creating a distinction between "clean" and "tainted" bitcoin that undermines fungibility.</p>
+<p>The Liquid Network addresses this fungibility gap through Confidential Transactions, which hide both transaction amounts and asset types from outside observers. Transactions on Liquid are verifiable by the participants but opaque to surveillance. This design restores a degree of fungibility that the base Bitcoin blockchain alone does not guarantee.</p>
+<h2>Market Size and Adoption</h2>
+<p>Gold's estimated total market value is approximately $31 trillion. The <a href="https://www.gold.org/goldhub/research/market-primer/gold-market-primer-market-size-and-structure">World Gold Council</a> valued the world's roughly 220,000 tonnes of above-ground gold at about $31 trillion at the end of 2025, covering gold held by central banks, private investors, and the jewelry industry, and that total rises and falls with the gold price. Gold has thousands of years of adoption history and near-universal recognition as a store of value.</p>
+<p>Bitcoin's market capitalization has grown from zero to roughly $1.3 trillion within 17 years (mid-2026), after surpassing $2 trillion at its 2025 highs. Spot Bitcoin ETFs in the United States, approved in January 2024, attracted tens of billions in inflows within their first year. A number of public companies, and some government-linked funds, now hold bitcoin on their balance sheets. Adoption is accelerating, but Bitcoin's market capitalization remains a fraction of gold's.</p>
+<div class="diagram-container">
+<pre class="mermaid">
+flowchart TB
+  subgraph Scale["Market Capitalization Comparison"]
+    direction TB
+    FIAT["Global Fiat Money Supply\n~$100T+"]:::grey
+    GOLD["Gold\n~$30T"]:::amber
+    BTC["Bitcoin\n~$1.2T"]:::blue
+  end
+  FIAT ~~~ GOLD ~~~ BTC
+  classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
+  classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
+  classDef grey fill:#E8ECF0,stroke:#414C59,color:#414C59,stroke-dasharray: 5 5
+</pre>
+<div class="diagram-label">Gold market cap (~$30T) vs. Bitcoin market cap (~$1.2T) vs. total fiat money supply (~$100T+), as of mid-2026</div>
+</div>
+<p>The size gap is context-dependent. Gold has existed as money for millennia and has the full backing of central bank reserves and institutional infrastructure, while Bitcoin has existed for 17 years and is still building that infrastructure. The relevant question is the trajectory: gold's market cap has grown slowly and steadily over decades, while Bitcoin's has compounded at a rate that no traditional asset class has matched over equivalent time periods.</p>
+<h2>Historical Performance</h2>
+<p>Gold has delivered roughly 7-8% annualized returns over the past 50+ years when measured in U.S. dollars, roughly keeping pace with inflation. Gold performed well during periods of high inflation (the 1970s, 2020-2024) and poorly during periods of monetary stability and strong equity markets (the 1990s).</p>
+<p>Bitcoin has produced far higher returns than gold over most multi-year holding periods since its creation, though with far higher volatility and repeated drawdowns of 70-80%. The outcome depends heavily on the entry point: measured from its 2021 peak, bitcoin has at times underperformed gold's strong 2024-2025 run. Bitcoin's volatility is orders of magnitude higher than gold's, which makes direct return comparisons misleading without accounting for risk tolerance and time horizon.</p>
+<div class="diagram-container">
+<pre class="mermaid">
+flowchart LR
+  subgraph GoldTrajectory["Gold: 1971-2026"]
+    GA["1971\n$35/oz"]:::amber --&gt; GB["1980\n$850/oz"]:::amber
+    GB --&gt; GC["1999\n$250/oz"]:::amber
+    GC --&gt; GD["2011\n$1,900/oz"]:::amber
+    GD --&gt; GE["2026\n~$4,000/oz"]:::amber
+  end
+  subgraph BTCTrajectory["Bitcoin: 2009-2026"]
+    BA["2009\n$0"]:::blue --&gt; BB["2013\n$1,100"]:::blue
+    BB --&gt; BC["2017\n$19,700"]:::blue
+    BC --&gt; BD["2021\n$69,000"]:::blue
+    BD --&gt; BE["2024\n$100,000+"]:::blue
+  end
+  classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
+  classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
+</pre>
+<div class="diagram-label">Gold price trajectory (1971-2026) alongside Bitcoin price trajectory (2009-2026), illustrating relative growth</div>
+</div>
+<p>One pattern is consistent: Bitcoin's volatility has decreased over each successive market cycle as liquidity deepens and the holder base broadens. Whether that trend continues is an open question, but the direction has been consistent for 15 years.</p>
+<h2>Custody and Storage</h2>
+<p>How you store an asset determines how much of its monetary properties you actually benefit from. Ownership that depends on a custodian's solvency or a government's permission is fundamentally different from direct possession.</p>
+<h3>Storing Gold</h3>
+<p>Physical gold requires secure storage: a home safe, a bank vault, or a private vault service. Each option carries trade-offs. Home storage introduces theft risk. Bank vaults depend on the bank's hours, policies, and solvency. Private vault services charge ongoing fees and require trust in a third party. Gold ETFs eliminate storage concerns but replace physical ownership with a claim on a fund manager's reserves, introducing counterparty risk.</p>
+<p>Transporting gold between storage locations is slow and expensive. Verifying that stored gold is genuine (and not rehypothecated) requires audits that most individual holders cannot conduct.</p>
+<h3>Storing Bitcoin</h3>
+<p>Bitcoin custody exists on a spectrum from fully custodial (an exchange holds your keys) to fully self-custodial (you hold your own private keys). Self-custody eliminates counterparty risk entirely. Your bitcoin exists on the blockchain, and your private key is the only mechanism that can move it. That responsibility cuts both ways: if the private key and its backup are lost, the bitcoin becomes permanently inaccessible, with no administrator to appeal to, a failure mode physical gold does not share.</p>
+<p>Hardware wallets like <a href="https://store.blockstream.com/products/jade-plus">Jade Plus</a> store private keys offline on a dedicated device. Jade Plus uses air-gapped QR code signing, meaning it never connects to the internet via USB or Bluetooth during the signing process. The device scans a QR code from a companion app, signs the transaction offline, and displays a QR code for the companion app to broadcast. This air-gapped model eliminates an entire class of attack vectors that affect connected signing devices.</p>
+<p>Storing $1 million in gold requires vault rental, insurance, and periodic audits, with annual costs running 0.5-1% of the asset's value ($5,000-$10,000 per year on a $1 million position). Storing $1 million in bitcoin requires a hardware wallet like <a href="https://store.blockstream.com/products/jade-plus">Jade Plus</a> ($149-$169) and a secure backup of the recovery phrase. Annual maintenance cost for self-custodial bitcoin storage is effectively zero. Over a 10-year holding period, the storage cost difference alone amounts to $50,000-$100,000 on a $1 million gold position versus under $200 total for bitcoin.</p>
+<h3>The Institutional Perspective</h3>
+<p>For institutional allocators (pension funds, endowments, sovereign wealth funds, corporate treasuries), the comparison shifts. Gold's millennia of track record, deep liquidity, and universal acceptance make it a proven portfolio diversifier. Most institutional portfolios allocate 5-10% to gold as a hedge against inflation and currency devaluation.</p>
+<p>Bitcoin is entering the same conversation. The approval of spot Bitcoin ETFs removed a major barrier for institutions that require regulated vehicles. Bitcoin's correlation to traditional assets has been inconsistent (sometimes correlated with equities, sometimes inversely correlated, sometimes uncorrelated), which makes it a less predictable hedge than gold but a potentially powerful diversifier in multi-asset portfolios.</p>
+<p>The "digital gold" thesis, which positions Bitcoin as gold's successor for the digital age, is gaining traction in institutional research. Several major banks and asset managers have published portfolio models that include Bitcoin alongside gold, arguing that a small allocation (1-5%) to both assets provides better risk-adjusted returns than either alone.</p>
+<p>For institutions that do adopt bitcoin, custody is a central concern. Enterprise-grade custody solutions provide multisig security, policy engines, and role-based access controls that parallel the governance frameworks institutions already use for traditional assets.</p>
+<div class="diagram-container">
+<pre class="mermaid">
+flowchart TB
+  subgraph GoldCustody["Gold Custody Options"]
+    GH["Home Safe\nSelf-secured\nTheft risk\n~$0/yr"]:::amber
+    GV["Bank Vault\nBank-dependent\nAccess limits\n0.5-1%/yr"]:::amber
+    GE["Gold ETF\nFund shares\nCounterparty risk\n0.25-0.4%/yr"]:::amber
+  end
+  subgraph BTCCustody["Bitcoin Custody Options"]
+    BE["Exchange\nCustodial\nCounterparty risk\n~$0/yr"]:::grey
+    BS["Software Wallet\nSelf-custodial\nDevice risk\n$0/yr"]:::blue
+    BH["Hardware Wallet\nAir-gapped\nNo counterparty\n$0/yr"]:::green
+    BM["Multisig\nDistributed keys\nNo single point\n$0/yr"]:::green
+  end
+  classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
+  classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
+  classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
+  classDef grey fill:#E8ECF0,stroke:#414C59,color:#414C59,stroke-dasharray: 5 5
+</pre>
+<div class="diagram-label">Custody comparison: Gold storage options vs. Bitcoin custody options</div>
+</div>
+<h2>Complementary, Not Competing</h2>
+<p>Bitcoin and gold answer the same demand rather than competing for a single winner. Both assets exist because people seek alternatives to fiat currencies that lose purchasing power through inflation. Gold has proven that thesis over thousands of years. Bitcoin is proving it over a much shorter timeframe, using different mechanisms.</p>
+<p>Gold excels as a stable, low-volatility store of value with deep liquidity and universal recognition. Bitcoin excels as a portable, verifiable, programmable store of value with a fixed supply cap. They address different needs, different time horizons, and different risk tolerances.</p>
+<p>Bitcoin expands what is possible in a store of value rather than replacing gold's properties. Each asset's limitations are the other's strengths: gold cannot be sent across borders in ten minutes or programmatically divided into hundred-millionths, while bitcoin cannot survive without electricity or be held in your hand.</p>
+<p>For an individual building a long-term savings strategy, understanding both assets provides a more complete picture of store-of-value options than understanding either one alone.</p>
+<h2>Frequently Asked Questions</h2>
+
+<p class="faq-question">Is Bitcoin really "digital gold"?</p>
+<p class="faq-answer">The comparison captures a real similarity: both Bitcoin and gold derive value from scarcity rather than government decree, and both serve as alternatives to inflationary fiat currencies. The analogy breaks down on specifics. Bitcoin is more portable (global settlement in minutes vs. days for gold), more divisible (100 million satoshis per bitcoin vs. practical limits on splitting gold bars), and more verifiable (any node can audit the total supply vs. opaque vault audits). Gold is more stable, more universally recognized, and has a longer track record. "Digital gold" is a useful starting point, not a complete description.</p>
+
+<p class="faq-question">Which is a better store of value, Bitcoin or gold?</p>
+<p class="faq-answer">That depends on your time horizon and risk tolerance. Over most multi-year periods in its history, Bitcoin has produced higher raw returns than gold, though with significantly higher volatility, deep drawdowns, and stretches where gold outperformed. Gold has delivered steady, inflation-tracking returns over decades with lower drawdowns. Many allocators hold both, using gold for stability and Bitcoin for asymmetric upside.</p>
+
+<p class="faq-question">Can Bitcoin's supply really never exceed 21 million?</p>
+<p class="faq-answer">The 21 million cap is enforced by Bitcoin's consensus rules. Every node on the network independently validates that no block creates more bitcoin than the protocol allows. Changing the supply cap would require convincing the vast majority of node operators to accept a rule change that devalues their own holdings, a scenario with no economic incentive and strong resistance. The supply cap is the most credibly immutable property of the network. (Due to satoshi-level integer rounding, the actual maximum is approximately 20,999,999.98 BTC; "21 million" is standard shorthand.)</p>
+
+<p class="faq-question">Is gold's supply really unlimited?</p>
+<p class="faq-answer">Gold's total supply is not unlimited, but it is unknown, because gold's scarcity is geological rather than mathematical. New deposits are discovered, extraction technology improves, and asteroid mining is a theoretical future source. Annual gold mining adds roughly 1-2% to the existing above-ground supply. Unlike Bitcoin, there is no verifiable hard cap on the total gold that will ever be extracted.</p>
+
+<p class="faq-question">What happens to Bitcoin if the internet goes down?</p>
+<p class="faq-answer">A global, permanent internet shutdown would affect Bitcoin's operation, but the network is designed for resilience. Bitcoin transactions can be broadcast over mesh networks, radio, and satellite. Blockstream's former satellite broadcast service (transferred to an independent mining entity in April 2025) broadcasted the full Bitcoin blockchain worldwide, enabling node operation without traditional internet infrastructure. A localized internet disruption does not affect the global network, only the ability of users in the affected area to broadcast transactions.</p>
+
+<p class="faq-question">Should I hold Bitcoin, gold, or both?</p>
+<p class="faq-answer">This article is educational, not financial advice. Both assets have demonstrated store-of-value properties through different mechanisms. Many portfolio models published by major financial institutions include allocations to both Bitcoin and gold, arguing that they serve complementary roles. Understanding the properties of each asset, as outlined above, is the starting point for making that decision based on your own circumstances.</p>
