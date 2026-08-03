@@ -1,0 +1,17 @@
+{
+ "bitcoin-vs-gold": "Compare Bitcoin and gold across scarcity, portability, verifiability, and market history to understand how each works as a store of value.",
+ "dollar-cost-averaging-into-bitcoin": "How dollar-cost averaging into bitcoin works, what it smooths out, and the trade-offs of scheduled buying versus timing the market.",
+ "how-is-bitcoin-taxed": "How bitcoin is taxed in practice: capital gains on sales and swaps, income treatment for earnings, and the records worth keeping.",
+ "what-are-bitcoin-etfs": "What spot Bitcoin ETFs are, how they differ from holding bitcoin directly, and what investors give up in exchange for brokerage convenience.",
+ "what-is-bitcoins-risk-profile": "A clear look at Bitcoin's six main risk categories, from volatility and regulation to custody, technology, adoption, and market structure.",
+ "what-is-the-bitcoin-halving": "What the Bitcoin halving is, why it happens roughly every four years, and how it shapes bitcoin's supply schedule and miner incentives.",
+ "why-does-bitcoin-offer-better-monetary-policy": "Why Bitcoin's fixed, rule-based supply schedule differs from discretionary central-bank policy, and what that predictability means for holders.",
+ "why-is-bitcoin-so-volatile": "Bitcoin's price swings come from a small market repricing a new asset: thin liquidity and demand shocks meeting a fixed supply.",
+ "why-is-the-bitcoin-supply-limited": "Bitcoin's supply is capped at 21 million. See how the halving schedule enforces the limit and why no one can change it unilaterally.",
+ "are-bitcoin-transactions-private": "What Bitcoin's public ledger reveals, what it hides, and practical steps that reduce how much of your financial history others can trace.",
+ "different-transaction-types": "Bitcoin's transaction types explained: legacy, SegWit, and Taproot outputs, what each costs in fees, and which one your wallet uses.",
+ "how-does-bitcoin-create-and-broadcast-transactions": "Follow a bitcoin transaction from construction and signing through broadcast, mempool relay, and confirmation into a block.",
+ "what-are-utxos": "What unspent transaction outputs are, how they work like digital cash, and why they shape bitcoin fees, privacy, and wallet balances.",
+ "what-is-replace-by-fee": "What Replace-by-Fee is, how it lets an unconfirmed bitcoin transaction be rebroadcast with a higher fee, and when your wallet uses it.",
+ "why-does-bitcoin-have-fees": "Why bitcoin transactions carry fees, how the fee market allocates limited block space, and how to pay less without risking a stuck payment."
+}
