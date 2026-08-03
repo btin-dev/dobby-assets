@@ -8,33 +8,7 @@
 <p>Bitcoin transactions do not confirm instantly. After you broadcast a transaction, it enters a waiting area called the <strong><a href="https://help.blockstream.com/education/glossary/mempool">mempool</a></strong> (short for memory pool), where it sits until a miner includes it in a block. Miners are economically motivated to include transactions that pay the highest fees per unit of block space, so a transaction with a low fee can sit unconfirmed for hours, days, or indefinitely if the fee market moves against it.</p>
 <p>Before RBF, a stuck transaction left the sender with few options. The transaction would eventually either confirm at some unpredictable future time or be dropped from mempools after a timeout period (typically two weeks). There was no clean way to increase the fee after broadcast.</p>
 <p>RBF formalizes a replacement policy: create a new transaction that spends the same inputs with a higher fee, and nodes will accept the replacement and drop the original. Miners see the higher-fee version and have every incentive to include it instead.</p>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart LR
-    subgraph BEFORE["Low-Fee Transaction"]
-        direction TB
-        TX1["Original TX<br/><b>5 sat/vB</b>"]
-        MEM1["Mempool<br/>Low priority"]
-    end
 
-    subgraph AFTER["RBF Replacement"]
-        direction TB
-        TX2["Replacement TX<br/><b>25 sat/vB</b>"]
-        MEM2["Mempool<br/>High priority"]
-    end
-
-    TX1 --&gt; MEM1
-    MEM1 -.-&gt;|"RBF: same inputs,<br/>higher fee"| TX2
-    TX2 --&gt; MEM2
-
-    classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
-    classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
-
-    class TX1,MEM1 amber
-    class TX2,MEM2 green
-</pre>
-<div class="diagram-label">RBF replaces a low-fee transaction with a higher-fee version spending the same inputs.</div>
-</div>
 <h2>How RBF Works</h2>
 <h3>The Replacement Sequence</h3>
 <ol>
@@ -44,29 +18,7 @@ flowchart LR
 <li><strong>Network propagation.</strong> Nodes check the replacement against their mempool policy. If it meets the fee requirements, they drop the original and accept the replacement.</li>
 <li><strong>Confirmation.</strong> Miners see the higher-fee replacement and include it in a block. Once confirmed, the original can never confirm because its inputs have been spent.</li>
 </ol>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart TD
-    ORIG["<b>1. Original Broadcast</b><br/>Transaction enters mempool"]
-    INSUF["<b>2. Fee Insufficient</b><br/>Dropped in priority queue"]
-    REPLACE["<b>3. Create Replacement</b><br/>Same inputs, higher fee"]
-    PROP["<b>4. Network Propagation</b><br/>Nodes drop original,<br/>accept replacement"]
-    CONFIRM["<b>5. Confirmation</b><br/>Miner includes<br/>replacement in block"]
 
-    ORIG --&gt; INSUF --&gt; REPLACE --&gt; PROP --&gt; CONFIRM
-
-    classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-    classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
-    classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
-
-    class ORIG blue
-    class INSUF amber
-    class REPLACE blue
-    class PROP blue
-    class CONFIRM green
-</pre>
-<div class="diagram-label">RBF replacement sequence: from original broadcast through fee insufficiency to confirmed replacement.</div>
-</div>
 <h3>RBF Rules in Detail</h3>
 <p><a href="https://help.blockstream.com/education/nodes/set-up-and-optimization/what-is-bitcoin-core">Bitcoin Core</a> enforces specific rules for transaction replacement (defined in BIP 125, implemented in <a href="https://github.com/bitcoin/bitcoin/blob/master/src/policy/rbf.cpp"><code>src/policy/rbf.cpp</code></a>, and updated in subsequent releases):</p>
 <table>
@@ -150,25 +102,7 @@ flowchart TD
 <li><strong>Better fee estimation.</strong> When all transactions can be replaced, the mempool more accurately reflects current demand for block space.</li>
 <li><strong>Fewer stuck transactions.</strong> Users no longer need to remember to signal RBF before broadcasting.</li>
 </ul>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart LR
-    BIP125["<b>BIP 125</b><br/>Feb 2016<br/>Opt-in RBF<br/>Core 0.12.0"]
-    OPTION["<b>mempoolfullrbf</b><br/>Dec 2022<br/>Option added<br/>Core 24.0.1"]
-    DEFAULT["<b>Full RBF Default</b><br/>Oct 2024<br/>Enabled by default<br/>Core 28.0"]
 
-    BIP125 --&gt;|"~7 years"| OPTION --&gt;|"~2 years"| DEFAULT
-
-    classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
-    classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-    classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
-
-    class BIP125 amber
-    class OPTION blue
-    class DEFAULT green
-</pre>
-<div class="diagram-label">RBF timeline: from opt-in signaling in 2016 to full RBF as the default network policy in 2024.</div>
-</div>
 <h2>When to Use RBF</h2>
 <p>Common scenarios where RBF is the right tool:</p>
 <ul>
@@ -187,24 +121,7 @@ flowchart LR
 <li><strong>Confirm and broadcast.</strong> The wallet creates a new transaction spending the same inputs, signs it, and broadcasts it to the network. The original transaction is replaced in the mempools of nodes that receive the new one.</li>
 <li><strong>Wait for confirmation.</strong> The replacement transaction now competes in the fee market at the new fee rate.</li>
 </ol>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart TD
-    WALLET["Unconfirmed TX<br/>in wallet"]
-    WALLET --&gt; BUMP["Tap 'Bump Fee'<br/>or 'Speed Up'"]
-    BUMP --&gt; NEWFEE["Set new fee rate<br/>Must exceed original"]
-    NEWFEE --&gt; CONFIRM2["Confirm and<br/>broadcast replacement"]
-    CONFIRM2 --&gt; WAIT["Wait for miner<br/>to include"]
 
-    classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-    classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
-
-    class WALLET blue
-    class BUMP,NEWFEE blue
-    class CONFIRM2,WAIT green
-</pre>
-<div class="diagram-label">Using RBF in practice: find the stuck transaction, bump the fee, and broadcast the replacement.</div>
-</div>
 <h3>Checking Status With a Block Explorer</h3>
 <p>After broadcasting a replacement, you can verify it propagated by looking up the transaction on a <a href="https://help.blockstream.com/education/wallets/managing-and-acquiring-bitcoin/how-do-i-look-up-my-bitcoin-transaction">block explorer</a>. <a href="https://blockstream.info">Blockstream Explorer</a> shows transaction details including fee, fee rate, and confirmation status. If the replacement was accepted, the original transaction ID will no longer appear in the mempool, and the new transaction ID will show as unconfirmed (pending) until a miner includes it in a block.</p>
 <h3>What If RBF Fails?</h3>
@@ -258,28 +175,7 @@ flowchart TD
 <p>A zero-conf transaction has been broadcast to the network but not yet included in a block. Some merchants historically accepted zero-conf payments for low-value goods, treating mempool visibility as "good enough".</p>
 <p>This was never a reliable security model. Even before RBF, a sender could broadcast two conflicting transactions simultaneously to different parts of the network (a "race attack"), or submit a conflicting transaction directly to a miner. The Bitcoin protocol has never guaranteed that the first-seen version of a transaction will be the one that confirms. Only inclusion in a block, protected by proof-of-work, provides settlement finality.</p>
 <p>RBF does not create new attack vectors. It standardizes what was always technically possible: replacing an unconfirmed transaction. This benefits users who need to adjust fees but does not change the security properties of unconfirmed transactions.</p>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart TD
-    subgraph THRESHOLDS["Confirmation Security Thresholds"]
-        direction TB
-        LOW["<b>Low Value</b><br/>Small digital goods<br/>1 confirmation<br/>~10 min"]
-        MED["<b>Medium Value</b><br/>Standard purchases<br/>3 confirmations<br/>~30 min"]
-        HIGH["<b>High Value</b><br/>Large transfers<br/>6 confirmations<br/>~60 min"]
-        VHIGH["<b>Very High Value</b><br/>Major settlements<br/>6+ confirmations"]
-    end
 
-    classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
-    classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-    classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
-
-    class LOW green
-    class MED blue
-    class HIGH amber
-    class VHIGH amber
-</pre>
-<div class="diagram-label">Confirmation thresholds: higher-value transactions warrant more confirmations before considering them final.</div>
-</div>
 <h3>What RBF Does Not Do</h3>
 <ul>
 <li><strong>Enable double-spending of confirmed transactions.</strong> Once a transaction is in a block, it is final (subject to the extremely unlikely event of a chain reorganization). RBF only applies to unconfirmed transactions.</li>
