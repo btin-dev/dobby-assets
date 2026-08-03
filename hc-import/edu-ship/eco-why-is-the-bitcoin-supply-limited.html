@@ -4,7 +4,6 @@
 
 <strong>Bitcoin's supply limit</strong> is a consensus rule embedded in Bitcoin's source code that caps the total number of bitcoin that will ever exist at just under 21 million. This cap is enforced not by a central authority but by every node on the network independently validating every block against the same rules. Combined with the halving schedule (which reduces new issuance by 50% every ~four years), the supply cap makes bitcoin the first monetary asset in history with a supply that is both verifiably fixed and mathematically enforced.
 
- ========== SECTION 1: The 21 Million Cap ========== 
 <h2>The 21 Million Cap</h2>
 <p>There will never be more than 21 million bitcoin. More precisely, there will never be more than 20,999,999.9769 bitcoin, because each halving truncates the subsidy to a whole number of satoshis, so issuance stops just short of 21 million.</p>
 <p>This number follows directly from the parameters Satoshi Nakamoto chose for Bitcoin's issuance schedule: an initial block reward of 50 bitcoin, halving every 210,000 blocks. The total supply equals 210,000 × 50 × (1 + 1/2 + 1/4 + ...) = 210,000 × 50 × 2 = 21,000,000 BTC. The halving interval is defined by the constant <code>nSubsidyHalvingInterval = 210000</code> in <a href="https://help.blockstream.com/education/nodes/set-up-and-optimization/what-is-bitcoin-core">Bitcoin Core</a>'s <a href="https://github.com/bitcoin/bitcoin/blob/master/src/kernel/chainparams.cpp"><code>src/kernel/chainparams.cpp</code></a>.</p>
@@ -14,7 +13,6 @@
 <h3>How Much Bitcoin Is Left to Mine?</h3>
 <p>About 1 million bitcoin remain to be mined as of 2026, roughly 5% of the 21 million cap. Because the block reward halves every four years, this remaining supply enters circulation in ever-shrinking amounts: more than 90% of the bitcoin still to be mined will be issued before 2040, yet the last fraction of a bitcoin will not be mined until around 2140. The pace slows even as the count creeps toward the cap.</p>
 
- ========== SECTION 2: The Issuance Schedule ========== 
 <h2>The Issuance Schedule: How New Bitcoin Enter Circulation</h2>
 <p>New bitcoin do not appear all at once. They enter circulation through a process called mining, where miners compete to add new <a href="https://help.blockstream.com/education/glossary/block">blocks</a> to the <a href="https://help.blockstream.com/education/glossary/blockchain">blockchain</a>. Each time a miner successfully produces a valid block, the protocol rewards them with a specific amount of newly created bitcoin. This is the block reward, also called the block subsidy.</p>
 <p>When Bitcoin launched in January 2009, the block reward was 50 bitcoin per block. Every 210,000 blocks (approximately every four years), the reward is cut in half. This event is called the <a href="https://help.blockstream.com/education/glossary/halving">halving</a>.</p>
@@ -72,7 +70,6 @@
 <p>The pattern continues: each halving cuts the reward in half again. After 33 halvings (around the year 2140), the reward reaches 0 satoshis because the subsidy calculation uses integer right-shift (<code>nSubsidy &gt;&gt;= halvings</code>) which truncates fractional satoshis. At that point, no new bitcoin will be created. The issuance is complete.</p>
 <p>This schedule is fully deterministic. Every halving that will ever happen is already defined in the code. Every market participant can see exactly how many bitcoin exist today, how many will exist next year, and how many will exist in 2140. No other monetary asset offers this level of supply transparency.</p>
 
- ========== SECTION 3: How the Cap Is Enforced ========== 
 <h2>How the Cap Is Enforced</h2>
 <p>A supply cap is only meaningful if it can be enforced. The dollar has no supply cap because the Federal Reserve can create new dollars at will. Gold has a natural supply cap (the total amount in the Earth's crust), but no one can verify exactly how much gold exists or will be discovered. Bitcoin's supply cap is enforced by a mechanism that has no equivalent in traditional monetary systems: decentralized consensus.</p>
 <h3>Every Node Validates Every Block</h3>
@@ -87,7 +84,6 @@
 <h3>The Role of Miners vs. Nodes</h3>
 <p>Miners produce blocks, and nodes validate them. That division of labor is what makes the cap self-enforcing. A miner can include any data they want in a block. But if the block violates any consensus rule, including the supply cap, nodes will reject it. Miners who produce invalid blocks earn nothing. For a miner, violating the supply cap is economically identical to not mining at all.</p>
 
- ========== SECTION 4: Why Satoshi Chose a Fixed Supply ========== 
 <h2>Why Satoshi Chose a Fixed Supply</h2>
 <p>Satoshi Nakamoto never published a detailed economic treatise explaining the choice. But the reasoning is embedded in the design itself, and Satoshi's early writings provide direct evidence of the thinking.</p>
 <h3>The Problem Bitcoin Was Built to Solve</h3>
@@ -97,7 +93,7 @@
 <h3>The Gold Analogy</h3>
 <p>Satoshi drew explicitly on gold as a model. In a 2010 forum post, Satoshi wrote: "As a thought experiment, imagine there was a base metal as scarce as gold but with the following properties: boring grey in colour, not a good conductor of electricity, not particularly strong... not useful for any practical or ornamental purpose... and one special, magical property: can be transported over a communications channel."</p>
 <p>Gold served as money for thousands of years because it had the properties of <a href="https://help.blockstream.com/education/glossary/sound-money">sound money</a>: it was scarce, durable, divisible, fungible, and difficult to counterfeit. Its scarcity was enforced by geology. Bitcoin replicates these properties digitally, with scarcity enforced by mathematics and decentralized consensus rather than the physical limits of the Earth's crust.</p>
- ========== SECTION 5: The Problem With Inflation ========== 
+
 <h2>The Problem With Inflation: Purchasing Power Erosion</h2>
 <p>When a government increases the money supply faster than the economy produces goods and services, each unit of currency buys less over time. This is inflation, and it is a hidden tax on savings.</p>
 <h3>The Numbers</h3>
@@ -108,7 +104,6 @@
 <p>Bitcoin's issuance rate is currently approximately 0.85% per year (post-2024 halving) and declining. After the 2028 halving, it will drop to approximately 0.4%, falling below 0.2% after 2032 and becoming negligible by 2040. No committee, emergency, or election can change this rate.</p>
 <p>New bitcoin still enter circulation, but no one can increase the supply beyond the schedule the protocol already fixed. If demand for bitcoin grows over time while supply remains capped, the purchasing power of each unit increases rather than decreases. This inverts the dynamic that fiat currencies impose on savers.</p>
 
- ========== SECTION 6: Supply Comparison ========== 
 <h2>Bitcoin's Supply Compared to Fiat Money and Gold</h2>
 <p>Every monetary system has rules (or the absence of rules) governing how new units enter circulation. Comparing the three dominant models illustrates what makes Bitcoin's approach distinct.</p>
 <table>
@@ -168,7 +163,7 @@
 <p>Gold's total supply is also unverifiable. No one knows exactly how much gold exists above ground, in private vaults, or remaining in the Earth's crust. Estimates are informed guesses.</p>
 <h3>Bitcoin: Scarce, Known, Verifiable</h3>
 <p>Bitcoin is the only monetary asset where anyone can independently verify the exact current supply down to the smallest unit by running a node. The future supply schedule is known with mathematical precision. The rules governing supply are enforced by decentralized consensus rather than institutional authority. No geological discovery, technological breakthrough, or policy decision can alter it.</p>
- ========== SECTION 7: After 2140 ========== 
+
 <h2>What Happens When All Bitcoin Are Mined</h2>
 <p>Around the year 2140, the final halving will cut the block reward from one satoshi to zero. No new bitcoin will be created after that point. Miners will continue operating, but their compensation will come entirely from transaction fees.</p>
 <h3>The Fee-Based Security Model</h3>
@@ -191,7 +186,7 @@
 <p>On the day of the April 2024 halving, transaction fees temporarily exceeded the block reward due to a surge in on-chain activity. This demonstrated that fee revenue can be substantial during high-demand periods, even with the block reward still active.</p>
 <h3>The Difficulty Adjustment as a Safety Net</h3>
 <p>If transaction fees ever prove temporarily insufficient to compensate miners at current hashrate levels, some miners will shut down. When hashrate drops, Bitcoin's <a href="https://help.blockstream.com/education/glossary/difficulty-adjustment">difficulty adjustment</a> (which recalculates every 2,016 blocks) reduces mining difficulty, lowering the cost of producing blocks. This restores profitability for remaining miners at a new equilibrium. The network keeps producing blocks at approximately ten-minute intervals regardless of how many miners are active, adjusting its difficulty rather than halting.</p>
- ========== SECTION 8: Satoshis and Divisibility ========== 
+
 <h2>The Smallest Unit: Satoshis and the Divisibility of Bitcoin</h2>
 <p>One bitcoin is divisible into 100 million smaller units called <a href="https://help.blockstream.com/education/glossary/sats">satoshis</a> (sats). This means the 21 million bitcoin supply is equivalent to 2.1 quadrillion satoshis (2,100,000,000,000,000 sats).</p>
 <h3>Why Divisibility Matters</h3>
@@ -210,7 +205,7 @@
 <p>Wallet software, including the <a href="https://blockstream.com/app">Blockstream app</a>, lets users display balances in either bitcoin or sats. As the value of one bitcoin rises, satoshi denomination becomes the more practical daily unit, the same way people think in cents rather than whole dollars for small amounts.</p>
 <h3>Can Bitcoin Be Made More Divisible?</h3>
 <p>On the base layer, one satoshi is currently the smallest unit. On layer-2 networks like the Lightning Network, transactions can already denominate in millisatoshis (thousandths of a satoshi), enabling micropayments that would be impractical on-chain. If future demand required further subdivision on the base layer, the protocol could theoretically be updated. But with 2.1 quadrillion satoshis available, the need for additional divisibility is not a foreseeable concern.</p>
- ========== SECTION 9: The Common Misconception ========== 
+
 <h2>"21 Million Isn't Enough for the Whole World"</h2>
 <p>This is the most frequently repeated objection to Bitcoin's fixed supply, and it reflects a misunderstanding of what a supply cap means in a divisible system.</p>
 <h3>The Scarcity Objection</h3>
@@ -218,12 +213,11 @@
 <h3>Why the Objection Fails</h3>
 <p>The objection confuses units with utility. Gold served as a global monetary base for millennia despite a small per-person share (its ~216,000 metric tons work out to about one ounce each), because it was divisible enough that any amount could be represented and exchanged. Bitcoin is far more divisible still: as the divisibility section above shows, 21 million bitcoin is 2.1 quadrillion satoshis, more atomic units per person than the dollar has cents in physical circulation. A monetary system does not need a large number of base units; it needs enough divisibility to represent any amount accurately, plus, in Bitcoin's case, a verifiable supply cap.</p>
 
- ========== SECTION 10: Lost Bitcoin ========== 
 <h2>Lost Bitcoin and Effective Supply</h2>
 <p>Not all 21 million bitcoin will be accessible. Research estimates that between three and four million bitcoin are permanently lost (per Chainalysis analysis, 2020-2024 estimates) due to forgotten recovery phrases, discarded hardware, deaths without succession plans, and Satoshi Nakamoto's estimated one million untouched bitcoin from the earliest days of mining.</p>
 <p>Lost bitcoin reduce the effective circulating supply. If four million bitcoin are permanently inaccessible, the effective cap is closer to 17 million. This makes the remaining supply even scarcer, because the same demand chases fewer available units.</p>
 <p>Lost bitcoin cannot be recovered, re-minted, or replaced. There is no "lost and found" process. Permanent loss reinforces the importance of secure self-custody practices, including proper backup of recovery phrases and the use of <a href="https://help.blockstream.com/education/wallets/security-and-storage/what-is-a-hardware-wallet">hardware wallets</a> like <a href="https://store.blockstream.com/products/jade-plus">Jade Plus</a> ($149-$169) that keep private keys offline and under the owner's control. For those just getting started, the <a href="https://store.blockstream.com/products/blockstream-jade-hardware-wallet">Jade Classic</a> ($79) provides entry-level hardware wallet security with the same self-custodial model.</p>
- ========== FAQ ========== 
+
 <h2>Frequently Asked Questions</h2>
 
 <h3>Why did Satoshi choose 21 million as the cap?</h3>
@@ -243,5 +237,3 @@
 
 <h3>Does Bitcoin's fixed supply make it deflationary?</h3>
 <p>Bitcoin's monetary supply has a declining issuance rate and a hard cap, which means its supply-side inflation approaches zero over time. Whether bitcoin is deflationary in terms of purchasing power depends on demand. If demand grows while supply remains fixed, the purchasing power of each unit increases. This is the opposite of fiat currencies, which are deliberately managed to lose purchasing power over time (central banks target positive inflation rates).</p>
-
- ========== Related Articles ==========
