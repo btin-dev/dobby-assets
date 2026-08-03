@@ -262,20 +262,20 @@
 <p>Hardware wallets like <a href="https://store.blockstream.com/products/jade-plus">Jade Plus</a> support UTXO-aware signing, allowing institutional teams to review exactly which UTXOs are being consumed before authorizing a transaction. With air-gapped QR code signing, the signing device never connects to a network, keeping private keys isolated even during complex multi-input transactions.</p>
 <h2>Frequently Asked Questions</h2>
 
-<p class="faq-question">How many UTXOs does my wallet have?</p>
-<p class="faq-answer">Most wallet software displays your total balance but does not show individual UTXOs by default. Look for a "coin control" or "UTXO list" feature in your wallet's advanced settings. The Blockstream app includes coin control, allowing you to see and manually select individual UTXOs. You can also look up any address on <a href="https://blockstream.info">Blockstream Explorer</a> to see its associated UTXOs, including their values and the transactions that created them.</p>
+<h3>How many UTXOs does my wallet have?</h3>
+<p>Most wallet software displays your total balance but does not show individual UTXOs by default. Look for a "coin control" or "UTXO list" feature in your wallet's advanced settings. The Blockstream app includes coin control, allowing you to see and manually select individual UTXOs. You can also look up any address on <a href="https://blockstream.info">Blockstream Explorer</a> to see its associated UTXOs, including their values and the transactions that created them.</p>
 
-<p class="faq-question">Can I choose which UTXOs to spend?</p>
-<p class="faq-answer">Yes, if your wallet supports coin control. Coin control lets you manually select which UTXOs to include as inputs in a transaction. This is useful for privacy (avoiding merging UTXOs from different sources) and for fee management (choosing larger UTXOs to keep input counts low). Bitcoin Core, Sparrow, and the Blockstream app all offer coin control features.</p>
+<h3>Can I choose which UTXOs to spend?</h3>
+<p>Yes, if your wallet supports coin control. Coin control lets you manually select which UTXOs to include as inputs in a transaction. This is useful for privacy (avoiding merging UTXOs from different sources) and for fee management (choosing larger UTXOs to keep input counts low). Bitcoin Core, Sparrow, and the Blockstream app all offer coin control features.</p>
 
-<p class="faq-question">What happens to the UTXO set over time?</p>
-<p class="faq-answer">The UTXO set grows when transactions create more outputs than they consume inputs, and shrinks when transactions consume more inputs than they create outputs. Consolidation transactions (many inputs, one output) reduce the set size. Over time, the set has grown substantially, from a few million UTXOs in Bitcoin's early years to roughly 173 million by 2025. Every full node must store this entire set in fast-access memory or storage.</p>
+<h3>What happens to the UTXO set over time?</h3>
+<p>The UTXO set grows when transactions create more outputs than they consume inputs, and shrinks when transactions consume more inputs than they create outputs. Consolidation transactions (many inputs, one output) reduce the set size. Over time, the set has grown substantially, from a few million UTXOs in Bitcoin's early years to roughly 173 million by 2025. Every full node must store this entire set in fast-access memory or storage.</p>
 
-<p class="faq-question">Is there a "perfect" number of UTXOs to have?</p>
-<p class="faq-answer">There is no universal answer. A good rule of thumb: maintain enough UTXOs of varying sizes to cover your typical spending patterns without needing to combine too many inputs. If you usually send 0.01 bitcoin at a time, having several UTXOs in the 0.01-0.05 range is more efficient than one large 1 bitcoin UTXO (which would require change every time) or hundreds of 0.0001 bitcoin UTXOs (which would require many inputs for a single spend).</p>
+<h3>Is there a "perfect" number of UTXOs to have?</h3>
+<p>There is no universal answer. A good rule of thumb: maintain enough UTXOs of varying sizes to cover your typical spending patterns without needing to combine too many inputs. If you usually send 0.01 bitcoin at a time, having several UTXOs in the 0.01-0.05 range is more efficient than one large 1 bitcoin UTXO (which would require change every time) or hundreds of 0.0001 bitcoin UTXOs (which would require many inputs for a single spend).</p>
 
-<p class="faq-question">Do UTXOs exist on the Lightning Network?</p>
-<p class="faq-answer"><a href="https://help.blockstream.com/education/glossary/lightning-network">Lightning Network</a> channels are opened and closed with on-chain transactions that create and spend UTXOs. The opening transaction locks bitcoin into a 2-of-2 multisig UTXO shared between the two channel participants. Payments within the channel update the balance allocation off-chain, without creating new on-chain UTXOs. When the channel closes, the final balances are settled on-chain as new UTXOs.</p>
+<h3>Do UTXOs exist on the Lightning Network?</h3>
+<p><a href="https://help.blockstream.com/education/glossary/lightning-network">Lightning Network</a> channels are opened and closed with on-chain transactions that create and spend UTXOs. The opening transaction locks bitcoin into a 2-of-2 multisig UTXO shared between the two channel participants. Payments within the channel update the balance allocation off-chain, without creating new on-chain UTXOs. When the channel closes, the final balances are settled on-chain as new UTXOs.</p>
 
-<p class="faq-question">Can lost bitcoin UTXOs ever be spent?</p>
-<p class="faq-answer">A UTXO can only be spent by whoever holds the private key that satisfies its locking script. If the private key is permanently lost (no recovery phrase backup, destroyed hardware), the UTXO remains in the UTXO set forever but can never be moved. These "zombie UTXOs" effectively remove bitcoin from circulation permanently. There is no protocol mechanism to reclaim them.</p>
+<h3>Can lost bitcoin UTXOs ever be spent?</h3>
+<p>A UTXO can only be spent by whoever holds the private key that satisfies its locking script. If the private key is permanently lost (no recovery phrase backup, destroyed hardware), the UTXO remains in the UTXO set forever but can never be moved. These "zombie UTXOs" effectively remove bitcoin from circulation permanently. There is no protocol mechanism to reclaim them.</p>
