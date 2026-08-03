@@ -202,22 +202,22 @@
  FAQ Section 
 <h2>Frequently Asked Questions</h2>
 
-<p class="faq-question">Can I send a Bitcoin transaction with zero fees?</p>
-<p class="faq-answer">Technically, yes. The Bitcoin protocol does not require a minimum fee. However, most nodes enforce a minimum relay fee (0.1 sat/vB by default in Bitcoin Core), and miners have no incentive to include zero-fee transactions when other transactions are paying for the same block space. A zero-fee transaction would likely sit in the mempool indefinitely or be dropped entirely.</p>
+<h3>Can I send a Bitcoin transaction with zero fees?</h3>
+<p>Technically, yes. The Bitcoin protocol does not require a minimum fee. However, most nodes enforce a minimum relay fee (0.1 sat/vB by default in Bitcoin Core), and miners have no incentive to include zero-fee transactions when other transactions are paying for the same block space. A zero-fee transaction would likely sit in the mempool indefinitely or be dropped entirely.</p>
 
-<p class="faq-question">Why are Bitcoin fees sometimes extremely high?</p>
-<p class="faq-answer">Fee spikes happen when demand for block space exceeds supply. This typically occurs during rapid price movements, bull market peaks, or when new use cases (like Ordinals inscriptions) suddenly consume large amounts of block space. During these periods, users compete aggressively for limited space, driving fee rates up. The spikes are temporary: fees return to normal once demand subsides or queued transactions clear.</p>
+<h3>Why are Bitcoin fees sometimes extremely high?</h3>
+<p>Fee spikes happen when demand for block space exceeds supply. This typically occurs during rapid price movements, bull market peaks, or when new use cases (like Ordinals inscriptions) suddenly consume large amounts of block space. During these periods, users compete aggressively for limited space, driving fee rates up. The spikes are temporary: fees return to normal once demand subsides or queued transactions clear.</p>
 
-<p class="faq-question">Do fees depend on the amount of bitcoin being sent?</p>
-<p class="faq-answer">No. Bitcoin fees are based on the <em>size</em> of the transaction in virtual bytes, not the amount being transferred. Sending 0.001 bitcoin and sending 100 bitcoin can cost the same fee if the transactions have the same structure (same number of inputs and outputs). What increases fees is transaction complexity: more inputs, more outputs, and older address formats all increase virtual size.</p>
+<h3>Do fees depend on the amount of bitcoin being sent?</h3>
+<p>No. Bitcoin fees are based on the <em>size</em> of the transaction in virtual bytes, not the amount being transferred. Sending 0.001 bitcoin and sending 100 bitcoin can cost the same fee if the transactions have the same structure (same number of inputs and outputs). What increases fees is transaction complexity: more inputs, more outputs, and older address formats all increase virtual size.</p>
 
-<p class="faq-question">What happens to my transaction if I set the fee too low?</p>
-<p class="faq-answer">If your fee is below what miners are willing to include, your transaction remains unconfirmed in the mempool. It will eventually confirm when the mempool clears enough for your fee rate to reach the top, or you can use RBF to rebroadcast with a higher fee. If the transaction remains unconfirmed for an extended period (typically 14 days), most nodes will drop it from their mempool and your wallet will again show the funds as spendable. The signed transaction remains valid and could still confirm if someone rebroadcasts it; to cancel it definitively, spend the same coins back to yourself with a higher fee (RBF).</p>
+<h3>What happens to my transaction if I set the fee too low?</h3>
+<p>If your fee is below what miners are willing to include, your transaction remains unconfirmed in the mempool. It will eventually confirm when the mempool clears enough for your fee rate to reach the top, or you can use RBF to rebroadcast with a higher fee. If the transaction remains unconfirmed for an extended period (typically 14 days), most nodes will drop it from their mempool and your wallet will again show the funds as spendable. The signed transaction remains valid and could still confirm if someone rebroadcasts it; to cancel it definitively, spend the same coins back to yourself with a higher fee (RBF).</p>
 
-<p class="faq-question">Where do transaction fees go?</p>
-<p class="faq-answer">Transaction fees go directly to the miner who includes the transaction in a block. The miner collects all fees from every transaction in the block, in addition to the block subsidy (currently 3.125 bitcoin per block). No intermediary or platform takes a cut, and the network itself charges no fee. The fee is a direct payment from the sender to the miner.</p>
+<h3>Where do transaction fees go?</h3>
+<p>Transaction fees go directly to the miner who includes the transaction in a block. The miner collects all fees from every transaction in the block, in addition to the block subsidy (currently 3.125 bitcoin per block). No intermediary or platform takes a cut, and the network itself charges no fee. The fee is a direct payment from the sender to the miner.</p>
 
-<p class="faq-question">How can I reduce the fees I pay on Bitcoin transactions?</p>
-<p class="faq-answer">Several strategies can lower your fees: use a wallet that supports native SegWit (<code>bc1q</code>) or Taproot (<code>bc1p</code>) addresses for smaller transaction sizes; time non-urgent transactions for low-fee periods (weekends, off-peak hours); consolidate small UTXOs during cheap-fee windows; use transaction batching if sending to multiple recipients; and consider layer-2 solutions like the Lightning Network or Liquid Network for smaller or more frequent payments. The <a href="https://blockstream.com/app/">Blockstream app</a> supports Bitcoin, Lightning, and Liquid in a single interface, making it straightforward to route transactions to whichever layer offers the best fee economics at any given moment.</p>
+<h3>How can I reduce the fees I pay on Bitcoin transactions?</h3>
+<p>Several strategies can lower your fees: use a wallet that supports native SegWit (<code>bc1q</code>) or Taproot (<code>bc1p</code>) addresses for smaller transaction sizes; time non-urgent transactions for low-fee periods (weekends, off-peak hours); consolidate small UTXOs during cheap-fee windows; use transaction batching if sending to multiple recipients; and consider layer-2 solutions like the Lightning Network or Liquid Network for smaller or more frequent payments. The <a href="https://blockstream.com/app/">Blockstream app</a> supports Bitcoin, Lightning, and Liquid in a single interface, making it straightforward to route transactions to whichever layer offers the best fee economics at any given moment.</p>
 
  Related Articles
