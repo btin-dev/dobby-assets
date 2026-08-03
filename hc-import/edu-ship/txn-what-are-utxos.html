@@ -1,0 +1,402 @@
+<p class="tldr">
+<strong>TL;DR:</strong> A UTXO (Unspent Transaction Output) is the fundamental unit of bitcoin ownership. Your wallet balance is the sum of individual UTXOs your keys control, each one a discrete chunk of bitcoin that must be spent in full. Managing UTXOs well reduces fees, protects privacy, and prevents situations where small amounts of bitcoin become too expensive to spend.
+</p>
+
+<strong>UTXO (Unspent Transaction Output):</strong> A specific, indivisible output from a previous Bitcoin transaction that has not yet been used as an input in a new transaction. UTXOs function like physical cash bills of varying denominations: each one has a fixed value, must be spent whole, and produces change when the amount exceeds what you owe. Every piece of bitcoin in existence is held in a UTXO somewhere on the blockchain.
+
+<h2>What Is a UTXO?</h2>
+<p>Most financial systems track your money as a balance in an account. Your bank knows you have $4,372.18. When you spend $50, the bank subtracts it from the balance and records the new number.</p>
+<p>Bitcoin tracks ownership through <strong>UTXOs</strong>, or Unspent Transaction Outputs. Every piece of bitcoin that exists sits inside a UTXO, locked to a specific address. When your wallet says you have 0.85 bitcoin, it has added up every UTXO your <a href="https://help.blockstream.com/education/wallets/security-and-storage/what-is-a-private-key-and-how-do-i-store-it">private keys</a> can unlock, rather than reading a single balance from a ledger.</p>
+<p>You might have three UTXOs: one worth 0.5 bitcoin, one worth 0.3 bitcoin, and one worth 0.05 bitcoin. Together, they total 0.85 bitcoin. But each one is a separate, distinct object on the blockchain with its own history, its own size, and its own spending conditions.</p>
+<p>UTXO management affects the fees you pay, the privacy you maintain, and whether some of your bitcoin might become permanently uneconomical to spend.</p>
+<div class="diagram-container">
+<pre class="mermaid">
+flowchart LR
+    BAL["<b>Wallet Balance</b><br/>0.85 BTC"]
+
+    BAL --&gt; U1["UTXO 1<br/><b>0.50 BTC</b>"]
+    BAL --&gt; U2["UTXO 2<br/><b>0.30 BTC</b>"]
+    BAL --&gt; U3["UTXO 3<br/><b>0.05 BTC</b>"]
+
+    classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
+    classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
+
+    class BAL blue
+    class U1,U2,U3 green
+</pre>
+<div class="diagram-label">A wallet balance of 0.85 BTC is composed of three separate UTXOs, each an independent object on the blockchain.</div>
+</div>
+<h2>The Cash Analogy</h2>
+<p>UTXOs behave almost exactly like physical cash bills, and that comparison is the easiest way to build the right mental model.</p>
+<p>Imagine your physical wallet contains a $50 bill, a $20 bill, and a $10 bill. Your "balance" is $80. But you do not actually have $80 as an abstract number. You have three specific bills of specific denominations.</p>
+<p>If you buy something for $25, you hand over the $50 bill. The cashier gives you $25 back in change. You cannot tear the bill in half; you spend the whole thing and receive change.</p>
+<p>Bitcoin UTXOs work the same way:</p>
+<ul>
+<li>Each UTXO has a specific value, like a bill has a specific denomination</li>
+<li>You cannot spend part of a UTXO. The entire UTXO must be consumed as an input</li>
+<li>If the UTXO is worth more than you need to send, the excess comes back to you as a new UTXO (your "change")</li>
+<li>You can combine multiple UTXOs in a single transaction, just like handing over multiple bills to cover a larger purchase</li>
+</ul>
+<p>Where the analogy breaks down: cash bills come in fixed denominations ($1, $5, $10, $20). UTXOs can be any amount. You might receive a UTXO worth exactly 0.00347291 bitcoin. There is no standard "denomination" for UTXOs.</p>
+<h3>A Real Example</h3>
+<p>Alice has two UTXOs:</p>
+<ul>
+<li>UTXO A: 0.3 bitcoin (received from her employer)</li>
+<li>UTXO B: 0.1 bitcoin (received from a friend)</li>
+</ul>
+<p>She wants to send 0.25 bitcoin to Bob. Her wallet selects UTXO A (0.3 bitcoin) as the input. The transaction creates two outputs:</p>
+<ol>
+<li>0.25 bitcoin to Bob's address (this becomes a new UTXO that Bob controls)</li>
+<li>0.0499 bitcoin back to Alice's change address (this becomes a new UTXO that Alice controls)</li>
+</ol>
+<p>The remaining 0.0001 bitcoin is the transaction fee, paid to the miner who includes the transaction in a block. UTXO A no longer exists. It has been "spent" and removed from the UTXO set. In its place, two new UTXOs were created.</p>
+<p>Alice still has UTXO B (0.1 bitcoin), untouched. Her new balance: 0.1 + 0.0499 = 0.1499 bitcoin, spread across two UTXOs.</p>
+<div class="diagram-container">
+<pre class="mermaid">
+flowchart TD
+    UA["<b>UTXO A</b><br/>Alice: 0.3 BTC"]
+    UB["<b>UTXO B</b><br/>Alice: 0.1 BTC<br/>Untouched"]
+    TX["Transaction"]
+
+    UA --&gt; TX
+    TX --&gt; BOB["<b>To Bob</b><br/>0.25 BTC"]
+    TX --&gt; CHANGE["<b>Change to Alice</b><br/>0.0499 BTC"]
+    TX -.-&gt; FEE["<b>Fee</b><br/>0.0001 BTC"]
+
+    classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
+    classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
+    classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
+    classDef grey fill:#E8ECF0,stroke:#414C59,color:#414C59,stroke-dasharray: 5 5
+
+    class UA blue
+    class TX blue
+    class BOB green
+    class CHANGE green
+    class FEE amber
+    class UB grey
+</pre>
+<div class="diagram-label">UTXO transaction flow: Alice spends UTXO A (0.3 BTC) to send Bob 0.25 BTC. UTXO B remains untouched.</div>
+</div>
+<h2>How UTXOs Are Created</h2>
+<p>Every transaction output creates a new UTXO. There are exactly two ways a UTXO comes into existence:</p>
+<h3>1. As a Coinbase Transaction Output</h3>
+<p>When a miner successfully mines a block, the first transaction in that block is the coinbase transaction. This transaction has no inputs (it creates new bitcoin from the protocol's issuance schedule) and produces one or more outputs. These outputs are new UTXOs assigned to the miner's address. This is the only way new bitcoin enters circulation.</p>
+<h3>2. As the Output of a Regular Transaction</h3>
+<p>Every standard Bitcoin transaction consumes one or more existing UTXOs as inputs and produces one or more new UTXOs as outputs. When someone sends you bitcoin, the transaction creates a UTXO locked to your address. That UTXO stays in the UTXO set until you spend it.</p>
+<p>If you receive ten separate payments, you have ten separate UTXOs, each with its own value. Your wallet adds them up to show you a single "balance", but on the blockchain, they remain distinct objects.</p>
+<h3>The UTXO Set</h3>
+<p>Every Bitcoin <a href="https://help.blockstream.com/education/nodes/introduction-and-role/what-is-a-bitcoin-node">full node</a> maintains a database called the UTXO set: the complete list of all unspent transaction outputs across the entire network. As of 2025, this set contains roughly 173 million UTXOs (per mempool.space's UTXO Set Report). When a node validates a new transaction, it checks whether the referenced inputs actually exist in the UTXO set and whether the spending conditions (the script) are satisfied. If validation passes, the spent UTXOs are removed from the set, and the new outputs are added.</p>
+<p>This UTXO set is one of the most performance-critical data structures in a Bitcoin node. It needs to be accessed on every transaction validation. Keeping it small and efficient matters for the health of the entire network.</p>
+<h3>Under the Hood: UTXO Set Management in Bitcoin Core</h3>
+<p><a href="https://help.blockstream.com/education/nodes/set-up-and-optimization/what-is-bitcoin-core">Bitcoin Core</a> stores the UTXO set in a LevelDB database located in the <code>chainstate/</code> directory of the data folder. Each entry is keyed by the transaction ID and output index (txid:vout) and stores the output's value, script, and the block height at which it was created. The RPC command <code>gettxoutsetinfo</code> returns a summary of the current set, including the total number of UTXOs, the total bitcoin value held across all outputs, and a hash of the entire set that nodes can compare to verify consistency.</p>
+<p>As of 2025, the on-disk UTXO set (the chainstate) occupies roughly 11 GB. Bitcoin Core uses an in-memory cache (the <code>CCoinsViewCache</code>) to keep frequently accessed UTXOs in RAM for fast validation. The size of this cache is configurable via the <code>-dbcache</code> option and defaults to 450 MB. Nodes with more RAM can allocate a larger cache, reducing disk reads during block validation and initial block download.</p>
+<p>UTXO set growth is a long-term concern for node operators. Each new unspent output adds to the set, and the set only shrinks when outputs are spent. Transactions that create more outputs than they consume (like payment batches) grow the set; consolidation transactions (many inputs, few outputs) shrink it. Protocol developers have discussed proposals for UTXO commitments, where the UTXO set hash would be included in block headers, enabling lightweight nodes to verify the current state without downloading the full blockchain history. You can inspect the current UTXO set statistics on any full node using <code>bitcoin-cli gettxoutsetinfo</code>, or view individual UTXO details for any address on <a href="https://blockstream.info">Blockstream Explorer</a>.</p>
+<h2>How UTXOs Are Spent</h2>
+<p>Spending a UTXO means providing proof that you control the keys that unlock it, then consuming it entirely as a transaction input. The process follows strict rules.</p>
+<h3>Coin Selection</h3>
+<p>When you create a transaction in your wallet, the wallet must decide which UTXOs to use as inputs. This is called <strong>coin selection</strong>.</p>
+<p>The wallet needs to select enough UTXOs so their combined value covers the amount you want to send plus the transaction fee. Different wallets use different algorithms for this decision:</p>
+<table>
+<tr>
+<th>Algorithm</th>
+<th>Strategy</th>
+<th>Pros</th>
+<th>Cons</th>
+</tr>
+<tr>
+<td>Largest-first</td>
+<td>Use the biggest UTXO available</td>
+<td>Minimizes input count</td>
+<td>May produce large change outputs</td>
+</tr>
+<tr>
+<td>Smallest-first</td>
+<td>Use the smallest UTXOs first</td>
+<td>Cleans up dust</td>
+<td>Requires more inputs (higher fees)</td>
+</tr>
+<tr>
+<td>Branch and bound</td>
+<td>Find a UTXO combination that exactly matches the target amount</td>
+<td>Eliminates change output; Bitcoin Core's primary strategy</td>
+<td>Not always possible to find an exact match</td>
+</tr>
+<tr>
+<td>Random selection</td>
+<td>Pick UTXOs randomly</td>
+<td>Avoids predictable spending patterns (better privacy)</td>
+<td>May select suboptimal combinations</td>
+</tr>
+</table>
+<h3>Full Consumption</h3>
+<p>A UTXO cannot be partially spent. If you select a UTXO worth 1 bitcoin as an input but only need to send 0.2 bitcoin, the entire 1 bitcoin is consumed. The transaction produces an output of 0.2 bitcoin to the recipient and a change output of approximately 0.8 bitcoin (minus fees) back to an address you control.</p>
+<p>This is the "no partial spending" rule. There is no way to shave off a fraction of a UTXO. The whole thing goes in, and new UTXOs come out.</p>
+<h3>Transaction Outputs</h3>
+<p>Each transaction typically produces at least two outputs: one for the recipient and one for your change. But transactions can have any number of outputs. A business paying 50 employees in a single transaction would produce 50 outputs (one per employee) plus a change output, creating 51 new UTXOs from however many inputs were consumed.</p>
+<div class="diagram-container">
+<pre class="mermaid">
+flowchart LR
+    subgraph SINGLE["Single UTXO Input"]
+        direction TB
+        S_IN["1 UTXO<br/>1.0 BTC"]
+        S_TX["Transaction"]
+        S_PAY["Recipient<br/>0.2 BTC"]
+        S_CHG["Change<br/>~0.8 BTC"]
+        S_IN --&gt; S_TX --&gt; S_PAY
+        S_TX --&gt; S_CHG
+    end
+
+    subgraph MULTI["Multiple UTXO Inputs"]
+        direction TB
+        M_IN1["UTXO 1: 0.10 BTC"]
+        M_IN2["UTXO 2: 0.15 BTC"]
+        M_IN3["UTXO 3: 0.08 BTC"]
+        M_IN4["UTXO 4: 0.12 BTC"]
+        M_TX["Transaction"]
+        M_PAY["Recipient<br/>0.3 BTC"]
+        M_CHG["Change<br/>~0.14 BTC"]
+        M_IN1 --&gt; M_TX
+        M_IN2 --&gt; M_TX
+        M_IN3 --&gt; M_TX
+        M_IN4 --&gt; M_TX
+        M_TX --&gt; M_PAY
+        M_TX --&gt; M_CHG
+    end
+
+    classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
+    classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
+    classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
+
+    class S_IN blue
+    class S_TX,M_TX blue
+    class S_PAY,S_CHG,M_PAY,M_CHG green
+    class M_IN1,M_IN2,M_IN3,M_IN4 amber
+</pre>
+<div class="diagram-label">Single vs. multiple UTXO inputs: more inputs means a larger transaction and higher fees for the same payment amount.</div>
+</div>
+<h2>UTXO Model vs. Account Model</h2>
+<p>Bitcoin uses UTXOs. Ethereum uses accounts. These are fundamentally different approaches to tracking who owns what, and each comes with tradeoffs.</p>
+<table>
+<tr>
+<th>Property</th>
+<th>UTXO Model (Bitcoin)</th>
+<th>Account Model (Ethereum)</th>
+</tr>
+<tr>
+<td>State representation</td>
+<td>Set of unspent outputs, each with a value and spending condition</td>
+<td>Account balances stored in a global state tree</td>
+</tr>
+<tr>
+<td>Spending</td>
+<td>Consume whole UTXOs, create new ones</td>
+<td>Debit one account, credit another</td>
+</tr>
+<tr>
+<td>Parallel processing</td>
+<td>Transactions touching different UTXOs can be validated independently</td>
+<td>Transactions from the same account must be ordered sequentially (nonce)</td>
+</tr>
+<tr>
+<td>Privacy</td>
+<td>Each transaction can use new addresses. No inherent link between UTXOs</td>
+<td>All activity tied to a single visible account address</td>
+</tr>
+<tr>
+<td>Verification</td>
+<td>Only need the UTXO set, not full transaction history</td>
+<td>Must track the full state of every account</td>
+</tr>
+<tr>
+<td>Double-spend protection</td>
+<td>A UTXO either exists or it does not. Spending it destroys it</td>
+<td>Relies on sequential nonces to prevent replay</td>
+</tr>
+</table>
+<h3>Why UTXOs Are Better for Privacy</h3>
+<p>In an account model, every transaction you make is linked to the same account address. Your entire financial history is visible to anyone who knows your address. Changing addresses requires migrating your balance, which is itself a visible on-chain action.</p>
+<p>With UTXOs, a well-designed wallet generates a new address for every receive. Each UTXO sits at a different address. An outside observer cannot easily determine that all of these addresses belong to the same person, unless you spend them together in one transaction (which merges their histories).</p>
+<h3>Why UTXOs Enable Parallel Validation</h3>
+<p>Because UTXOs are independent objects, two transactions that consume different UTXOs have no dependency on each other. A node can validate them simultaneously. In the account model, if two transactions spend from the same account, they must be processed in strict order. This parallelism advantage becomes significant at scale and is one reason the UTXO model handles high transaction throughput more gracefully.</p>
+<h2>Why UTXO Management Matters</h2>
+<p>For casual users sending bitcoin a few times a month, UTXO management rarely causes problems. But as usage grows, or as fee environments change, poor UTXO management becomes expensive and privacy-degrading.</p>
+<h3>Privacy Implications</h3>
+<p>Every time you combine multiple UTXOs as inputs in a single transaction, you reveal that the same entity controls all of them. This is called the <strong>common-input-ownership heuristic</strong>, and it is the most powerful tool chain analysis companies use to cluster addresses.</p>
+<p>Consider this scenario: you buy bitcoin on an exchange (the exchange UTXO) and receive bitcoin from a friend (the gift UTXO). If you later spend both UTXOs in one transaction, any observer can link your exchange account to your friend's payment. The two previously unconnected UTXOs are now provably controlled by the same person.</p>
+<p>Privacy-conscious UTXO management means:</p>
+<ul>
+<li>Avoiding unnecessary merges of UTXOs from different sources</li>
+<li>Using coin control features to manually select which UTXOs to spend</li>
+<li>Labeling UTXOs by source so you know which ones are safe to combine</li>
+<li>Consolidating only UTXOs from the same source when consolidation is necessary</li>
+</ul>
+<h3>Fee Implications</h3>
+<p>Bitcoin transaction fees are based on the transaction's size in virtual bytes (vbytes), not on the amount of bitcoin being sent. Every input you add to a transaction increases its size. A transaction with ten inputs costs significantly more than a transaction with one input, even if both send the same amount.</p>
+<p>This means a wallet full of many small UTXOs is more expensive to spend from than a wallet with fewer, larger UTXOs. If you receive 100 payments of 0.001 bitcoin each, you have 100 UTXOs totaling 0.1 bitcoin. Spending that 0.1 bitcoin requires all 100 UTXOs as inputs, resulting in a large transaction with high fees.</p>
+<p>Approximate input sizes by address type:</p>
+<table>
+<tr>
+<th>Input Type</th>
+<th>Approximate Size</th>
+</tr>
+<tr>
+<td>P2PKH (Legacy, starts with 1)</td>
+<td>148 vbytes</td>
+</tr>
+<tr>
+<td>P2SH-P2WPKH (Wrapped SegWit, starts with 3)</td>
+<td>91 vbytes</td>
+</tr>
+<tr>
+<td>P2WPKH (Native SegWit, starts with bc1q)</td>
+<td>68 vbytes</td>
+</tr>
+<tr>
+<td>P2TR (Taproot, starts with bc1p)</td>
+<td>57.5 vbytes</td>
+</tr>
+</table>
+<p>A transaction with one Taproot input is roughly 111 vbytes total. With ten Taproot inputs, it jumps to roughly 620 vbytes. At 50 sats/vbyte, that is the difference between a fee of 5,550 sats and 31,000 sats.</p>
+<h3>Consolidation Strategies</h3>
+<p>Consolidation means merging multiple small UTXOs into one larger UTXO by sending them to yourself. The goal is to reduce future spending costs by paying a lower fee now (during low-fee periods) rather than a higher fee later (during congestion).</p>
+<p>Best practices for consolidation:</p>
+<ul>
+<li><strong>Watch the fee market.</strong> Consolidate when fees are low (under 10 sats/vbyte). Weekend evenings and holiday periods often have lower fee rates.</li>
+<li><strong>Consolidate UTXOs from the same source.</strong> Merging UTXOs from different sources links them on-chain. Only combine UTXOs that already share a common origin if privacy matters to you.</li>
+<li><strong>Target a useful output size.</strong> There is no need to merge everything into one UTXO. Consolidating into a few UTXOs of a practical spending size gives you flexibility for future transactions.</li>
+<li><strong>Use SegWit or Taproot addresses.</strong> If your UTXOs sit in legacy addresses, consolidating to a SegWit or Taproot address reduces future spending costs on top of the consolidation benefit.</li>
+</ul>
+<p>You can verify your transaction's inputs, outputs, fees, and confirmation status using <a href="https://blockstream.info">Blockstream Explorer</a>, which displays the full structure of every Bitcoin transaction, including the UTXO inputs consumed and new outputs created.</p>
+<div class="diagram-container">
+<pre class="mermaid">
+flowchart LR
+    subgraph COST["Fee Cost by UTXO Count (at 50 sat/vB, Taproot inputs)"]
+        direction LR
+        U1F["<b>1 UTXO</b><br/>~111 vB<br/>5,550 sats"]
+        U5F["<b>5 UTXOs</b><br/>~341 vB<br/>17,050 sats"]
+        U20F["<b>20 UTXOs</b><br/>~1,196 vB<br/>59,800 sats"]
+        U100F["<b>100 UTXOs</b><br/>~5,806 vB<br/>290,300 sats"]
+    end
+
+    classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
+    classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
+    classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
+
+    class U1F green
+    class U5F blue
+    class U20F amber
+    class U100F amber
+</pre>
+<div class="diagram-label">Fee cost scales with UTXO count: spending the same 0.1 BTC from 100 UTXOs costs over 50x more than from 1 UTXO.</div>
+</div>
+<h2>Dust UTXOs</h2>
+<p>A <strong>dust UTXO</strong> is a UTXO so small that the transaction fee required to spend it exceeds its value. The bitcoin is technically yours, but spending it would cost more than it is worth.</p>
+<h3>How Dust Is Created</h3>
+<p>Dust accumulates naturally over time:</p>
+<ul>
+<li><strong>Small change outputs.</strong> If a transaction's change amount is tiny (a few hundred sats), that change UTXO may become dust.</li>
+<li><strong>Micro-payments.</strong> Receiving many very small payments (tips, faucet payouts, micro-earnings) creates many tiny UTXOs.</li>
+<li><strong>Fee market changes.</strong> A UTXO that was economically viable to spend when fees were 5 sats/vbyte may become dust when fees rise to 100 sats/vbyte.</li>
+</ul>
+<h3>The Dust Limit</h3>
+<p>Bitcoin Core enforces a dust limit: a minimum output value below which a transaction is rejected by default. The dust limit is defined in <a href="https://github.com/bitcoin/bitcoin/blob/master/src/policy/policy.h"><code>src/policy/policy.h</code></a> and calculated based on the cost to spend an output at the dust relay fee rate (3 satoshis per vbyte by default). Outputs below the per-type thresholds that follow are rejected by most nodes' default relay policies, preventing the creation of UTXOs that would be uneconomical to spend under nearly any fee conditions.</p>
+<table>
+<tr>
+<th>Output Type</th>
+<th>Dust Limit</th>
+</tr>
+<tr>
+<td>P2PKH (Legacy, starts with 1)</td>
+<td>546 satoshis</td>
+</tr>
+<tr>
+<td>P2SH (starts with 3)</td>
+<td>540 satoshis</td>
+</tr>
+<tr>
+<td>P2WPKH (Native SegWit, starts with bc1q)</td>
+<td>294 satoshis</td>
+</tr>
+<tr>
+<td>P2WSH (starts with bc1q, longer)</td>
+<td>330 satoshis</td>
+</tr>
+<tr>
+<td>P2TR (Taproot, starts with bc1p)</td>
+<td>330 satoshis</td>
+</tr>
+</table>
+<p>But the dust limit is a floor, not a safety net. A UTXO worth 1,000 sats clears the dust limit easily but becomes uneconomical to spend when fees climb above roughly 15 sats/vbyte (for a typical Taproot input). In a sustained high-fee environment, tens of thousands of sats can become "economic dust" even though they are well above the protocol's dust limit.</p>
+<h3>What to Do About Dust</h3>
+<ul>
+<li><strong>Consolidate early.</strong> Merge small UTXOs into larger ones during low-fee periods, before they become dust.</li>
+<li><strong>Avoid creating dust.</strong> When choosing how much to send, be aware of the change output size. Some wallets let you add change to the fee instead of creating a tiny change UTXO.</li>
+<li><strong>Wait for low fees.</strong> If you already have dust UTXOs, set your wallet to watch for low-fee periods and consolidate then.</li>
+<li><strong>Accept the loss.</strong> In some cases, the bitcoin locked in dust UTXOs may never be economical to spend. The value is effectively abandoned, and those UTXOs remain in the UTXO set indefinitely.</li>
+</ul>
+<div class="diagram-container">
+<pre class="mermaid">
+flowchart LR
+    subgraph DUST["UTXO Value Zones"]
+        direction LR
+        ALWAYS["<b>Always Dust</b><br/>Below 294 sats<br/>Protocol rejects"]
+        SOMETIMES["<b>Dust at High Fees</b><br/>294 - 10,000 sats<br/>Uneconomical when<br/>fees above ~15 sat/vB"]
+        SAFE["<b>Usually Spendable</b><br/>Above 10,000 sats<br/>Economical in most<br/>fee environments"]
+    end
+
+    classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
+    classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
+    classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
+
+    class ALWAYS amber
+    class SOMETIMES blue
+    class SAFE green
+</pre>
+<div class="diagram-label">UTXO dust thresholds: small UTXOs can become uneconomical to spend as fee rates rise.</div>
+</div>
+<h2>UTXO Management for Institutions</h2>
+<p>Individual users can often manage UTXOs manually or rely on their wallet's default coin selection. Institutions holding bitcoin across hundreds or thousands of addresses face a different order of complexity.</p>
+<h3>UTXO Consolidation at Scale</h3>
+<p>A business receiving daily customer payments might accumulate thousands of UTXOs per week. Without consolidation, the UTXO count grows linearly, and the cost of making a single large payment (withdrawals, payroll, treasury transfers) scales with the number of inputs required.</p>
+<p>Institutional consolidation strategies typically include:</p>
+<ul>
+<li><strong>Scheduled batch consolidation.</strong> Run consolidation transactions on a fixed schedule (daily or weekly), tuned to fee-rate thresholds. If fees exceed the threshold, skip the batch.</li>
+<li><strong>Tiered UTXO buckets.</strong> Maintain UTXOs in size tiers (small, medium, large). Consolidate small UTXOs into medium ones, keep large UTXOs intact for high-value transfers.</li>
+<li><strong>Hot/cold separation.</strong> Consolidate frequently in hot wallets (where UTXO churn is highest), and maintain clean, large UTXOs in cold storage.</li>
+</ul>
+<h3>Coin Selection Algorithms</h3>
+<p>At institutional scale, coin selection cannot be left to default wallet behavior. The coin selection algorithm must balance multiple objectives simultaneously: minimize fees, avoid linking sensitive UTXOs, maintain target UTXO distributions, and comply with audit requirements.</p>
+<p>Production coin selection systems often use:</p>
+<ul>
+<li><strong>Branch and bound with constraints.</strong> Bitcoin Core's branch-and-bound algorithm extended with business rules (do not combine UTXOs from different customers, prefer UTXOs older than a certain age for accounting purposes).</li>
+<li><strong>UTXO labeling and tagging.</strong> Every UTXO tagged with metadata: source, customer ID, risk score, creation date. Coin selection respects these labels.</li>
+<li><strong>Output target optimization.</strong> Rather than consolidating everything into one UTXO, the algorithm targets specific output sizes that match expected future spending patterns.</li>
+</ul>
+<h3>Fee Optimization</h3>
+<p>For institutions processing hundreds of transactions daily, fee savings of even a few percent compound significantly. Key optimization techniques:</p>
+<ul>
+<li><strong>Batching.</strong> Combine multiple outgoing payments into a single transaction. Instead of ten transactions with one output each, create one transaction with ten outputs. The fixed overhead (transaction header, change output) is paid once instead of ten times.</li>
+<li><strong>SegWit and Taproot adoption.</strong> Migrating from legacy to SegWit or Taproot addresses reduces input sizes by 35-60%, directly lowering fees.</li>
+<li><strong>RBF (Replace-By-Fee).</strong> Start with a low fee rate and bump it if the transaction does not confirm in time. This avoids overpaying during periods of uncertain fee-market conditions.</li>
+<li><strong>Time-sensitive vs. time-flexible.</strong> Separate urgent transactions (customer withdrawals) from flexible ones (consolidation, internal transfers). Flexible transactions can wait for optimal fee windows.</li>
+</ul>
+<p>Hardware wallets like <a href="https://store.blockstream.com/products/jade-plus">Jade Plus</a> support UTXO-aware signing, allowing institutional teams to review exactly which UTXOs are being consumed before authorizing a transaction. With air-gapped QR code signing, the signing device never connects to a network, keeping private keys isolated even during complex multi-input transactions.</p>
+<h2>Frequently Asked Questions</h2>
+
+<p class="faq-question">How many UTXOs does my wallet have?</p>
+<p class="faq-answer">Most wallet software displays your total balance but does not show individual UTXOs by default. Look for a "coin control" or "UTXO list" feature in your wallet's advanced settings. The Blockstream app includes coin control, allowing you to see and manually select individual UTXOs. You can also look up any address on <a href="https://blockstream.info">Blockstream Explorer</a> to see its associated UTXOs, including their values and the transactions that created them.</p>
+
+<p class="faq-question">Can I choose which UTXOs to spend?</p>
+<p class="faq-answer">Yes, if your wallet supports coin control. Coin control lets you manually select which UTXOs to include as inputs in a transaction. This is useful for privacy (avoiding merging UTXOs from different sources) and for fee management (choosing larger UTXOs to keep input counts low). Bitcoin Core, Sparrow, and the Blockstream app all offer coin control features.</p>
+
+<p class="faq-question">What happens to the UTXO set over time?</p>
+<p class="faq-answer">The UTXO set grows when transactions create more outputs than they consume inputs, and shrinks when transactions consume more inputs than they create outputs. Consolidation transactions (many inputs, one output) reduce the set size. Over time, the set has grown substantially, from a few million UTXOs in Bitcoin's early years to roughly 173 million by 2025. Every full node must store this entire set in fast-access memory or storage.</p>
+
+<p class="faq-question">Is there a "perfect" number of UTXOs to have?</p>
+<p class="faq-answer">There is no universal answer. A good rule of thumb: maintain enough UTXOs of varying sizes to cover your typical spending patterns without needing to combine too many inputs. If you usually send 0.01 bitcoin at a time, having several UTXOs in the 0.01-0.05 range is more efficient than one large 1 bitcoin UTXO (which would require change every time) or hundreds of 0.0001 bitcoin UTXOs (which would require many inputs for a single spend).</p>
+
+<p class="faq-question">Do UTXOs exist on the Lightning Network?</p>
+<p class="faq-answer"><a href="https://help.blockstream.com/education/glossary/lightning-network">Lightning Network</a> channels are opened and closed with on-chain transactions that create and spend UTXOs. The opening transaction locks bitcoin into a 2-of-2 multisig UTXO shared between the two channel participants. Payments within the channel update the balance allocation off-chain, without creating new on-chain UTXOs. When the channel closes, the final balances are settled on-chain as new UTXOs.</p>
+
+<p class="faq-question">Can lost bitcoin UTXOs ever be spent?</p>
+<p class="faq-answer">A UTXO can only be spent by whoever holds the private key that satisfies its locking script. If the private key is permanently lost (no recovery phrase backup, destroyed hardware), the UTXO remains in the UTXO set forever but can never be moved. These "zombie UTXOs" effectively remove bitcoin from circulation permanently. There is no protocol mechanism to reclaim them.</p>
