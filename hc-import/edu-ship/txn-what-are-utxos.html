@@ -9,23 +9,7 @@
 <p>Bitcoin tracks ownership through <strong>UTXOs</strong>, or Unspent Transaction Outputs. Every piece of bitcoin that exists sits inside a UTXO, locked to a specific address. When your wallet says you have 0.85 bitcoin, it has added up every UTXO your <a href="https://help.blockstream.com/education/wallets/security-and-storage/what-is-a-private-key-and-how-do-i-store-it">private keys</a> can unlock, rather than reading a single balance from a ledger.</p>
 <p>You might have three UTXOs: one worth 0.5 bitcoin, one worth 0.3 bitcoin, and one worth 0.05 bitcoin. Together, they total 0.85 bitcoin. But each one is a separate, distinct object on the blockchain with its own history, its own size, and its own spending conditions.</p>
 <p>UTXO management affects the fees you pay, the privacy you maintain, and whether some of your bitcoin might become permanently uneconomical to spend.</p>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart LR
-    BAL["<b>Wallet Balance</b><br/>0.85 BTC"]
 
-    BAL --&gt; U1["UTXO 1<br/><b>0.50 BTC</b>"]
-    BAL --&gt; U2["UTXO 2<br/><b>0.30 BTC</b>"]
-    BAL --&gt; U3["UTXO 3<br/><b>0.05 BTC</b>"]
-
-    classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-    classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
-
-    class BAL blue
-    class U1,U2,U3 green
-</pre>
-<div class="diagram-label">A wallet balance of 0.85 BTC is composed of three separate UTXOs, each an independent object on the blockchain.</div>
-</div>
 <h2>The Cash Analogy</h2>
 <p>UTXOs behave almost exactly like physical cash bills, and that comparison is the easiest way to build the right mental model.</p>
 <p>Imagine your physical wallet contains a $50 bill, a $20 bill, and a $10 bill. Your "balance" is $80. But you do not actually have $80 as an abstract number. You have three specific bills of specific denominations.</p>
@@ -51,32 +35,7 @@ flowchart LR
 </ol>
 <p>The remaining 0.0001 bitcoin is the transaction fee, paid to the miner who includes the transaction in a block. UTXO A no longer exists. It has been "spent" and removed from the UTXO set. In its place, two new UTXOs were created.</p>
 <p>Alice still has UTXO B (0.1 bitcoin), untouched. Her new balance: 0.1 + 0.0499 = 0.1499 bitcoin, spread across two UTXOs.</p>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart TD
-    UA["<b>UTXO A</b><br/>Alice: 0.3 BTC"]
-    UB["<b>UTXO B</b><br/>Alice: 0.1 BTC<br/>Untouched"]
-    TX["Transaction"]
 
-    UA --&gt; TX
-    TX --&gt; BOB["<b>To Bob</b><br/>0.25 BTC"]
-    TX --&gt; CHANGE["<b>Change to Alice</b><br/>0.0499 BTC"]
-    TX -.-&gt; FEE["<b>Fee</b><br/>0.0001 BTC"]
-
-    classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-    classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
-    classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
-    classDef grey fill:#E8ECF0,stroke:#414C59,color:#414C59,stroke-dasharray: 5 5
-
-    class UA blue
-    class TX blue
-    class BOB green
-    class CHANGE green
-    class FEE amber
-    class UB grey
-</pre>
-<div class="diagram-label">UTXO transaction flow: Alice spends UTXO A (0.3 BTC) to send Bob 0.25 BTC. UTXO B remains untouched.</div>
-</div>
 <h2>How UTXOs Are Created</h2>
 <p>Every transaction output creates a new UTXO. There are exactly two ways a UTXO comes into existence:</p>
 <h3>1. As a Coinbase Transaction Output</h3>
@@ -133,47 +92,7 @@ flowchart TD
 <p>This is the "no partial spending" rule. There is no way to shave off a fraction of a UTXO. The whole thing goes in, and new UTXOs come out.</p>
 <h3>Transaction Outputs</h3>
 <p>Each transaction typically produces at least two outputs: one for the recipient and one for your change. But transactions can have any number of outputs. A business paying 50 employees in a single transaction would produce 50 outputs (one per employee) plus a change output, creating 51 new UTXOs from however many inputs were consumed.</p>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart LR
-    subgraph SINGLE["Single UTXO Input"]
-        direction TB
-        S_IN["1 UTXO<br/>1.0 BTC"]
-        S_TX["Transaction"]
-        S_PAY["Recipient<br/>0.2 BTC"]
-        S_CHG["Change<br/>~0.8 BTC"]
-        S_IN --&gt; S_TX --&gt; S_PAY
-        S_TX --&gt; S_CHG
-    end
 
-    subgraph MULTI["Multiple UTXO Inputs"]
-        direction TB
-        M_IN1["UTXO 1: 0.10 BTC"]
-        M_IN2["UTXO 2: 0.15 BTC"]
-        M_IN3["UTXO 3: 0.08 BTC"]
-        M_IN4["UTXO 4: 0.12 BTC"]
-        M_TX["Transaction"]
-        M_PAY["Recipient<br/>0.3 BTC"]
-        M_CHG["Change<br/>~0.14 BTC"]
-        M_IN1 --&gt; M_TX
-        M_IN2 --&gt; M_TX
-        M_IN3 --&gt; M_TX
-        M_IN4 --&gt; M_TX
-        M_TX --&gt; M_PAY
-        M_TX --&gt; M_CHG
-    end
-
-    classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-    classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
-    classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
-
-    class S_IN blue
-    class S_TX,M_TX blue
-    class S_PAY,S_CHG,M_PAY,M_CHG green
-    class M_IN1,M_IN2,M_IN3,M_IN4 amber
-</pre>
-<div class="diagram-label">Single vs. multiple UTXO inputs: more inputs means a larger transaction and higher fees for the same payment amount.</div>
-</div>
 <h2>UTXO Model vs. Account Model</h2>
 <p>Bitcoin uses UTXOs. Ethereum uses accounts. These are fundamentally different approaches to tracking who owns what, and each comes with tradeoffs.</p>
 <table>
@@ -267,28 +186,7 @@ flowchart LR
 <li><strong>Use SegWit or Taproot addresses.</strong> If your UTXOs sit in legacy addresses, consolidating to a SegWit or Taproot address reduces future spending costs on top of the consolidation benefit.</li>
 </ul>
 <p>You can verify your transaction's inputs, outputs, fees, and confirmation status using <a href="https://blockstream.info">Blockstream Explorer</a>, which displays the full structure of every Bitcoin transaction, including the UTXO inputs consumed and new outputs created.</p>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart LR
-    subgraph COST["Fee Cost by UTXO Count (at 50 sat/vB, Taproot inputs)"]
-        direction LR
-        U1F["<b>1 UTXO</b><br/>~111 vB<br/>5,550 sats"]
-        U5F["<b>5 UTXOs</b><br/>~341 vB<br/>17,050 sats"]
-        U20F["<b>20 UTXOs</b><br/>~1,196 vB<br/>59,800 sats"]
-        U100F["<b>100 UTXOs</b><br/>~5,806 vB<br/>290,300 sats"]
-    end
 
-    classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
-    classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-    classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
-
-    class U1F green
-    class U5F blue
-    class U20F amber
-    class U100F amber
-</pre>
-<div class="diagram-label">Fee cost scales with UTXO count: spending the same 0.1 BTC from 100 UTXOs costs over 50x more than from 1 UTXO.</div>
-</div>
 <h2>Dust UTXOs</h2>
 <p>A <strong>dust UTXO</strong> is a UTXO so small that the transaction fee required to spend it exceeds its value. The bitcoin is technically yours, but spending it would cost more than it is worth.</p>
 <h3>How Dust Is Created</h3>
@@ -334,26 +232,7 @@ flowchart LR
 <li><strong>Wait for low fees.</strong> If you already have dust UTXOs, set your wallet to watch for low-fee periods and consolidate then.</li>
 <li><strong>Accept the loss.</strong> In some cases, the bitcoin locked in dust UTXOs may never be economical to spend. The value is effectively abandoned, and those UTXOs remain in the UTXO set indefinitely.</li>
 </ul>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart LR
-    subgraph DUST["UTXO Value Zones"]
-        direction LR
-        ALWAYS["<b>Always Dust</b><br/>Below 294 sats<br/>Protocol rejects"]
-        SOMETIMES["<b>Dust at High Fees</b><br/>294 - 10,000 sats<br/>Uneconomical when<br/>fees above ~15 sat/vB"]
-        SAFE["<b>Usually Spendable</b><br/>Above 10,000 sats<br/>Economical in most<br/>fee environments"]
-    end
 
-    classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
-    classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-    classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
-
-    class ALWAYS amber
-    class SOMETIMES blue
-    class SAFE green
-</pre>
-<div class="diagram-label">UTXO dust thresholds: small UTXOs can become uneconomical to spend as fee rates rise.</div>
-</div>
 <h2>UTXO Management for Institutions</h2>
 <p>Individual users can often manage UTXOs manually or rely on their wallet's default coin selection. Institutions holding bitcoin across hundreds or thousands of addresses face a different order of complexity.</p>
 <h3>UTXO Consolidation at Scale</h3>
