@@ -4,14 +4,12 @@
 
 <strong>The Bitcoin halving</strong> is a programmed event built into Bitcoin's source code that reduces the mining block reward by 50% every 210,000 blocks. It serves as Bitcoin's core monetary policy mechanism, creating a fixed, predictable issuance schedule that no person, company, or government can alter. Four halvings have occurred so far (2012, 2016, 2020, 2024), and they will continue approximately every four years until the final fraction of a bitcoin is mined around the year 2140.
 
- ========== SECTION 1: What Is the Bitcoin Halving? ========== 
 <h2>What Happens During a Bitcoin Halving</h2>
 <p>Every time a Bitcoin miner successfully adds a new <a href="https://help.blockstream.com/education/glossary/block">block</a> to the <a href="https://help.blockstream.com/education/glossary/blockchain">blockchain</a>, they receive a reward of newly created bitcoin. This reward is how new bitcoin enters circulation. The <a href="https://help.blockstream.com/education/glossary/halving">halving</a> cuts that reward in half.</p>
 <p>When Satoshi Nakamoto launched the Bitcoin network in January 2009, miners received 50 bitcoin for every block they mined. In November 2012, the first halving reduced that reward to 25 bitcoin. In July 2016, it dropped to 12.5. In May 2020, to 6.25. And in April 2024, the most recent halving brought it down to 3.125 bitcoin per block.</p>
 <p>This reduction is automatic. It happens at a specific block height (a specific block number in the chain), not on a specific calendar date. Every 210,000 blocks, the reward drops. Because the Bitcoin protocol targets one block every ten minutes on average, 210,000 blocks takes approximately four years. But the actual calendar date of each halving depends on how fast blocks are actually produced, which varies slightly based on total network hashrate, the combined computing power securing the network.</p>
 <p>The halving is not a software update, a vote, or a committee decision. The rule was written into Bitcoin's code from the very first day and has never changed. Every <a href="https://help.blockstream.com/education/nodes/introduction-and-role/what-is-a-bitcoin-node">Bitcoin node</a> on the network enforces it. In Bitcoin Core's source code, the halving interval is defined by the constant <code>nSubsidyHalvingInterval = 210000</code> in <a href="https://github.com/bitcoin/bitcoin/blob/master/src/kernel/chainparams.cpp"><code>src/kernel/chainparams.cpp</code></a>. The subsidy calculation in <code>GetBlockSubsidy()</code> (in <a href="https://github.com/bitcoin/bitcoin/blob/master/src/validation.cpp"><code>src/validation.cpp</code></a>) divides the initial 50 BTC reward by 2 for each completed halving interval using integer right-shift: <code>nSubsidy &gt;&gt;= halvings</code>.</p>
 
- ========== SECTION 2: The Complete Halving Schedule ========== 
 <h2>The Complete Halving Schedule</h2>
 <p>Bitcoin's halving schedule is fully deterministic. Every halving that will ever happen is already defined in the code. The table below shows the complete history and the projected next halving.</p>
 <table>
@@ -73,7 +71,7 @@
 <h3>How to Calculate the Next Halving</h3>
 <p>Because halvings occur at specific block heights, simple arithmetic gives a timing estimate. The fifth halving will occur at block 1,050,000. If the current block height is 883,000 (as an example), there are 167,000 blocks remaining. At an average of ten minutes per block, that equals approximately 1,670,000 minutes, or about 3.17 years. Adding that to today's date gives a rough calendar estimate.</p>
 <p>Block explorers like <a href="https://blockstream.info">Blockstream Explorer</a> display the current block height in real time, so anyone can calculate how many blocks remain until the next halving and estimate the date themselves.</p>
- ========== SECTION 3: Why the Halving Exists ========== 
+
 <h2>Why the Halving Exists</h2>
 <p>Satoshi Nakamoto designed the halving to solve a fundamental problem: how do you distribute a new digital currency fairly while ensuring it remains scarce over time?</p>
 <p>Gold provided the model. When humans first discovered gold, it was relatively easy to find. Surface deposits were accessible, and early miners could collect large quantities. Over centuries, the easy deposits were exhausted, and extracting new gold became progressively harder and more expensive. The rate of new gold entering the world's supply declined naturally over time.</p>
@@ -82,7 +80,6 @@
 <p>Fiat currency, gold, and bitcoin differ most in how knowable their future supply is. Central banks decide how much new currency to create, and they can change their minds at any time. Gold's new supply is determined by geology and economics, and while it tends to run between 1% and 2% per year, the exact rate is uncertain. Bitcoin's new supply is determined by mathematics and is known decades in advance.</p>
 <p>Every market participant can see exactly how many bitcoin exist today, how many will exist next year, and how many will exist in 2140. No other monetary asset offers this level of supply transparency.</p>
 
- ========== SECTION 4: How the Halving Creates Scarcity ========== 
 <h2>How the Halving Creates Scarcity</h2>
 <p>Scarcity means limited supply relative to demand. The halving enforces scarcity on the supply side by reducing the rate at which new bitcoin becomes available.</p>
 <h3>The Supply Side</h3>
@@ -95,7 +92,6 @@
 <p>Economists measure scarcity using the stock-to-flow ratio: the total existing supply (stock) divided by the annual new production (flow). Gold has a stock-to-flow ratio of roughly 60, meaning it would take about 60 years of current production to double the existing supply. This high ratio is what gives gold its monetary premium.</p>
 <p>Each halving doubles Bitcoin's stock-to-flow ratio by cutting the flow in half while the stock continues growing (slowly). After the 2024 halving, Bitcoin's stock-to-flow ratio exceeded 100, surpassing gold's for the first time in Bitcoin's history.</p>
 
- ========== SECTION 5: Bitcoin's Monetary Policy vs. Fiat and Gold ========== 
 <h2>Bitcoin's Monetary Policy Compared to Fiat and Gold</h2>
 <p>Every monetary system has rules governing how new units enter circulation. These rules determine whether the money holds its value over time or loses it. The halving is Bitcoin's monetary policy, and it differs fundamentally from both fiat currency and gold.</p>
 <h3>Fiat Currency: Unlimited, Discretionary Supply</h3>
@@ -147,7 +143,6 @@
 <p>Bitcoin's current annual issuance rate (approximately 0.85% post-2024 halving) is already below gold's. After the 2028 halving, it will drop to approximately 0.4%. With each halving, bitcoin's monetary inflation approaches zero.</p>
 <p>No central bank vote, geological discovery, or technological breakthrough can alter this trajectory. The rules are embedded in the protocol, enforced by every node on the network, and have operated without interruption since January 3, 2009.</p>
 
- ========== SECTION 6: Impact on Miners ========== 
 <h2>Impact on Miners</h2>
 <p>Miners are the most directly affected participants in a halving. Their primary revenue source, the block reward, drops by 50% overnight. Understanding how miners adapt explains why the Bitcoin network remains secure through each halving.</p>
 <h3>The Immediate Revenue Shock</h3>
@@ -163,7 +158,7 @@
 <h3>Transaction Fees as a Revenue Buffer</h3>
 <p>Miners also earn transaction fees, which are paid by users who want their transactions included in blocks. During periods of high network activity, fees can contribute a meaningful portion of miner revenue. On the day of the 2024 halving itself, transaction fees temporarily exceeded the block reward due to a surge in on-chain activity.</p>
 <p>As block rewards decline with each halving, transaction fees become proportionally more important to miners. This dynamic is central to Bitcoin's long-term security model, discussed in detail below.</p>
- ========== SECTION 7: Historical Price Context ========== 
+
 <h2>Historical Price Context</h2>
 <p>Each of Bitcoin's four halvings has preceded a significant increase in bitcoin's price. This pattern is frequently cited in market commentary and warrants a factual examination.</p>
 <table>
@@ -200,7 +195,7 @@
 <h3>What Can Be Said Factually</h3>
 <p>The halving reduces sell-side pressure from miners. Before each halving, miners collectively sell a certain amount of newly mined bitcoin to cover operating costs. After the halving, the amount of new bitcoin they have to sell is cut in half. If all other market dynamics remain unchanged (which they never do), this reduction in sell pressure would favor higher prices. That logic is sound in isolation. The question is always what other dynamics are at play.</p>
 <p>Responsible analysis acknowledges the historical pattern without extrapolating it as a guarantee.</p>
- ========== SECTION 8: The Transition to Fee-Based Security ========== 
+
 <h2>The Transition to Fee-Based Security</h2>
 <p>Bitcoin's security depends on miners. Miners invest real resources (electricity, hardware, facilities) to produce blocks, and that investment makes the blockchain expensive to attack. The block reward compensates miners for this security service. But the block reward is programmed to reach zero. What happens then?</p>
 <h3>How Miner Revenue Works</h3>
@@ -222,7 +217,6 @@
 </ul>
 <p>Each halving is an incremental test of the fee market's ability to sustain miner revenue. If transaction fees prove insufficient at any point, the difficulty adjustment ensures the network continues operating by reducing mining costs until a new equilibrium is reached. Bitcoin does not stop working if mining becomes temporarily less profitable. The difficulty adjustment simply lowers the bar until it is profitable again.</p>
 
- ========== SECTION 9: When Is the Next Halving? ========== 
 <h2>When Is the Next Halving?</h2>
 <p>The fifth Bitcoin halving will occur at block 1,050,000. Based on the average block interval of approximately ten minutes, this is projected to happen in approximately <strong>2028</strong>. The exact date depends on actual block production speed between now and then.</p>
 <h3>How to Estimate the Date Yourself</h3>
@@ -240,12 +234,12 @@
 </ul>
 <p>The estimate is imprecise because blocks are not produced at exactly ten-minute intervals. Fluctuations in hashrate cause blocks to arrive faster or slower. A large increase in global hashrate can pull the halving date earlier; a decrease can push it later. The difficulty adjustment keeps the average near ten minutes, but short-term variation means the exact date remains uncertain until close to the event.</p>
 <p>When the fifth halving arrives, the block reward will drop from 3.125 to 1.5625 bitcoin. Daily new issuance will fall from approximately 450 bitcoin to approximately 225.</p>
- ========== SECTION 10: Dollar-Cost Averaging ========== 
+
 <h2>Buying Bitcoin Around Halvings</h2>
 <p>Market attention tends to spike around halving events, and price volatility can increase. Attempting to time purchases around a halving is speculative and unreliable. The halving date is known in advance, which means the market has ample time to price in expectations.</p>
 <p>A more measured approach is <a href="https://help.blockstream.com/education/economics/bitcoin-economics/dollar-cost-averaging-into-bitcoin">dollar-cost averaging</a> (DCA): buying a fixed dollar amount of bitcoin at regular intervals regardless of price or market events. This removes the need to predict whether the halving has been "priced in" and smooths out the effect of volatility over time.</p>
 <p>You can buy bitcoin directly in the <a href="https://blockstream.com/app">Blockstream app</a> to dollar-cost average regardless of halving cycles. As the halving makes each newly mined bitcoin scarcer, long-term holders benefit from moving their accumulated bitcoin to self-custody. A <a href="https://help.blockstream.com/education/wallets/security-and-storage/what-is-a-hardware-wallet">hardware wallet</a> like <a href="https://store.blockstream.com/products/jade-plus">Jade Plus</a> ($149-$169) keeps private keys offline and air-gapped, ensuring your bitcoin is secured by you alone as the supply schedule tightens.</p>
- ========== SECTION 11: Common Misconceptions ========== 
+
 <h2>Common Misconceptions About the Halving</h2>
 <h3>"The Halving Means Bitcoin Becomes Twice as Valuable"</h3>
 <p>The halving reduces new supply by half. It does not directly change demand. If demand stays the same while new supply is halved, there is upward price pressure. But demand can also decrease, stay flat, or increase by any amount. Price depends on both sides of the equation. The halving controls only one side.</p>
@@ -257,7 +251,7 @@
 <p>Past halvings have preceded price increases, but that does not make it a guarantee, because markets price in anticipated events. The halving is announced years in advance in the most transparent way possible: anyone can read the code. An event that every market participant expects may have little additional impact when it occurs. Never make financial decisions based on the assumption that past halving patterns will repeat identically.</p>
 <h3>"Bitcoin Will Stop Working When the Block Reward Reaches Zero"</h3>
 <p>Bitcoin's long-term security model relies on transaction fees, not the block reward. The block reward is a bootstrapping mechanism to distribute bitcoin and incentivize early miners. As it declines, transaction fees take over. The transition happens gradually over more than a century, giving the fee market ample time to develop. The network has already demonstrated sustained periods where transaction fees constituted a significant portion of miner revenue.</p>
- ========== FAQ ========== 
+
 <h2>Frequently Asked Questions</h2>
 
 <h3>How many Bitcoin halvings have there been?</h3>
@@ -277,5 +271,3 @@
 
 <h3>Why 21 million? Why not a different number?</h3>
 <p>Satoshi Nakamoto chose the parameters (50 bitcoin starting reward, halving every 210,000 blocks) that produce a total supply approaching 21 million. Mathematically, 210,000 × 50 × 2 (the sum of the geometric series 1 + 1/2 + 1/4 + ...) = 21,000,000. The specific number matters less than the principle: a fixed, finite supply that everyone knows in advance and no one can change. Any fixed number achieves the same purpose. Bitcoin's smallest unit (the satoshi, 0.00000001 bitcoin) ensures that 21 million bitcoin can be divided into 2.1 quadrillion units, providing enough granularity for a global monetary system.</p>
-
- ========== Related Articles ==========
