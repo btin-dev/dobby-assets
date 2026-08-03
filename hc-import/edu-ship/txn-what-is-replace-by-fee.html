@@ -196,20 +196,20 @@
 <p>The same principle applies to any protocol that uses pre-signed Bitcoin transactions: submarine swaps, DLCs (Discreet Log Contracts), coinjoins, and other multi-party constructions where fee estimation at signing time may not match conditions at broadcast time.</p>
 <h2>Frequently Asked Questions</h2>
 
-<p class="faq-question">Can someone else replace my transaction using RBF?</p>
-<p class="faq-answer">No. Creating a replacement requires signing it with the private keys that control the inputs being spent. Only the original sender (or anyone with access to those keys) can create a valid replacement.</p>
+<h3>Can someone else replace my transaction using RBF?</h3>
+<p>No. Creating a replacement requires signing it with the private keys that control the inputs being spent. Only the original sender (or anyone with access to those keys) can create a valid replacement.</p>
 
-<p class="faq-question">Is RBF the same as double-spending?</p>
-<p class="faq-answer">RBF replaces an <em>unconfirmed</em> transaction that has not yet been secured by proof-of-work. A "double-spend" in the meaningful sense involves reversing a <em>confirmed</em> transaction, which requires overpowering the network's hashrate.</p>
+<h3>Is RBF the same as double-spending?</h3>
+<p>RBF replaces an <em>unconfirmed</em> transaction that has not yet been secured by proof-of-work. A "double-spend" in the meaningful sense involves reversing a <em>confirmed</em> transaction, which requires overpowering the network's hashrate.</p>
 
-<p class="faq-question">Do all wallets support RBF?</p>
-<p class="faq-answer">Not all wallets expose RBF in their interface, but the feature operates at the network level. Most major Bitcoin wallets support fee bumping through RBF, including Bitcoin Core, Sparrow, Electrum, and the <a href="https://blockstream.com/app/">Blockstream app</a>. In the Blockstream app, you can bump the fee on an unconfirmed outgoing transaction directly from the transaction details screen. If your wallet does not support RBF directly, CPFP is an alternative.</p>
+<h3>Do all wallets support RBF?</h3>
+<p>Not all wallets expose RBF in their interface, but the feature operates at the network level. Most major Bitcoin wallets support fee bumping through RBF, including Bitcoin Core, Sparrow, Electrum, and the <a href="https://blockstream.com/app/">Blockstream app</a>. In the Blockstream app, you can bump the fee on an unconfirmed outgoing transaction directly from the transaction details screen. If your wallet does not support RBF directly, CPFP is an alternative.</p>
 
-<p class="faq-question">How much do I need to increase the fee?</p>
-<p class="faq-answer">The replacement must pay a higher absolute fee than the original transaction plus all of its descendants in the mempool, and meet the minimum relay fee rate. Most wallets calculate the required increase automatically based on current mempool conditions.</p>
+<h3>How much do I need to increase the fee?</h3>
+<p>The replacement must pay a higher absolute fee than the original transaction plus all of its descendants in the mempool, and meet the minimum relay fee rate. Most wallets calculate the required increase automatically based on current mempool conditions.</p>
 
-<p class="faq-question">Can I RBF a transaction more than once?</p>
-<p class="faq-answer">Yes. You can replace a replacement as many times as needed, as long as each successive replacement pays a higher fee than the one before it. There is no limit on the number of replacements, only the requirement that each one strictly increases the fee.</p>
+<h3>Can I RBF a transaction more than once?</h3>
+<p>Yes. You can replace a replacement as many times as needed, as long as each successive replacement pays a higher fee than the one before it. There is no limit on the number of replacements, only the requirement that each one strictly increases the fee.</p>
 
-<p class="faq-question">What happens to the original transaction after RBF?</p>
-<p class="faq-answer">Nodes that accept the replacement drop the original from their mempools. The replacement has a different transaction ID (txid), so the original txid will no longer appear as pending. Once the replacement confirms, the original can never confirm because its inputs have been spent.</p>
+<h3>What happens to the original transaction after RBF?</h3>
+<p>Nodes that accept the replacement drop the original from their mempools. The replacement has a different transaction ID (txid), so the original txid will no longer appear as pending. Once the replacement confirms, the original can never confirm because its inputs have been spent.</p>
