@@ -11,23 +11,7 @@
 <h3>Under the Hood: The Variance Reduction Math</h3>
 <p>DCA's mechanical effect comes from reducing the variance of your cost basis. If you make N purchases at prices P1, P2, ..., PN, your average cost per bitcoin is the harmonic mean: N / (1/P1 + 1/P2 + ... + 1/PN). The harmonic mean is always less than or equal to the arithmetic mean (AM-HM inequality), with the gap between them widening as price variance increases. In other words, the more volatile the asset, the more DCA reduces the variance of your average entry price relative to a single mistimed purchase. For an asset with Bitcoin's historical volatility (50-100%+ annualized), the difference between the harmonic mean cost and the arithmetic mean price can be substantial over multi-year periods. This is the sense in which volatility works in a DCA buyer's favor: the periods when prices drop are the periods when your fixed dollar amount buys the most bitcoin, pulling your harmonic mean cost below the simple average of the prices you paid. That lower average is measured against buying a fixed quantity at each date, or against a poorly timed single purchase; it does not mean DCA outperforms deploying a lump sum early, which on average has produced higher returns (see DCA vs. Lump-Sum Investing below).</p>
 <p>This is not a new concept. DCA has been used in traditional equity markets for decades, particularly through 401(k) contributions and index fund auto-investing. What makes DCA especially well-suited to Bitcoin is the combination of long-term upward trajectory and extreme short-term price swings. Bitcoin has dropped 30% in a month and, in past cycles, recovered to new highs within a year. That volatility profile has punished attempts to time entries and exits, and has favored consistent buyers who held through the turbulence.</p>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart LR
-  subgraph DCA["Weekly $50 DCA: 2020-2024"]
-    A["2020\nBTC ~$9K\n$50 buys\nmore sats"]:::green --&gt; B["2021 Peak\nBTC ~$69K\n$50 buys\nfewer sats"]:::amber
-    B --&gt; C["2022 Bear\nBTC ~$16K\n$50 buys\nmore sats"]:::green
-    C --&gt; D["2024\nBTC ~$100K\n$50 buys\nfewer sats"]:::blue
-  end
-  E["Average Cost\nWell below\ncurrent price"]:::grey
-  D ~~~ E
-  classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-  classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
-  classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
-  classDef grey fill:#E8ECF0,stroke:#414C59,color:#414C59,stroke-dasharray: 5 5
-</pre>
-<div class="diagram-label">DCA buys more bitcoin when prices are low and less when prices are high, smoothing the average entry price</div>
-</div>
+
 <h3>Is Dollar-Cost Averaging a Good Strategy for Bitcoin?</h3>
 <p>For most people accumulating bitcoin over time, DCA has been an effective strategy, mainly because it removes market timing and emotion from the decision. It has two documented effects: it lowers the average cost basis below the simple average of the prices paid during volatile periods (a mathematical property of buying more when prices are low), and it makes the strategy psychologically easier to maintain through drawdowns. On the question of profitability, four-year DCA windows across Bitcoin's traded history have generally produced positive returns to date, including windows that started right before major crashes. Past performance does not guarantee future results, and DCA does not eliminate the risk of loss; it manages timing risk while leaving market risk in place. DCA is less suitable if you have a large lump sum and a long horizon, since deploying it all at once has historically produced higher expected returns (covered below).</p>
  ========== SECTION 2: Why DCA Works for Bitcoin ========== 
@@ -43,28 +27,7 @@ flowchart LR
 <h3>Emotion Is the Biggest Risk</h3>
 <p>Emotional buying follows a predictable pattern: buy during the euphoria of a price spike (high), panic-sell during a correction (low), wait for recovery to feel safe, buy again at the next spike (high again). This cycle of buying high and selling low is the default behavior of most retail participants, and it destroys returns.</p>
 <p>DCA eliminates the decision. There is no "should I buy today?" because the answer is always the same: yes, on schedule, for the predetermined amount.</p>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart TB
-  subgraph Emotional["Emotional Buyer"]
-    E1["Hears buzz\nBuys at $65K"]:::amber --&gt; E2["Price drops\nPanics at $30K\nSells"]:::amber
-    E2 --&gt; E3["Waits for\nrecovery"]:::grey
-    E3 --&gt; E4["Buys again\nat $60K"]:::amber
-    E5["Result:\nHigh avg cost\nPoor returns"]:::amber
-  end
-  subgraph DCA["DCA Buyer"]
-    D1["Week 1\n$100 at $65K"]:::blue --&gt; D2["Week 12\n$100 at $45K"]:::blue
-    D2 --&gt; D3["Week 24\n$100 at $30K"]:::green
-    D3 --&gt; D4["Week 52\n$100 at $60K"]:::blue
-    D5["Result:\nLow avg cost\nStrong returns"]:::green
-  end
-  classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-  classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
-  classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
-  classDef grey fill:#E8ECF0,stroke:#414C59,color:#414C59,stroke-dasharray: 5 5
-</pre>
-<div class="diagram-label">Emotional buyer (high average cost) vs. DCA buyer (low average cost) with the same capital deployed</div>
-</div>
+
  ========== SECTION 3: Historical DCA Performance ========== 
 <h2>Historical DCA Performance</h2>
 <p>Bitcoin has existed since January 2009 and has traded at a market price since 2010, giving more than 15 years of price data to examine. The results for consistent DCA buyers are remarkably uniform across different starting points.</p>
@@ -75,30 +38,7 @@ flowchart TB
 <h3>Shorter Time Horizons</h3>
 <p>Shorter DCA windows produce more variable results. A one-year DCA starting in November 2021 (near the cycle peak) would have been underwater for over a year before recovering. A one-year DCA starting in January 2023 would have been profitable within months. The longer the accumulation period, the less sensitive the outcome is to timing.</p>
 <p>A single purchase is 100% dependent on timing. A year of weekly purchases spreads the timing risk across 52 data points. Four years of weekly purchases spread it across 208. The more data points, the closer your average cost converges to the long-term trend, and the less any single price movement matters.</p>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart TB
-  subgraph HeatMap["DCA Profitability by Start Date and Duration"]
-    direction TB
-    H1["Start: 2015"]:::green
-    H2["Start: 2017 Peak"]:::amber
-    H3["Start: 2018 Bear"]:::green
-    H4["Start: 2021 Peak"]:::amber
-    H5["Start: 2022 Bear"]:::green
-  end
-  subgraph Duration["Time Held"]
-    D1["1 Year\nVariable results"]:::amber
-    D2["2 Years\nMostly profitable"]:::blue
-    D3["3 Years\nNearly all profitable"]:::green
-    D4["4+ Years\nALL profitable"]:::green
-  end
-  HeatMap ~~~ Duration
-  classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-  classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
-  classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
-</pre>
-<div class="diagram-label">Historically, every 4-year DCA window in Bitcoin's traded history has produced positive returns regardless of start date (past performance does not guarantee future results)</div>
-</div>
+
  ========== SECTION 4: How to DCA Step by Step ========== 
 <h2>How to Dollar-Cost Average Into Bitcoin</h2>
 <p>Setting up a DCA strategy takes less than ten minutes. The hard part is sticking to it for years.</p>
@@ -186,26 +126,7 @@ flowchart TB
 <h3>DCA Builds Conviction Through Experience</h3>
 <p>Something changes psychologically after you have been DCA'ing for a full market cycle. You watch a drawdown arrive, see your portfolio value decline, and observe your average cost decreasing simultaneously as your scheduled purchases buy more bitcoin at lower prices. You experience the recovery and watch your position move into profit. After living through that cycle once, the next drawdown is less frightening because you have a visceral, first-hand reference for how the strategy performs through volatility.</p>
 <p>This is harder to achieve with a lump-sum investment because the entire position was acquired at one price. There is no ongoing activity during the drawdown to create the experience of buying low. DCA provides that experience repeatedly, which builds the conviction needed to maintain the strategy over multiple cycles.</p>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart LR
-  subgraph P1["Discretionary Buyer"]
-    A1["Price charts\nNews headlines\nIndicators\nInfluencer tips"]:::amber --&gt; A2["Paralyzed\nby options"]:::amber
-  end
-  subgraph P2["DCA Buyer"]
-    B1["Simple calendar\nSame day\nSame amount\nEvery week"]:::blue --&gt; B2["Automated\npurchases"]:::blue
-  end
-  subgraph P3["After 4 Years"]
-    C1["DCA buyer:\nLower avg cost\nLess stress\nConsistent results"]:::green
-  end
-  P1 --&gt; P3
-  P2 --&gt; P3
-  classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-  classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
-  classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
-</pre>
-<div class="diagram-label">The behavioral advantage of DCA: discipline consistently outperforms discretion in volatile markets</div>
-</div>
+
  ========== SECTION 7: When DCA Makes Less Sense ========== 
 <h2>When DCA Makes Less Sense</h2>
 <p>DCA is not the optimal strategy in every situation. Understanding when it is suboptimal helps you make an informed decision rather than treating it as a universal rule.</p>
@@ -235,19 +156,7 @@ flowchart LR
 <li><strong>Periodically transfer to hardware wallet.</strong> When your software wallet balance grows to a level that warrants stronger security (this is personal and depends on your risk tolerance), send it to cold storage on a hardware wallet.</li>
 <li><strong>Verify your recovery phrase.</strong> Before any transfer, confirm that your <a href="https://help.blockstream.com/education/wallets/security-and-storage/what-is-a-private-key-and-how-do-i-store-it">recovery phrase</a> is properly backed up and stored in a secure physical location. If you lose access to your hardware wallet and do not have your recovery phrase, your bitcoin is unrecoverable.</li>
 </ol>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart LR
-  A["Recurring DCA\nPurchase\n(Weekly)"]:::blue --&gt; B["Self-Custodial\nSoftware Wallet\n(Accumulation)"]:::blue
-  B --&gt;|"Withdraw when\nbalance exceeds\nthreshold"| C["Hardware Wallet\nCold Storage\n(Long-term)"]:::green
-  B1["Your keys from\nthe start"]:::grey -.-&gt; B
-  C1["Air-gapped signing\nOffline keys\nJade Plus"]:::grey -.-&gt; C
-  classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-  classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
-  classDef grey fill:#E8ECF0,stroke:#414C59,color:#414C59,stroke-dasharray: 5 5
-</pre>
-<div class="diagram-label">DCA to self-custody workflow: recurring purchases, software wallet accumulation, hardware wallet for long-term storage</div>
-</div>
+
  ========== SECTION 9: Common Mistakes to Avoid ========== 
 <h2>Common Mistakes DCA Buyers Make</h2>
 <h3>Pausing During Drawdowns</h3>
