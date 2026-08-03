@@ -4,7 +4,6 @@
 
 <strong>Bitcoin transaction fees</strong> are payments attached to transactions that go to the miner who includes them in a block. Fees are measured in satoshis per virtual byte (sat/vB) and are determined by supply and demand: a fixed supply of block space (~4 million weight units per block, produced roughly every ten minutes) meets variable demand from users wanting to transact. The higher the fee rate a transaction offers, the more likely it is to be confirmed quickly.
 
- SECTION 1: The Purpose of Bitcoin Fees 
 <h2>The Purpose of Bitcoin Fees</h2>
 <p>Every Bitcoin transaction is validated by full nodes and permanently recorded in a block. Miners assemble those blocks: they collect pending transactions from the mempool, order them into candidate blocks, and expend computational energy (proof-of-work) to find a valid block hash. <b>Transaction fees</b> are the direct compensation miners receive for including a specific transaction in their block.</p>
 <p>Fees serve two purposes at the protocol level:</p>
@@ -14,7 +13,6 @@
 </ol>
 <p>When you broadcast a transaction, you are bidding for a scarce resource: space in the next block. The fee you attach signals to miners how much you value fast confirmation. A transaction with zero fee can technically be valid, but no rational miner would include it when other transactions are paying for the same space.</p>
 
- SECTION 2: Understanding Bitcoin's Fee Market 
 <h2>Understanding Bitcoin's Fee Market</h2>
 <p>Bitcoin's fee market emerges from a simple constraint: block space is finite, but demand for it is not.</p>
 <h3>The Supply Side: Limited Block Space</h3>
@@ -30,7 +28,7 @@
 <p>Miners optimize for total revenue per block. <a href="https://help.blockstream.com/education/nodes/set-up-and-optimization/what-is-bitcoin-core">Bitcoin Core</a>'s block assembly algorithm (implemented in the <code>BlockAssembler</code> class in <a href="https://github.com/bitcoin/bitcoin/blob/master/src/node/miner.cpp"><code>node/miner.cpp</code></a>) sorts mempool transactions by "ancestor fee rate," which accounts for both the transaction's own fee rate and the fee rates of any unconfirmed parent transactions it depends on. The algorithm fills the candidate block from highest ancestor fee rate to lowest until the 4 million weight unit limit is reached.</p>
 <p>This ancestor-aware sorting is what makes Child-Pays-for-Parent work: a high-fee child transaction raises the effective fee rate of its low-fee parent, causing both to be selected together. The minimum relay fee, configured via <code>-minrelaytxfee</code> in Bitcoin Core (default: 100 satoshis per kvB, or 0.1 sat/vB, lowered from 1,000 sat/kvB in Bitcoin Core 29.1, defined in <a href="https://github.com/bitcoin/bitcoin/blob/master/src/policy/policy.h"><code>src/policy/policy.h</code></a>), determines the floor below which nodes will not propagate transactions at all.</p>
 <p>Fee estimation in Bitcoin Core uses the <code>estimatesmartfee</code> RPC (implemented in <a href="https://github.com/bitcoin/bitcoin/tree/master/src/policy/fees"><code>src/policy/fees/</code></a>), which analyzes how long transactions at various fee rates took to confirm in recent blocks. The algorithm tracks confirmation times across multiple fee rate buckets and provides estimates for target confirmation windows (e.g., "confirm within 6 blocks"). Wallet software that relies on these estimates can sometimes lag behind rapid fee market changes, which is why tools like <a href="https://blockstream.info">Blockstream Explorer</a> provide real-time mempool visualization for a more current view of fee conditions.</p>
- SECTION 3: Fees as Bitcoin's Long-Term Security Model 
+
 <h2>Fees as Bitcoin's Long-Term Security Model</h2>
 <p>Miners earn revenue from two sources: the <strong>block subsidy</strong> (newly created bitcoin) and <strong>transaction fees</strong>. The block subsidy started at 50 bitcoin per block in 2009 and halves approximately every four years. After the April 2024 halving, the subsidy dropped to 3.125 bitcoin per block. By 2140, the subsidy will be zero.</p>
 
@@ -48,7 +46,7 @@
 <p>The security of the Bitcoin network depends on miners expending real-world energy to produce valid blocks. This expenditure makes it prohibitively expensive for an attacker to rewrite transaction history. Miners only spend this energy if the expected revenue (subsidy + fees) exceeds their costs.</p>
 <p>As the block subsidy shrinks, transaction fees would need to grow to fill the gap. If fees remained negligible while the subsidy approached zero, miner revenue could fall, hashrate could decline, and the cost of attacking the network could decrease. Whether transaction fees alone can provide a sufficient security budget once the subsidy ends is an open question that researchers and economists continue to debate. A sustained fee market is one path to keeping Bitcoin's security economically viable over the long run, but the outcome depends on future demand for block space that cannot be known today.</p>
 <p>Fees have already exceeded the block subsidy in individual blocks during periods of high demand in 2023 and 2024. Each halving shifts the balance further toward fees. By the 2030s, fees could represent a majority of miner income during high-demand periods.</p>
- SECTION 4: How Fees Change Over Time 
+
 <h2>How Fees Change Over Time</h2>
 <p>Bitcoin fees fluctuate with network demand rather than staying fixed, and the swings can be dramatic.</p>
 <h3>What Drives Fee Spikes</h3>
@@ -87,7 +85,7 @@
 <h3>Reading the Mempool</h3>
 <p>The mempool is a real-time indicator of fee market conditions. When the mempool is deep (many unconfirmed transactions at high fee rates), fees are elevated. When the mempool is shallow (few pending transactions), fees are low.</p>
 <p>Tools like <a href="https://blockstream.info">Blockstream Explorer</a> display current mempool conditions, showing how many transactions are waiting and at what fee rates. This information helps you choose an appropriate fee for your transaction based on current demand.</p>
- SECTION 5: Choosing the Right Fee 
+
 <h2>Choosing the Right Fee</h2>
 <p>Every transaction involves a tradeoff between cost and confirmation speed. The right fee depends on how urgently you need the transaction confirmed and how congested the network is at the time.</p>
 <h3>High-Priority Transactions</h3>
@@ -117,7 +115,7 @@
 <tr><td>No rush</td><td>Set a fee near the relay floor (~0.1 sat/vB) and wait</td><td>May take days during busy periods</td></tr>
 </table>
 <p>Replace-by-fee (RBF) provides a safety net. If you set a low fee and conditions change, RBF lets you rebroadcast the same transaction with a higher fee to accelerate confirmation. Most modern wallets support RBF by default.</p>
- SECTION 6: SegWit and Taproot Fee Savings 
+
 <h2>SegWit and Taproot Fee Savings</h2>
 <p>Not all transactions consume block space equally. Protocol upgrades have introduced more efficient transaction formats that use less block weight for the same functionality.</p>
 <h3>How SegWit Reduces Fees</h3>
@@ -139,7 +137,7 @@
 <tr><td>Taproot (P2TR)</td><td>Starts with <code>bc1p</code></td><td>~58-62% (singlesig); much lower for multisig</td></tr>
 </table>
 <p>To benefit from these savings, use a wallet that supports native SegWit or Taproot addresses. When receiving bitcoin, provide a <code>bc1q</code> or <code>bc1p</code> address rather than a legacy address.</p>
- SECTION 7: Layer-2 Fee Comparison 
+
 <h2>Layer-2 Alternatives: Lower Fees by Design</h2>
 <p>On-chain fees are an inherent property of Bitcoin's limited block space. Layer-2 solutions address this by moving transactions off the mainchain while preserving Bitcoin's security guarantees to varying degrees.</p>
 <h3>Lightning Network</h3>
@@ -168,7 +166,7 @@
 <tr><td>Lightning Network</td><td>Fractions of a cent</td><td>Seconds</td><td>Small payments, point-of-sale, micropayments</td></tr>
 <tr><td>Liquid Network</td><td>~0.1 sat/vB (LBTC)</td><td>~2 min (2-block finality)</td><td>Trading, privacy, medium-value transfers, asset issuance</td></tr>
 </table>
- SECTION 8: Managing Fees at Institutional Scale 
+
 <h2>Managing Fees at Institutional Scale</h2>
 <p>For businesses and institutions processing hundreds or thousands of Bitcoin transactions, fee management directly affects operational costs. A few sats per vByte difference across thousands of transactions compounds into significant expenses.</p>
 <h3>Fee Estimation and Budgeting</h3>
@@ -199,7 +197,7 @@
 <li><strong>Coin selection strategy.</strong> Use wallets that support manual coin selection or intelligent UTXO selection algorithms that minimize inputs for a given payment amount.</li>
 <li><strong>Track UTXO inventory.</strong> Maintain awareness of your UTXO set size and value distribution. Institutions should treat this as a regular operational metric.</li>
 </ul>
- FAQ Section 
+
 <h2>Frequently Asked Questions</h2>
 
 <h3>Can I send a Bitcoin transaction with zero fees?</h3>
@@ -219,5 +217,3 @@
 
 <h3>How can I reduce the fees I pay on Bitcoin transactions?</h3>
 <p>Several strategies can lower your fees: use a wallet that supports native SegWit (<code>bc1q</code>) or Taproot (<code>bc1p</code>) addresses for smaller transaction sizes; time non-urgent transactions for low-fee periods (weekends, off-peak hours); consolidate small UTXOs during cheap-fee windows; use transaction batching if sending to multiple recipients; and consider layer-2 solutions like the Lightning Network or Liquid Network for smaller or more frequent payments. The <a href="https://blockstream.com/app/">Blockstream app</a> supports Bitcoin, Lightning, and Liquid in a single interface, making it straightforward to route transactions to whichever layer offers the best fee economics at any given moment.</p>
-
- Related Articles
