@@ -1,0 +1,390 @@
+<p class="tldr">
+<strong>TL;DR:</strong> Bitcoin supports multiple transaction types, each defining different spending conditions through the Bitcoin scripting system. Legacy types (P2PKH, P2SH) use more block space and cost more in fees. SegWit types (P2WPKH, P2WSH) move signature data to a separate witness section, reducing fees by 30-40%. Taproot (P2TR) uses Schnorr signatures for the lowest fees on complex transactions and improved privacy, making cooperative multisig spends indistinguishable from singlesig on-chain. For most users, native SegWit (P2WPKH) or Taproot (P2TR) is the best choice.
+</p>
+
+A <strong>Bitcoin transaction type</strong> defines the conditions under which bitcoin can be spent. Each type specifies a different script that locks bitcoin to an address and determines what proof the spender must provide to unlock it. The type determines the address format, the transaction size, the fee cost, and the privacy properties of the transaction. Bitcoin's scripting system has evolved from simple pay-to-public-key-hash (P2PKH) scripts in 2009 to Taproot (P2TR) scripts activated in 2021, with each generation improving efficiency, flexibility, or both.
+
+<h2>Why Bitcoin Has Different Transaction Types</h2>
+<p>Bitcoin has many ways to send and receive funds because its scripting system is programmable, and each script defines the conditions under which bitcoin can be spent. Each transaction contains a small script that acts as a lock: it specifies what proof the next spender must produce. That proof might be a single digital signature, multiple signatures from different keys, a time delay, or a combination of conditions.</p>
+<p>Different transaction types are different locking and unlocking patterns built on top of this scripting system. Each type represents a design choice about security, efficiency, and capability. The earliest transactions used simple scripts. Over time, the Bitcoin protocol introduced new script types that use less block space, support more complex spending conditions, and offer better privacy.</p>
+<p>The transaction type also determines the address format. When you see a Bitcoin address starting with <code>1</code>, <code>3</code>, <code>bc1q</code>, or <code>bc1p</code>, you are looking at different transaction types. Each prefix corresponds to a different script structure, a different witness format, and a different fee profile. Understanding these types explains why the same amount of bitcoin costs different fees to send depending on the address format involved.</p>
+<div class="diagram-container">
+<pre class="mermaid">
+flowchart LR
+    P2PK["<b>P2PK</b><br/>2009<br/>Raw public key"]
+    P2PKH["<b>P2PKH</b><br/>2009<br/>Prefix: 1<br/>No BIP (original)"]
+    P2SH["<b>P2SH</b><br/>2012<br/>Prefix: 3<br/>BIP 16"]
+    SEGWIT["<b>P2WPKH / P2WSH</b><br/>2017<br/>Prefix: bc1q<br/>BIP 141"]
+    TAPROOT["<b>P2TR</b><br/>2021<br/>Prefix: bc1p<br/>BIP 341"]
+
+    P2PK --&gt;|"Hash protection"| P2PKH
+    P2PKH --&gt;|"Script flexibility"| P2SH
+    P2SH --&gt;|"Witness discount"| SEGWIT
+    SEGWIT --&gt;|"Schnorr + MAST"| TAPROOT
+
+    classDef old fill:#E8ECF0,stroke:#414C59,color:#111316
+    classDef mid fill:#FDF6E3,stroke:#E09A02,color:#111316
+    classDef modern fill:#E8F7FF,stroke:#00C3FF,color:#111316
+    classDef latest fill:#E6F5F2,stroke:#00B093,color:#111316
+
+    class P2PK,P2PKH old
+    class P2SH mid
+    class SEGWIT modern
+    class TAPROOT latest
+</pre>
+<div class="diagram-label">Evolution of Bitcoin transaction types: each generation introduced improvements in efficiency, flexibility, or privacy.</div>
+</div>
+<h2>Legacy Transaction Types</h2>
+<p>The original Bitcoin transaction types date back to the earliest versions of the protocol. They work reliably and are universally supported, but they use more block space than newer formats. Every byte of extra data in a transaction means higher fees.</p>
+<h3>P2PK (Pay-to-Public-Key)</h3>
+<p>P2PK is the oldest transaction type in Bitcoin. It pays directly to a raw public key. Satoshi Nakamoto's coinbase transactions from the earliest blocks used P2PK scripts. The locking script simply contains the recipient's full public key, and spending requires a valid signature from the corresponding <a href="https://help.blockstream.com/education/wallets/security-and-storage/what-is-a-private-key-and-how-do-i-store-it">private key</a>.</p>
+<p>P2PK has two significant drawbacks. First, the full public key (33 bytes compressed, 65 bytes uncompressed) sits directly in the transaction output, exposed on the blockchain. Second, P2PK offers no address format. There is no address checksum, which means no protection against transcription errors. For these reasons, P2PK was effectively replaced by P2PKH almost immediately and is not used in modern transactions. Its primary relevance today is historical: Satoshi's earliest bitcoin sits in P2PK outputs, and those coins remain spendable only by whoever holds the corresponding private keys.</p>
+<h3>P2PKH (Pay-to-Public-Key-Hash)</h3>
+<p>P2PKH was the original standard for Bitcoin transactions and the first type most people encountered. Addresses start with <code>1</code> (for example, <code>1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa</code>). Instead of embedding the full public key in the output, P2PKH stores only a hash of the public key (a 20-byte RIPEMD-160 hash of the SHA-256 hash of the public key). The locking script follows a specific opcode sequence: <code>OP_DUP OP_HASH160 &lt;20-byte pubkey hash&gt; OP_EQUALVERIFY OP_CHECKSIG</code>.</p>
+<p>This hashing provides two benefits. First, it creates a shorter, standardized address format with a built-in checksum, catching typos before a transaction is broadcast. Second, it adds a layer of quantum resistance: the public key is not revealed on-chain until the bitcoin is spent, so an attacker cannot target the key before the owner moves their funds.</p>
+<p>To spend a P2PKH output, the spender must provide both the original public key and a valid signature. The network hashes the provided public key, verifies it matches the stored hash, and then validates the signature against that key.</p>
+<p>P2PKH still works and all Bitcoin nodes accept it, but it is less efficient than newer types. The signature and public key data sit in the transaction input section, which counts at full weight for block space calculations. A typical P2PKH input is roughly 148 bytes.</p>
+<h3>P2SH (Pay-to-Script-Hash)</h3>
+<p>P2SH, introduced in 2012 through <a href="https://github.com/bitcoin/bips/blob/master/bip-0016.mediawiki">BIP 16</a>, was a major advance in flexibility. Instead of paying to the hash of a public key, P2SH pays to the hash of an arbitrary script. This means the sender does not need to know or care about the spending conditions. The sender just pays to a script hash. The spending conditions are only revealed when the recipient spends the funds.</p>
+<p>P2SH addresses start with <code>3</code>. The most common use case is <a href="https://help.blockstream.com/education/wallets/wallet-definitions-and-types/what-is-a-multisig-wallet">multisig</a>: a 2-of-3 multisig setup, for example, requires two out of three designated private keys to sign a transaction. The full multisig script, including all three public keys and the signing threshold, is hashed into a single 20-byte value that becomes the address. When spending, the full script (called the "redeem script") is revealed along with the required signatures.</p>
+<p>P2SH also enabled time-locked scripts, hash-locked scripts (used in cross-chain atomic swaps and Lightning payment channels), and other complex spending conditions. Before P2SH, the sender had to include the entire spending script in the output, making complex transactions expensive and impractical. P2SH moved that cost to the spender, who reveals the script only when spending.</p>
+<p>The trade-off: P2SH is still a legacy format. Its script data is not covered by the SegWit discount, so complex P2SH transactions (especially multisig with many keys) can be expensive. SegWit and Taproot offer more efficient alternatives for the same functionality.</p>
+<div class="diagram-container">
+<pre class="mermaid">
+flowchart TB
+    subgraph P2PK_BOX["P2PK"]
+        direction TB
+        P2PK_LOCK["<b>Lock:</b> Raw public key"]
+        P2PK_UNLOCK["<b>Unlock:</b> Signature"]
+        P2PK_CHAIN["<b>On-chain:</b> Full pubkey exposed"]
+    end
+
+    subgraph P2PKH_BOX["P2PKH"]
+        direction TB
+        P2PKH_LOCK["<b>Lock:</b> Hash of public key"]
+        P2PKH_UNLOCK["<b>Unlock:</b> Public key + Signature"]
+        P2PKH_CHAIN["<b>On-chain:</b> Pubkey hidden until spend"]
+    end
+
+    subgraph P2SH_BOX["P2SH"]
+        direction TB
+        P2SH_LOCK["<b>Lock:</b> Hash of script"]
+        P2SH_UNLOCK["<b>Unlock:</b> Full script + Signatures"]
+        P2SH_CHAIN["<b>On-chain:</b> Script hidden until spend"]
+    end
+
+    classDef grey fill:#E8ECF0,stroke:#414C59,color:#111316
+    classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
+    classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
+
+    class P2PK_BOX grey
+    class P2PKH_BOX amber
+    class P2SH_BOX blue
+    class P2PK_LOCK,P2PK_UNLOCK,P2PK_CHAIN grey
+    class P2PKH_LOCK,P2PKH_UNLOCK,P2PKH_CHAIN amber
+    class P2SH_LOCK,P2SH_UNLOCK,P2SH_CHAIN blue
+</pre>
+<div class="diagram-label">Legacy locking mechanisms compared: P2PK exposes the full public key, P2PKH hashes it, and P2SH hashes an arbitrary script.</div>
+</div>
+<h2>SegWit Transaction Types</h2>
+<p>Segregated Witness (SegWit), activated in August 2017, restructured how Bitcoin transactions store signature data. The key change: witness data (signatures and public keys used for validation) is separated from the transaction data and placed in a new "witness" section that receives a 75% discount on block weight calculations. This means SegWit transactions use less effective block space and cost less in fees, even though they carry the same information.</p>
+<p>SegWit also fixed transaction malleability, a long-standing issue where third parties could modify transaction IDs without invalidating the transaction. This fix was a prerequisite for the Lightning Network and other layer-2 protocols that depend on stable transaction IDs.</p>
+<h3>P2WPKH (Pay-to-Witness-Public-Key-Hash)</h3>
+<p>P2WPKH, defined in <a href="https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki">BIP 141</a> and <a href="https://github.com/bitcoin/bips/blob/master/bip-0143.mediawiki">BIP 143</a>, is the SegWit equivalent of P2PKH. It uses the same underlying cryptography (a single public key hash, a single signature), but moves the signature and public key into the witness section instead of the scriptSig. This structural change reduces the effective transaction size by roughly 30-40% compared to P2PKH. The Blockstream app uses P2WPKH (native SegWit) as its default address type for Bitcoin transactions, giving users lower fees on every payment without requiring any configuration.</p>
+<p>P2WPKH addresses use <a href="https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki">bech32</a> encoding (BIP 173) and start with <code>bc1q</code>. A typical P2WPKH address looks like <code>bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4</code>. The bech32 format is case-insensitive (all lowercase), uses a BCH error-correction code that can detect up to four character errors, and encodes more compactly in QR codes than the Base58 encoding used by legacy addresses.</p>
+<p>A typical P2WPKH input is about 68 virtual bytes, roughly 272 weight units (compared to 148 vbytes for P2PKH, or 592 weight units). For a standard single-input, two-output transaction, this translates to meaningful fee savings on every payment.</p>
+<p>P2WPKH is the most common transaction type on the Bitcoin network today. It is the default for most modern wallets, and nearly all exchanges and services accept bech32 addresses. If you are sending standard payments and want the best balance of broad compatibility and low fees, P2WPKH is the practical default.</p>
+<h3>P2WSH (Pay-to-Witness-Script-Hash)</h3>
+<p>P2WSH is the SegWit equivalent of P2SH. It supports the same complex spending conditions (multisig, time locks, hash locks) but benefits from the SegWit witness discount. The script and all signatures move to the witness section, significantly reducing the effective cost of complex transactions.</p>
+<p>P2WSH addresses also start with <code>bc1q</code>, but they are longer than P2WPKH addresses because they encode a 32-byte SHA-256 hash (compared to P2WPKH's 20-byte hash). A P2WSH address is 62 characters long; a P2WPKH address is 42 characters long. The longer hash provides a stronger security margin against hash collisions, which matters more for complex scripts that control larger amounts of bitcoin.</p>
+<p>The savings on multisig transactions are substantial. A 2-of-3 multisig P2WSH input costs roughly 60% less in fees than the equivalent P2SH multisig, because all three public keys and both signatures sit in the discounted witness section. For institutions and custody operations that execute hundreds or thousands of multisig transactions per month, this adds up to significant operational savings.</p>
+<div class="diagram-container">
+<pre class="mermaid">
+flowchart TB
+    subgraph FEES["Fee Comparison: Single-Input, Two-Output Transaction"]
+        direction LR
+        P2PKH_F["<b>P2PKH</b><br/>~148 vbytes<br/>1,480 sats"]
+        WRAPPED["<b>P2SH-P2WPKH</b><br/>~91 vbytes<br/>910 sats"]
+        P2WPKH_F["<b>P2WPKH</b><br/>~68 vbytes<br/>680 sats"]
+        P2TR_F["<b>P2TR</b><br/>~57.5 vbytes<br/>575 sats"]
+    end
+
+    P2PKH_F -.-&gt;|"38% savings"| WRAPPED
+    WRAPPED -.-&gt;|"25% savings"| P2WPKH_F
+    P2WPKH_F -.-&gt;|"15% savings"| P2TR_F
+
+    classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
+    classDef mid fill:#E8ECF0,stroke:#414C59,color:#111316
+    classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
+    classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
+
+    class P2PKH_F amber
+    class WRAPPED mid
+    class P2WPKH_F blue
+    class P2TR_F green
+</pre>
+<div class="diagram-label">Fee comparison at 10 sat/vB: newer transaction types progressively reduce costs for the same payment.</div>
+</div>
+<h2>Taproot Transaction Type</h2>
+<p>Taproot, activated in November 2021, is the most recent major upgrade to Bitcoin's transaction types. It introduces Schnorr signatures (replacing ECDSA for Taproot outputs), Merklized Abstract Syntax Trees (MAST), and a new key path/script path architecture that fundamentally changes how complex transactions appear on-chain.</p>
+<h3>P2TR (Pay-to-Taproot)</h3>
+<p>P2TR, defined in <a href="https://github.com/bitcoin/bips/blob/master/bip-0341.mediawiki">BIP 341</a> (Taproot) and <a href="https://github.com/bitcoin/bips/blob/master/bip-0340.mediawiki">BIP 340</a> (Schnorr signatures), uses <a href="https://github.com/bitcoin/bips/blob/master/bip-0350.mediawiki">bech32m</a> encoding (BIP 350, an updated version of bech32 with improved error detection). Addresses start with <code>bc1p</code>. A Taproot output commits to a single public key, but that key can represent two distinct spending paths:</p>
+<ul>
+<li><strong>Key spend path:</strong> The output is spent with a single Schnorr signature against the committed public key. On-chain, this looks identical to a simple singlesig payment, regardless of what spending conditions may be hidden behind it. This is the common case and the cheapest to spend.</li>
+<li><strong>Script spend path:</strong> The committed public key is actually a "tweaked" key that incorporates a Merkle root of multiple possible spending scripts. Any one of those scripts can be used to spend the output, and only the script actually used is revealed on-chain. The other scripts remain hidden. This is MAST in practice.</li>
+</ul>
+<h3>Schnorr Signatures and Key Aggregation</h3>
+<p>Schnorr signatures have a mathematical property that ECDSA lacks: they support linear key aggregation. Multiple public keys can be combined into a single aggregate key, and multiple signatures can be combined into a single aggregate signature. The result is that a 3-of-3 multisig transaction, when all parties cooperate, produces a single signature and a single key on-chain. That transaction is indistinguishable from a standard singlesig payment.</p>
+<p>Key aggregation has direct privacy implications. Before Taproot, anyone looking at the blockchain could identify multisig transactions by their distinctive script structure (multiple public keys and signatures in the witness data). With Taproot key aggregation, cooperative multisig spends look like ordinary payments. An observer cannot determine whether an output was controlled by one person or five.</p>
+<h3>MAST: Hiding Unused Spending Conditions</h3>
+<p>MAST allows a Taproot output to commit to a tree of possible spending scripts without revealing any of them until one is used. Consider a complex custody arrangement with four possible spending paths: a 3-of-5 multisig for normal operations, a time-locked recovery path, an emergency key, and an inheritance condition. In a P2SH or P2WSH transaction, all four scripts would be revealed when any one of them is used. With MAST, only the script actually exercised is revealed. The other three remain hidden.</p>
+<p>Hiding the unused branches improves both privacy (less information leaked about your custody setup) and efficiency (you only pay for the data of the script you use, not every possible script).</p>
+<h3>Taproot Fee Profile</h3>
+<p>For simple singlesig payments, Taproot's fee savings over P2WPKH are modest. The key path is slightly smaller than a P2WPKH spend because Schnorr signatures are 64 bytes (compared to 71-72 bytes for DER-encoded ECDSA signatures). The real savings appear in complex transactions. A cooperative multisig spend via the key path costs the same as a singlesig spend. A script path spend that would have required revealing a full multisig script in P2WSH only reveals the single branch used, with the rest hidden in the Merkle tree.</p>
+<p>On <a href="https://blockstream.info/">Blockstream Explorer</a>, you can see the transaction type for any transaction. The address format tells you the type: addresses starting with <code>bc1q</code> are SegWit, and addresses starting with <code>bc1p</code> are Taproot. Examining Taproot key path spends and script path spends side by side illustrates how the two spending modes differ in size and cost.</p>
+<div class="diagram-container">
+<pre class="mermaid">
+flowchart TD
+    P2TR["<b>P2TR Output</b><br/>Commits to tweaked public key"]
+
+    P2TR --&gt; KEY["<b>Key Spend Path</b><br/>Single Schnorr signature<br/>Looks like singlesig on-chain<br/>Cheapest option"]
+    P2TR --&gt; SCRIPT["<b>Script Spend Path</b><br/>Reveals one Merkle branch"]
+
+    SCRIPT --&gt; S1["Script A<br/><b>Used</b><br/>3-of-5 multisig"]
+    SCRIPT --&gt; S2["Script B<br/>Time-locked recovery"]
+    SCRIPT --&gt; S3["Script C<br/>Emergency key"]
+
+    classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
+    classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
+    classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
+    classDef grey fill:#E8ECF0,stroke:#414C59,color:#414C59,stroke-dasharray: 5 5
+
+    class P2TR blue
+    class KEY green
+    class SCRIPT amber
+    class S1 amber
+    class S2,S3 grey
+</pre>
+<div class="diagram-label">Taproot architecture: the key spend path is the cheapest and most private. The script spend path reveals only the branch used; unused scripts remain hidden.</div>
+</div>
+<h2>Special Transaction Types</h2>
+<p>Beyond the standard pay-to-address types, Bitcoin supports several special-purpose transaction patterns that serve specific functions in the protocol.</p>
+<h3>Multisig Transactions</h3>
+<p>Multisig (m-of-n) transactions require a specified number of signatures from a set of possible signers before bitcoin can be spent. A 2-of-3 multisig requires any two of three designated keys to sign. A 3-of-5 requires any three of five. The "m" is the threshold, and the "n" is the total number of keys.</p>
+<p>Multisig is a spending condition rather than a transaction type in itself, and it can be wrapped in different transaction types:</p>
+<table>
+<tr>
+<th>Multisig Format</th>
+<th>Address Prefix</th>
+<th>Fee Efficiency</th>
+<th>Privacy</th>
+<th>Notes</th>
+</tr>
+<tr>
+<td>Bare multisig</td>
+<td>None</td>
+<td>Lowest (no discount, full script in output)</td>
+<td>Low (full script exposed)</td>
+<td>Limited to at most 3 public keys (m-of-n with n up to 3) by standardness rules. Rarely used.</td>
+</tr>
+<tr>
+<td>P2SH multisig</td>
+<td><code>3</code></td>
+<td>Low (no witness discount)</td>
+<td>Low (all keys and signatures revealed at spend)</td>
+<td>Former standard for multisig wallets.</td>
+</tr>
+<tr>
+<td>P2WSH multisig</td>
+<td><code>bc1q</code></td>
+<td>Medium (~60% cheaper than P2SH)</td>
+<td>Low (full script visible in witness)</td>
+<td>Current standard with broad tooling support.</td>
+</tr>
+<tr>
+<td>P2TR multisig (MuSig2/FROST)</td>
+<td><code>bc1p</code></td>
+<td>Highest (single key + single signature on-chain)</td>
+<td>High (indistinguishable from singlesig)</td>
+<td>MuSig2 for n-of-n, FROST for m-of-n. Requires interactive signing.</td>
+</tr>
+</table>
+<p>For enterprise custody operations that require multisig governance, the choice of wrapping format has direct cost implications. A treasury operation processing 500 multisig transactions per month saves meaningful amounts on fees by choosing P2WSH over P2SH, and saves even more with Taproot key aggregation once the tooling supports it.</p>
+<h3>OP_RETURN Transactions</h3>
+<p>OP_RETURN is a script opcode that marks a transaction output as provably unspendable and allows arbitrary data to be embedded in the transaction. For years the default relay policy capped this at 80 bytes, but Bitcoin Core 30 (2025) raised the default datacarrier limit to roughly the transaction-size ceiling and allowed multiple OP_RETURN outputs per transaction; the 80-byte figure is a legacy default, not a consensus rule. Because the output is provably unspendable, nodes never add it to the UTXO set at all, avoiding the bloat that would result from storing unspendable outputs indefinitely.</p>
+<p>Common uses for OP_RETURN include:</p>
+<ul>
+<li><strong>Timestamping:</strong> Embedding a hash of a document or dataset to prove it existed at the time the transaction was confirmed. The hash becomes an immutable timestamp anchored to Bitcoin's proof-of-work security.</li>
+<li><strong>Proof of existence:</strong> Similar to timestamping, but often used for legal or compliance purposes. A notarized hash of a contract, for example, proves the contract's contents have not changed since the timestamp.</li>
+<li><strong>Anchor transactions:</strong> Layer-2 protocols and sidechains sometimes use OP_RETURN to anchor state commitments to the Bitcoin blockchain.</li>
+<li><strong>Protocol markers:</strong> Some protocols use OP_RETURN to encode metadata about the transaction's purpose, such as asset issuance instructions or cross-chain communication.</li>
+</ul>
+<p>OP_RETURN outputs normally carry zero bitcoin value; any bitcoin assigned to one would be unspendable and permanently destroyed. The fee cost is the data weight of the OP_RETURN output itself (the opcode plus the embedded data) added to the transaction's total weight.</p>
+<h2>Transaction Type Comparison</h2>
+<p>The following table summarizes the key properties of each transaction type. Typical input sizes assume a standard single-signature spend (except where noted for multisig).</p>
+<table>
+<tr>
+<th>Type</th>
+<th>Address Prefix</th>
+<th>Typical Input Size</th>
+<th>Relative Fee</th>
+<th>Privacy</th>
+<th>Primary Use Case</th>
+</tr>
+<tr>
+<td>P2PK</td>
+<td>None (no address format)</td>
+<td>~114 bytes</td>
+<td>High</td>
+<td>Low (public key exposed in output)</td>
+<td>Historical only. Not used in modern transactions.</td>
+</tr>
+<tr>
+<td>P2PKH</td>
+<td><code>1</code></td>
+<td>~148 bytes</td>
+<td>Highest</td>
+<td>Standard (public key revealed at spend)</td>
+<td>Legacy payments. Still universally supported.</td>
+</tr>
+<tr>
+<td>P2SH</td>
+<td><code>3</code></td>
+<td>Varies by script</td>
+<td>High</td>
+<td>Script structure visible at spend</td>
+<td>Multisig, time locks, complex scripts (legacy).</td>
+</tr>
+<tr>
+<td>P2WPKH</td>
+<td><code>bc1q</code></td>
+<td>~68 vbytes</td>
+<td>Low</td>
+<td>Standard (public key revealed at spend)</td>
+<td>Standard payments. Best balance of compatibility and fees.</td>
+</tr>
+<tr>
+<td>P2WSH</td>
+<td><code>bc1q</code> (longer)</td>
+<td>Varies by script</td>
+<td>Medium</td>
+<td>Script structure visible at spend</td>
+<td>Multisig, complex scripts with SegWit discount.</td>
+</tr>
+<tr>
+<td>P2TR (key path)</td>
+<td><code>bc1p</code></td>
+<td>~57.5 vbytes</td>
+<td>Lowest</td>
+<td>High (multisig looks like singlesig)</td>
+<td>Standard payments, cooperative multisig, privacy.</td>
+</tr>
+<tr>
+<td>P2TR (script path)</td>
+<td><code>bc1p</code></td>
+<td>Varies by script</td>
+<td>Low-Medium</td>
+<td>Only used branch revealed</td>
+<td>Complex spending conditions, fallback scripts.</td>
+</tr>
+<tr>
+<td>OP_RETURN</td>
+<td>N/A (unspendable)</td>
+<td>N/A</td>
+<td>Minimal (data weight only)</td>
+<td>Data is publicly visible</td>
+<td>Timestamping, anchoring, data embedding.</td>
+</tr>
+</table>
+<div class="diagram-container">
+<pre class="mermaid">
+flowchart TB
+    subgraph WEIGHT["Transaction Weight Comparison (single-input, two-output)"]
+        direction LR
+        subgraph PKH["P2PKH<br/>592 WU"]
+            direction TB
+            PKH_BASE["Base data<br/>~592 WU (all non-witness)"]
+            PKH_WIT["Witness<br/>None (legacy)"]
+        end
+        subgraph WRAP["P2SH-P2WPKH<br/>364 WU"]
+            direction TB
+            WRAP_BASE["Base data<br/>~256 WU"]
+            WRAP_WIT["Witness<br/>~108 WU"]
+        end
+        subgraph WPKH["P2WPKH<br/>272 WU"]
+            direction TB
+            WPKH_BASE["Base data<br/>~164 WU"]
+            WPKH_WIT["Witness<br/>~108 WU"]
+        end
+        subgraph TR["P2TR<br/>230 WU"]
+            direction TB
+            TR_BASE["Base data<br/>~166 WU"]
+            TR_WIT["Witness<br/>~64 WU"]
+        end
+    end
+
+    classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
+    classDef grey fill:#E8ECF0,stroke:#414C59,color:#111316
+    classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
+    classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
+
+    class PKH_BASE,PKH_WIT amber
+    class WRAP_BASE,WRAP_WIT grey
+    class WPKH_BASE,WPKH_WIT blue
+    class TR_BASE,TR_WIT green
+</pre>
+<div class="diagram-label">Transaction weight breakdown: witness data receives a 75% discount. Newer types shift more data into the discounted witness section.</div>
+</div>
+<h2>Which Transaction Type Should You Use?</h2>
+<p>The right choice depends on what you are doing.</p>
+<h3>For Standard Payments</h3>
+<p>Use <strong>P2WPKH</strong> (native SegWit) or <strong>P2TR</strong> (Taproot). Both offer low fees and broad wallet support. P2WPKH has the widest compatibility across exchanges and services. P2TR offers slightly lower fees on key path spends and better privacy properties. If your wallet supports Taproot, use it. If you encounter a service that does not yet accept <code>bc1p</code> addresses, fall back to P2WPKH.</p>
+<p>The <a href="https://store.blockstream.com/products/jade-plus">Jade Plus</a> hardware wallet supports all modern transaction types, including Taproot, and can sign transactions for any address format. When choosing between SegWit and Taproot for everyday use, both work with Jade Plus. The choice comes down to whether the recipient's wallet and the services you interact with support bech32m addresses.</p>
+<h3>For Multisig</h3>
+<p>Use <strong>P2WSH</strong> for multisig that needs maximum compatibility with existing tooling. Use <strong>P2TR</strong> with key aggregation (MuSig2 or FROST) when privacy is a priority and all cosigners can participate in the interactive signing protocol. Taproot multisig hides the number of signers and the threshold from blockchain observers. P2WSH multisig is more straightforward to implement and audit but reveals the full multisig script when spending.</p>
+<h3>For Advanced Scripts</h3>
+<p>Use <strong>P2TR with script path</strong> for complex spending conditions. MAST keeps unused script branches hidden, reducing both fees and information leakage. If the common spending case is cooperative (all parties agree), the key path handles it cheaply. The script path exists as a fallback for cases where cooperation fails (time-locked recovery, emergency keys).</p>
+<h3>Legacy Types: Avoid for New Transactions</h3>
+<p>There is no reason to create new P2PKH or P2SH transactions when SegWit and Taproot alternatives exist. Legacy types cost more in fees for the same functionality. The only scenario where you interact with legacy types is when spending bitcoin that was received into an older address, or when a counterparty requires a specific address format for compatibility reasons.</p>
+<h3>Enterprise Implications</h3>
+<p>For institutions running custody operations, the choice of transaction type is an operational decision with compounding cost implications.</p>
+<ul>
+<li><strong>Multisig type selection:</strong> A 2-of-3 multisig P2WSH input saves roughly 60% on fees compared to the same multisig in P2SH. For an operation processing hundreds of transactions daily, this translates directly to lower operating costs. Taproot multisig with MuSig2 saves even more and hides the multisig nature of the custody setup from chain analysis.</li>
+<li><strong>Fee savings at scale:</strong> The difference between P2PKH and P2WPKH might be a few hundred sats per transaction. Multiply that by 10,000 transactions per month, and the savings are substantial. Organizations that standardized on SegWit early have saved significant amounts over the years. Organizations adopting Taproot for cooperative multisig will see the next generation of savings.</li>
+<li><strong>UTXO management and address type standardization:</strong> Mixing address types within the same wallet creates larger, more expensive transactions when inputs of different types are consolidated. Standardizing on a single address type (preferably P2WPKH or P2TR) simplifies UTXO management, produces more predictable fee estimates, and reduces the operational complexity of treasury workflows.</li>
+</ul>
+<h2>How Transaction Types Relate to the Scripting System</h2>
+<p>Every Bitcoin transaction type is ultimately an expression of Bitcoin's scripting language, Script. Understanding how the pieces fit together clarifies why each type exists and what tradeoffs it makes.</p>
+<h3>Locking Scripts and Unlocking Scripts</h3>
+<p>Every transaction output contains a <strong>locking script</strong> (also called scriptPubKey) that defines the spending conditions. Every transaction input contains an <strong>unlocking script</strong> (scriptSig for legacy types, or witness data for SegWit types) that satisfies those conditions. When a node validates a transaction, it combines the unlocking and locking scripts and executes them. If the combined script evaluates to true, the spend is valid.</p>
+<p>The different transaction types are different templates for these scripts:</p>
+<ul>
+<li><strong>P2PKH locking script:</strong> <code>OP_DUP OP_HASH160 &lt;pubkey hash&gt; OP_EQUALVERIFY OP_CHECKSIG</code></li>
+<li><strong>P2SH locking script:</strong> <code>OP_HASH160 &lt;script hash&gt; OP_EQUAL</code></li>
+<li><strong>P2WPKH locking script:</strong> <code>OP_0 &lt;20-byte pubkey hash&gt;</code></li>
+<li><strong>P2WSH locking script:</strong> <code>OP_0 &lt;32-byte script hash&gt;</code></li>
+<li><strong>P2TR locking script:</strong> <code>OP_1 &lt;32-byte tweaked public key&gt;</code></li>
+</ul>
+<p>The progression from P2PKH to P2TR represents a trend toward simpler, smaller locking scripts with more of the complexity moved off-chain (into the witness, into Merkle trees, into key aggregation protocols). Simpler on-chain scripts mean lower fees and better privacy.</p>
+<h3>Wrapped SegWit: The Transition Format</h3>
+<p>During the transition to SegWit, a compatibility format called P2SH-P2WPKH (wrapped SegWit) was widely used. It wraps a SegWit script inside a P2SH output, allowing older wallets that could send to <code>3</code>-prefixed addresses (but could not parse native SegWit addresses) to interact with SegWit recipients. Wrapped SegWit offers partial fee savings (less than native SegWit, more than pure legacy) and was the default in many wallets from 2017 to roughly 2020.</p>
+<p>Wrapped SegWit served its purpose as a bridge. With native SegWit support now nearly universal, there is no reason to use wrapped SegWit for new transactions. It exists in the wild because many UTXOs were created during that transition period and have not yet been spent.</p>
+<h2>Frequently Asked Questions</h2>
+
+<p class="faq-question">Can I send bitcoin from one address type to a different address type?</p>
+<p class="faq-answer">Yes. All Bitcoin transaction types are fully compatible with each other at the protocol level. You can send bitcoin from a P2PKH address (starts with <code>1</code>) to a P2TR address (starts with <code>bc1p</code>) or any other combination. The Bitcoin network validates the spending script of the input and the locking script of the output independently. The only compatibility concern is wallet and exchange support: some older services may not recognize bech32m (<code>bc1p</code>) addresses. In that case, use a P2WPKH (<code>bc1q</code>) address as the fallback.</p>
+
+<p class="faq-question">Why are Taproot transactions cheaper than legacy transactions?</p>
+<p class="faq-answer">Two reasons. First, Taproot uses Schnorr signatures, which are 64 bytes compared to 71-72 bytes for ECDSA signatures used in legacy and SegWit transactions. Second, Taproot's witness data benefits from the SegWit discount (counted at one-quarter weight), and cooperative multisig spends use key aggregation to produce a single signature regardless of how many signers participated. Less data on-chain means less block weight, which means lower fees.</p>
+
+<p class="faq-question">How can I tell what transaction type a Bitcoin address uses?</p>
+<p class="faq-answer">The address prefix tells you. A <code>1</code> prefix is P2PKH (legacy), <code>3</code> is P2SH (could be multisig, wrapped SegWit, or other scripts), <code>bc1q</code> is native SegWit (P2WPKH if 42 characters, P2WSH if 62 characters), and <code>bc1p</code> is Taproot (P2TR). You can verify the transaction type for any address or transaction on Blockstream Explorer by looking at the script type field.</p>
+
+<p class="faq-question">Does the transaction type affect my privacy?</p>
+<p class="faq-answer">Yes, significantly. Legacy and SegWit transactions reveal the full spending script when the output is spent, including the number of public keys and signatures in multisig setups. Taproot key path spends hide this information entirely: a cooperative 3-of-5 multisig spend looks identical to a singlesig payment on-chain. Taproot script path spends reveal only the branch used, not the full set of possible spending conditions. For privacy-conscious users and organizations, Taproot is a meaningful improvement.</p>
+
+<p class="faq-question">Should I move my bitcoin from legacy addresses to SegWit or Taproot addresses?</p>
+<p class="faq-answer">If you plan to spend the bitcoin eventually, consolidating from legacy addresses to native SegWit or Taproot addresses during a low-fee period will save you fees on every future transaction. The consolidation itself costs a fee (you are spending legacy inputs, which are more expensive), but the long-term savings on all subsequent spends outweigh that cost. Do the consolidation when the mempool is quiet and fee rates are low.</p>
+
+<p class="faq-question">What is the difference between P2WSH and P2TR for multisig?</p>
+<p class="faq-answer">P2WSH multisig reveals the full multisig script (all public keys, the threshold, and all required signatures) on-chain when spent. P2TR multisig using key aggregation (MuSig2 for n-of-n, FROST for m-of-n) produces a single public key and single signature on-chain, hiding the multisig structure entirely. P2WSH multisig is simpler to implement and has broader tooling support today. P2TR multisig is more private and more fee-efficient but requires interactive signing protocols between cosigners.</p>
