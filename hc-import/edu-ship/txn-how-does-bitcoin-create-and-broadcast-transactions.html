@@ -29,31 +29,7 @@
 <h3>UTXOs: The Building Blocks</h3>
 <p>The <strong>UTXO model</strong> (Unspent Transaction Output model) is the accounting system that makes Bitcoin work. Every piece of bitcoin in existence is held in a UTXO. Your wallet balance is not a number stored somewhere; it is the sum of all UTXOs that your private keys can unlock.</p>
 <p>When a transaction is confirmed, its inputs destroy existing UTXOs and its outputs create new ones. A UTXO can only be spent once, in its entirety. If you have a UTXO worth one bitcoin and want to send 0.3 bitcoin to someone, you must spend the whole UTXO and create two new outputs: 0.3 bitcoin to the recipient and 0.7 bitcoin (minus fees) back to yourself.</p>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart LR
-    UTXO["<b>Input UTXO</b><br/>1.0 BTC"]
-    TX["Transaction"]
-    OUT1["<b>Recipient</b><br/>0.3 BTC"]
-    OUT2["<b>Change</b><br/>~0.6999 BTC"]
-    FEE["<b>Fee</b><br/>0.0001 BTC"]
 
-    UTXO --&gt; TX
-    TX --&gt; OUT1
-    TX --&gt; OUT2
-    TX -.-&gt; FEE
-
-    classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-    classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
-    classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
-
-    class UTXO blue
-    class TX blue
-    class OUT1,OUT2 green
-    class FEE amber
-</pre>
-<div class="diagram-label">UTXO consumption: a 1.0 BTC UTXO is spent entirely, producing a 0.3 BTC output to the recipient and ~0.7 BTC change, minus the fee.</div>
-</div>
 <p>The global UTXO set, the collection of all currently unspent outputs across the entire Bitcoin network, is what every <a href="https://help.blockstream.com/education/nodes/introduction-and-role/what-is-a-bitcoin-node">full node</a> tracks. As of early 2026, the UTXO set contains roughly 170 million individual outputs. When a new transaction arrives, nodes check it against this set: do the referenced UTXOs exist and are they unspent? This is the core mechanism that prevents double-spending.</p>
 <p>UTXO management matters for fees. A wallet with many small UTXOs will need more inputs to construct a transaction, which means a larger transaction size, which means a higher fee. Consolidating UTXOs during periods of low fees is a common optimization.</p>
 <h3>Script: Bitcoin's Transaction Language</h3>
@@ -89,28 +65,7 @@ flowchart LR
 <li>The signed transaction is sent back to the wallet software, which broadcasts it.</li>
 </ol>
 <p>The private key never leaves the hardware device. A hardware wallet like the <a href="https://store.blockstream.com/products/jade-plus">Jade Plus</a> handles the signing step on a dedicated device with air-gapped QR code communication, so the private key never touches an internet-connected computer. The Jade Plus uses its camera and screen to exchange transaction data through QR codes, eliminating the need for USB or Bluetooth connections during the signing process.</p>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart LR
-    WALLET["<b>Wallet Software</b><br/>Constructs unsigned tx"]
-    QR1["QR Code<br/>Unsigned tx displayed"]
-    HW["<b>Hardware Wallet</b><br/>Scans QR, verifies<br/>details on screen"]
-    SIGN["User confirms<br/>Device signs internally"]
-    QR2["QR Code<br/>Signed tx displayed"]
-    BROADCAST["<b>Wallet Software</b><br/>Scans signed QR<br/>Broadcasts to network"]
 
-    WALLET --&gt; QR1 --&gt; HW --&gt; SIGN --&gt; QR2 --&gt; BROADCAST
-
-    classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-    classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
-    classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
-
-    class WALLET,BROADCAST blue
-    class QR1,QR2 amber
-    class HW,SIGN green
-</pre>
-<div class="diagram-label">Air-gapped hardware wallet signing flow: the private key never touches an internet-connected device.</div>
-</div>
 <h3>Under the Hood: Transaction Serialization</h3>
 <p>Before a transaction can be signed or broadcast, it must be serialized into a precise byte sequence. The serialization format (defined in Bitcoin Core's <a href="https://github.com/bitcoin/bitcoin/blob/master/src/primitives/transaction.h"><code>primitives/transaction.h</code></a>) follows a strict structure: a 4-byte version field, a variable-length count of inputs, each input's data (32-byte txid, 4-byte vout, scriptSig, and 4-byte nSequence), a variable-length count of outputs, each output's data (8-byte value in satoshis and scriptPubKey), and a 4-byte locktime field.</p>
 <p>For SegWit transactions (<a href="https://github.com/bitcoin/bips/blob/master/bip-0144.mediawiki">BIP 144</a>), the serialization includes a marker byte (<code>0x00</code>) and a flag byte (<code>0x01</code>) after the version, followed by witness data appended after the outputs. This separation is what gives witness data its weight discount: the transaction ID (txid) is computed from the non-witness serialization, while the witness transaction ID (wtxid) covers the full serialized form including witness data.</p>
@@ -167,40 +122,7 @@ flowchart LR
 <h3>The Gossip Protocol</h3>
 <p>Valid transactions propagate across the network through a mechanism called the <strong>gossip protocol</strong>, part of Bitcoin's base P2P messaging layer (refined in <a href="https://github.com/bitcoin/bips/blob/master/bip-0152.mediawiki">BIP 152</a> for compact block relay). When a node validates a transaction, it sends an <code>inv</code> (inventory) message containing the transaction's hash to its connected peers. Peers that haven't seen the transaction respond with a <code>getdata</code> message requesting the full serialized transaction, validate it independently, and then announce it to their own peers via their own <code>inv</code> messages. This cascading relay spreads the transaction across the global network within seconds.</p>
 <p>The gossip protocol is decentralized and redundant. There is no single point of failure. Even if some nodes are offline or malicious, the transaction reaches the rest of the network through alternative paths. As of early 2026, the Bitcoin network has roughly 22,000 reachable nodes, with the total, including those running behind firewalls or on private networks, estimated at 60,000 or more.</p>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart TD
-    ORIGIN["<b>Your Node</b><br/>Broadcasts transaction"]
-    N1["Peer Node 1<br/>~1 second"]
-    N2["Peer Node 2<br/>~1 second"]
-    N3["Node 3<br/>~3 seconds"]
-    N4["Node 4<br/>~3 seconds"]
-    N5["Node 5<br/>~6 seconds"]
-    N6["Node 6<br/>~6 seconds"]
-    GLOBAL["<b>Global Network</b><br/>60,000+ nodes<br/>~10 seconds"]
 
-    ORIGIN --&gt; N1
-    ORIGIN --&gt; N2
-    N1 --&gt; N3
-    N1 --&gt; N4
-    N2 --&gt; N5
-    N2 --&gt; N6
-    N3 --&gt; GLOBAL
-    N4 --&gt; GLOBAL
-    N5 --&gt; GLOBAL
-    N6 --&gt; GLOBAL
-
-    classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-    classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
-    classDef grey fill:#E8ECF0,stroke:#414C59,color:#111316
-
-    class ORIGIN blue
-    class N1,N2 green
-    class N3,N4,N5,N6 grey
-    class GLOBAL blue
-</pre>
-<div class="diagram-label">Gossip protocol: a transaction propagates from the originating node through connected peers, reaching the global network within seconds.</div>
-</div>
 <h3>The Mempool</h3>
 <p>Once a transaction passes validation and enters a node's awareness, it sits in that node's <strong><a href="https://help.blockstream.com/education/glossary/mempool">mempool</a></strong> (memory pool), the collection of all valid but unconfirmed transactions. Every node maintains its own mempool independently, so there is no single "the mempool" but rather thousands of slightly different views across the network.</p>
 <p>Transactions remain in the mempool until one of two things happens: a miner includes the transaction in a block (confirmation), or the transaction expires from the mempool after a configurable timeout. Bitcoin Core's default mempool expiry is 336 hours (14 days), set by the <code>-mempoolexpiry</code> option.</p>
@@ -267,28 +189,7 @@ flowchart TD
 <p>Nodes around the world receive the block, validate it, and add it to their chain. Alice's transaction now has one confirmation. Bob's wallet detects the incoming 0.1 bitcoin.</p>
 <h3>Step 8: Settlement</h3>
 <p>Over the next hour, five more blocks are mined on top. Alice's transaction is now buried under six blocks of proof-of-work. The 0.15 bitcoin UTXO that Alice spent has been removed from the global UTXO set. Two new UTXOs exist: 0.1 bitcoin controlled by Bob's key and 0.0499 bitcoin controlled by Alice's key.</p>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart LR
-    INTENT["1. Intent<br/>Alice opens wallet"]
-    CONSTRUCT["2. Construction<br/>Select UTXOs,<br/>create outputs"]
-    SIGN2["3. Signing<br/>Private key<br/>produces signature"]
-    BCAST["4. Broadcasting<br/>Sent to node"]
-    PROPAGATE["5. Propagation<br/>Gossip protocol<br/>spreads to network"]
-    MINE["6. Mining<br/>Miner includes<br/>in candidate block"]
-    CONFIRM["7. Confirmation<br/>Block validated<br/>1 confirmation"]
-    SETTLE["8. Settlement<br/>6 blocks deep<br/>Final"]
 
-    INTENT --&gt; CONSTRUCT --&gt; SIGN2 --&gt; BCAST --&gt; PROPAGATE --&gt; MINE --&gt; CONFIRM --&gt; SETTLE
-
-    classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-    classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
-
-    class INTENT,CONSTRUCT,SIGN2,BCAST blue
-    class PROPAGATE,MINE,CONFIRM,SETTLE green
-</pre>
-<div class="diagram-label">Complete transaction lifecycle: from Alice's intent to six-confirmation settlement in approximately 60 minutes.</div>
-</div>
 <p>You can follow every step of a transaction's lifecycle on <a href="https://blockstream.info">Blockstream Explorer</a>. Paste a transaction ID to see its inputs, outputs, fees, and confirmation status in real time. The explorer displays the raw transaction data, the script conditions, the fee rate in sat/vB, and the current confirmation count, giving full visibility into exactly what happened and when.</p>
 <h2>What Can Go Wrong</h2>
 <p>Most transactions complete without issues. But understanding failure modes clarifies how the system works.</p>
@@ -312,49 +213,7 @@ flowchart LR
 <p>Bitcoin supports both absolute timelocks (prevent spending before a specific block height or timestamp) and relative timelocks (prevent spending until a certain number of blocks have been mined after the UTXO was created). These are used in payment channels, vaults, and other advanced protocols.</p>
 <h3>SegWit and Taproot Transactions</h3>
 <p>SegWit moved signature data to a separate section of the transaction, reducing effective size and fixing the transaction malleability bug. Taproot, activated in November 2021, introduced Schnorr signatures and Merklized Abstract Syntax Trees (MAST), enabling complex spending conditions that look identical to simple single-signature transactions on the blockchain. This improves both efficiency and privacy.</p>
-<div class="diagram-container">
-<pre class="mermaid">
-flowchart TB
-    subgraph TYPES["Transaction Patterns"]
-        direction LR
-        subgraph STD["Standard"]
-            direction TB
-            S_IN["1 input"]
-            S_OUT["2 outputs"]
-            S_SIZE["~140 vB"]
-        end
-        subgraph BATCH["Batched"]
-            direction TB
-            B_IN["1 input"]
-            B_OUT["10+ outputs"]
-            B_SIZE["~450 vB"]
-        end
-        subgraph MULTI["Multisig"]
-            direction TB
-            M_IN["1 input<br/>2-of-3 keys"]
-            M_OUT["2 outputs"]
-            M_SIZE["~370 vB"]
-        end
-        subgraph TLOCK["Time-Locked"]
-            direction TB
-            T_IN["1 input<br/>+ timelock"]
-            T_OUT["1 output"]
-            T_SIZE["~150 vB"]
-        end
-    end
 
-    classDef blue fill:#E8F7FF,stroke:#00C3FF,color:#111316
-    classDef green fill:#E6F5F2,stroke:#00B093,color:#111316
-    classDef amber fill:#FDF6E3,stroke:#E09A02,color:#111316
-    classDef grey fill:#E8ECF0,stroke:#414C59,color:#111316
-
-    class S_IN,S_OUT,S_SIZE blue
-    class B_IN,B_OUT,B_SIZE green
-    class M_IN,M_OUT,M_SIZE amber
-    class T_IN,T_OUT,T_SIZE grey
-</pre>
-<div class="diagram-label">Transaction pattern comparison: standard, batched, multisig, and time-locked transactions vary in structure and cost.</div>
-</div>
 <h2>For Institutions: Transaction Workflows at Scale</h2>
 <h3>Approval Processes and Policy Engines</h3>
 <p>Institutional Bitcoin holders do not sign transactions the way individual users do. Institutions implement policy engines that enforce rules before any transaction can be signed: spending limits per transaction and per time period, required approvals from multiple authorized personnel, whitelisted destination addresses, and time-of-day restrictions. These policies are enforced programmatically, not by individual judgment.</p>
